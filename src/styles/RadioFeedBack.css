@@ -1,0 +1,103 @@
+.matrix-table {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  width: 100%;
+}
+
+.matrix-thead tr {
+  background-color: #ffffff;
+  border-radius: 50px;
+}
+
+.matrix-header-empty {
+  width: 0;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+}
+
+.matrix-header {
+  padding: 0.5em 1em;
+  text-align: center;
+}
+
+.matrix-header:first-child {
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+}
+
+.matrix-header:last-child {
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+
+.matrix-tbody tr {
+  background-color: white;
+  border-radius: 50px;
+}
+
+.matrix-cell {
+  padding: 0.5em 1em;
+  text-align: center;
+}
+
+.matrix-cell-label {
+  background-color: #d6d6d6;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+}
+
+.matrix-cell:first-child {
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+}
+
+.matrix-cell:last-child {
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+
+.radio-group {
+  display: flex;
+  justify-content: center; 
+  align-items: center;  
+  height: 100%;  
+}
+
+.radio-group input {
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+  margin-top: 25px;
+}
+
+.matrix-tbody tr:nth-child(odd) .matrix-cell {
+  background-color: rgb(227, 227, 227);
+}
+
+.matrix-tbody tr:nth-child(even) .matrix-cell {
+  background-color: rgb(211, 248, 210);
+}
+
+.question {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .matrix-header-empty {
+    display: none;
+  }
+
+  .matrix-tbody tr:not(.question) .matrix-cell:first-child {
+    display: none;
+  }
+
+  .matrix-header:nth-child(2) {
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+  }
+
+  .matrix-tbody tr .matrix-cell:nth-child(2) {
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+  }
+}

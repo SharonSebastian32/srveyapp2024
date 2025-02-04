@@ -19,7 +19,7 @@ html {
 .banner {
   min-height: 40%;
   width: 100%;
-  background: linear-gradient(90deg, rgb(31, 113, 146), rgb(49, 152, 67));
+  background: linear-gradient(90deg, rgb(6, 75, 102), rgb(8, 153, 32));
   background-size: 200% 200%;
   animation: rotateBackground 3s ease infinite;
 }
@@ -155,7 +155,7 @@ html {
 }
 
 .list {
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(242, 236, 236);
   height: 50px;
   margin-top: 20px;
   margin-left: 80px;
@@ -172,7 +172,17 @@ html {
 }
 
 .submit-btn {
-  background: linear-gradient(90deg, rgb(8, 8, 8), rgb(102, 101, 101));
+  background-image: linear-gradient(to right, rgb(6, 75, 102), rgb(61, 162, 6));
+
+  font-size: 16px;
+  padding: 1px 50px 1px 50px;
+  color: white;
+  margin: 2px;
+  border: none;
+  border-radius: 50px;
+}
+.submit-btn {
+  background-image: linear-gradient(to right, rgb(6, 75, 102), rgb(33, 85, 6));
   font-size: 1em;
   padding: 0.5em 2em;
   color: white;

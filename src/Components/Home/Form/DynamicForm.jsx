@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import data from "../../../json/dynamicForm.json";
-import "./DynamicForm.css";
-import "./RadioFeedBack.css";
+import "../../../styles//DynamicForm.css";
 import Navbar from "../Header/Navbar";
 
 import TextboxField from "../../Inputs/TextBox";
@@ -360,12 +359,13 @@ const DynamicForm = () => {
             value={selectedLanguage}
             onChange={(e) => setSelectedLanguage(e.target.value)}
           >
+            {/* map less */}
             <option value="en">English</option>
             <option value="es">Español</option>
             <option value="fr">Français</option>
           </select>
         </div>
-        <div>{renderFormContent()}</div>
+        <div style={{}}>{renderFormContent()}</div>
       </div>
     </>
   );

@@ -3,7 +3,7 @@ const SelectBox = ({ field, formData, handleChange, selectedLanguage }) => {
     field.translationsPlaceholder?.[selectedLanguage] || field.placeholder;
 
   return (
-    <div className="select-container" id="select-box">
+    <div className="select-container">
       <select
         id={field.fieldId}
         name={field.fieldId}

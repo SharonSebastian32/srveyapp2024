@@ -1,4 +1,4 @@
-import React from "react";
+import "../../styles/RadioFeedBack.css";
 
 const MatrixRadioFeedback = ({
   field,
@@ -6,95 +6,79 @@ const MatrixRadioFeedback = ({
   setFormData,
   selectedLanguage,
 }) => {
-  const handleRadioChange = (rowId, columnId) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field.fieldId]: {
-        ...prev[field.fieldId],
-        [rowId]: columnId,
-      },
-    }));
-  };
-
   return (
-    <div className="matrix-container">
-      <div className="matrix-row">
-        <div
-          className="matrix-cell"
-          id="metr-cell"
-          style={{
-            borderBottomLeftRadius: "50px",
-            borderTopLeftRadius: "50px",
-            backgroundColor: "#d6d6d6",
-          }}
-        ></div>
+    <table className="matrix-table">
+      <thead className="matrix-thead">
+        <tr>
+          <th className="matrix-header-empty"></th>
+          {field.columns.map((column, colIndex) => (
+            <th
+              key={column.id}
+              className="matrix-header"
+              style={
+                colIndex === field.columns.length - 1
+                  ? {
+                      borderTopRightRadius: "50px",
+                      backgroundColor: "#d6d6d6",
+                    }
+                  : { backgroundColor: "#d6d6d6" }
+              }
+            >
+              {column.translations?.[selectedLanguage] || column.label}
+            </th>
+          ))}
+        </tr>
+      </thead>
 
-        {field.columns.map((column, colIndex) => (
-          <div
-            className="matrix-cell"
-            key={column.id}
-            style={{
-              backgroundColor: "#d6d6d6",
-              ...(colIndex === field.columns.length - 1
-                ? {
-                    borderTopRightRadius: "50px",
-                    borderBottomRightRadius: "50px",
-                  }
-                : {}),
-            }}
-          >
-            {column.translations?.[selectedLanguage] || column.label}
-          </div>
-        ))}
-      </div>
-
-      {field.rows.map((row) => (
-        <React.Fragment key={row.id}>
-          <p className="pholder">
-            {row.translations?.[selectedLanguage] || row.label}
-          </p>
-
-          <div className="matrix-row">
-            <div
-              className="matrix-cell"
+      <tbody className="matrix-tbody">
+        {field.rows.map((row) => (
+          <tr key={row.id} className="matrix-row">
+            <td
+              className="matrix-cell matrix-cell-label"
               style={{
-                borderBottomLeftRadius: "50px",
                 borderTopLeftRadius: "50px",
+                backgroundColor: "#d6d6d6",
               }}
             >
-              <p>{row.translations?.[selectedLanguage] || row.label}</p>
-            </div>
+              {row.translations?.[selectedLanguage] || row.label}
+            </td>
 
             {field.columns.map((column, colIndex) => (
-              <div
-                className="matrix-cell"
+              <td
                 key={column.id}
-                style={{
-                  ...(colIndex === field.columns.length - 1
-                    ? {
-                        borderTopRightRadius: "50px",
-                        borderBottomRightRadius: "50px",
-                      }
-                    : {}),
-                }}
+                className="matrix-cell"
+                style={
+                  colIndex === field.columns.length - 1
+                    ? { borderTopRightRadius: "50px" }
+                    : {}
+                }
               >
-                <div className="radio-group" style={{ marginTop: "25px" }}>
+                <div className="radio-group">
                   <input
                     type="radio"
                     name={`${field.fieldId}-${row.id}`}
                     value={column.id}
                     checked={formData[field.fieldId]?.[row.id] === column.id}
-                    onChange={() => handleRadioChange(row.id, column.id)}
+                    onChange={() => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        [field.fieldId]: {
+                          ...prev[field.fieldId],
+                          [row.id]: column.id,
+                        },
+                      }));
+                    }}
                     required={field.required}
                   />
                 </div>
-              </div>
+              </td>
             ))}
-          </div>
-        </React.Fragment>
-      ))}
-    </div>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };
 
 export default MatrixRadioFeedback;
+

@@ -28,24 +28,17 @@ form label {
 
 form input[type="text"],
 form input[type="email"],
-form input[type="date"] {
+form input[type="date"],
+form input[type="password"],
+textarea {
   width: 100%;
+  padding: 12px 12px;
+  padding-left: 25px;
   margin-bottom: 20px;
   border: 1px solid #ddd;
   border-radius: 50px;
   font-size: 16px;
   color: #000000;
-  height: 45px;
-  margin-right: 20px;
-}
-form input[type="text"],
-form input[type="email"] {
-  background: rgb(255, 255, 255);
-  padding-left: 25px;
-}
-form input[type="date"] {
-  background: rgb(255, 255, 255);
-  padding-left: 25px;
 }
 
 .select-container {
@@ -53,20 +46,6 @@ form input[type="date"] {
   position: relative;
   display: inline-block;
   width: 100%;
-}
-
-textarea {
-  width: 100%;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-  color: #000000;
-  height: 45px;
-  margin-right: 20px;
-  background-color: #eeecec;
-  padding: 7px 12px;
-  border-radius: 5px;
-  resize: none;
 }
 
 .select-container select {
@@ -149,7 +128,7 @@ form .checkbox-group {
   font-size: 20px;
   border-radius: 30px;
   font-weight: 400;
-
+ 
   cursor: pointer;
   align-items: center;
   justify-content: center;
@@ -163,7 +142,7 @@ form .checkbox-group {
   font-size: 20px;
   border-radius: 30px;
   font-weight: 400;
-  cursor: pointer;
+   cursor: pointer;
   align-items: center;
   justify-content: center;
 }
@@ -244,7 +223,7 @@ form h3 {
   border-bottom: 2px solid #eee;
   padding-bottom: 5px;
 }
-/* 
+
 .matrix-feedcheckback {
   margin-bottom: 20px;
 }
@@ -299,7 +278,7 @@ form h3 {
 .matrix-checkbox {
   overflow-x: auto;
   padding: 1rem;
-} */
+}
 
 table {
   width: 100%;
@@ -339,31 +318,17 @@ input[type="checkbox"]:focus {
   outline: none;
   border-color: #007bff;
 }
-/* 
+
 .matrix-checkbox table th,
 .matrix-checkbox table td {
   word-wrap: break-word;
   overflow-wrap: break-word;
-} */
+}
 
 @media (max-width: 576px) {
   .matrix-checkbox {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-  }
-
-  form input[type="text"],
-  form input[type="email"],
-  form input[type="date"],
-  textarea {
-    width: 90%;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 50px;
-    font-size: 16px;
-    color: #000000;
-    height: 45px;
-    margin-right: 20px;
   }
 }
 
