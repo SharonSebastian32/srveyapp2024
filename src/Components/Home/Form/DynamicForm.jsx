@@ -360,13 +360,12 @@ const DynamicForm = () => {
             value={selectedLanguage}
             onChange={(e) => setSelectedLanguage(e.target.value)}
           >
-            {/* map less */}
             <option value="en">English</option>
             <option value="es">Español</option>
             <option value="fr">Français</option>
           </select>
         </div>
-        <div style={{}}>{renderFormContent()}</div>
+        <div>{renderFormContent()}</div>
       </div>
     </>
   );

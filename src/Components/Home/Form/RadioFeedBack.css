@@ -21,6 +21,7 @@
   color: rgb(24, 24, 24);
   vertical-align: middle;
   text-align: center;
+  padding: 10px; /* Added padding for better spacing */
 }
 
 .radio-group {
@@ -35,34 +36,41 @@
   width: 25px;
 }
 
-@media (max-width: 576px) {
-  .matrix-cell p {
-    display: none;
-  }
-  .matrix-container {
-    display: table;
-    width: 100%;
-    margin-top: 9px;
-    text-align: left;
-  }
-}
-
+/* Default state for .pholder */
 .pholder {
   display: none;
 }
 
+/* Media query for screens less than or equal to 576px */
 @media (max-width: 576px) {
+  .matrix-cell p {
+    display: none;
+  }
+
+  .matrix-container {
+    margin-right: 0; /* Removed margin-right */
+    border-spacing: 0 10px; /* Reduced spacing between rows */
+  }
+
   .pholder {
     display: block;
   }
-  .matrix-container {
-    margin-right: 100px;
+
+  .matrix-cell {
+    padding: 5px; /* Reduced padding */
+    font-size: 12px; /* Reduced font size */
+  }
+
+  .radio-group input {
+    height: 20px; /* Reduced size */
+    width: 20px; /* Reduced size */
   }
 }
 
 .mainContainer-label {
   display: none;
 }
+
 @media (max-width: 576px) {
   .mainContainer-label {
     display: block;
