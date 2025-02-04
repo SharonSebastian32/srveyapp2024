@@ -1,0 +1,70 @@
+.matrix-container {
+  display: table;
+  width: 100%;
+  margin-top: 9px;
+  border-collapse: separate;
+  border-spacing: 0 20px;
+  text-align: left;
+}
+
+.matrix-row {
+  display: table-row;
+  border-radius: 50px;
+  height: 60px;
+  text-align: left;
+  color: black;
+}
+
+.matrix-cell {
+  background-color: #e8f7e1;
+  display: table-cell;
+  color: rgb(24, 24, 24);
+  vertical-align: middle;
+  text-align: center;
+}
+
+.radio-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.radio-group input {
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+}
+
+@media (max-width: 576px) {
+  .matrix-cell p {
+    display: none;
+  }
+  .matrix-container {
+    display: table;
+    width: 100%;
+    margin-top: 9px;
+    text-align: left;
+  }
+}
+
+.pholder {
+  display: none;
+}
+
+@media (max-width: 576px) {
+  .pholder {
+    display: block;
+  }
+  .matrix-container {
+    margin-right: 100px;
+  }
+}
+
+.mainContainer-label {
+  display: none;
+}
+@media (max-width: 576px) {
+  .mainContainer-label {
+    display: block;
+  }
+}

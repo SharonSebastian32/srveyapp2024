@@ -1,0 +1,250 @@
+body,
+html {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins";
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.logo {
+  width: 200px;
+  height: 60px;
+}
+
+.banner {
+  min-height: 40%;
+  width: 100%;
+  background: linear-gradient(90deg, rgb(6, 75, 102), rgb(8, 153, 32));
+  background-size: 200% 200%;
+  animation: rotateBackground 3s ease infinite;
+}
+
+@keyframes rotateBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.banner_group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 100px;
+}
+
+.sideImage {
+  width: 100%;
+  height: 250px;
+}
+
+.banner-left h2 {
+  font-size: 34px;
+  font-weight: 500;
+  color: white;
+}
+
+.banner p {
+  font-size: 35px;
+  color: white;
+  line-height: 2px;
+}
+@media (max-width: 1250px) {
+  .sideImage {
+    display: none;
+  }
+}
+@media (max-width: 1024px) {
+  .sideImage {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .banner_group {
+    padding: 20px 50px;
+  }
+  .sideImage {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .banner_group {
+    padding: 20px 50px;
+  }
+  .banner {
+    height: 60%;
+  }
+  .sideImage {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo {
+    padding: 0;
+    margin: 0;
+    width: 200px;
+    height: 60px;
+  }
+
+  .banner-left h2 {
+    font-size: 30vw;
+  }
+  .banner {
+    height: 400%;
+    width: 100%;
+  }
+  .banner p {
+    font-size: 20px;
+  }
+  .container {
+    width: 100%;
+    height: 100%;
+  }
+  .sideImage {
+    display: none;
+  }
+  .banner_group {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    width: 50%;
+    height: 50%;
+  }
+  .banner {
+    min-height: 60%;
+    width: 100%;
+    background-color: #100728;
+  }
+  .banner-left h2 {
+    font-size: 24px;
+  }
+  .banner p {
+    font-size: 18px;
+  }
+  .sideImage {
+    display: none;
+  }
+  .banner_group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.list-container {
+  height: 60%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: rgb(255, 255, 255);
+}
+
+.list {
+  background-color: rgb(242, 236, 236);
+  height: 50px;
+  margin-top: 20px;
+  margin-left: 80px;
+  margin-right: 80px;
+  border-radius: 50px;
+  align-items: center;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.submit-btn {
+  background-image: linear-gradient(to right, rgb(6, 75, 102), rgb(61, 162, 6));
+
+  font-size: 16px;
+  padding: 1px 50px 1px 50px;
+  color: white;
+  margin: 2px;
+  border: none;
+  border-radius: 50px;
+}
+.submit-btn {
+  background-image: linear-gradient(to right, rgb(6, 75, 102), rgb(33, 85, 6));
+  font-size: 1em;
+  padding: 0.5em 2em;
+  color: white;
+  margin: 2px;
+  border: none;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .submit-btn {
+    font-size: 0.9em;
+    padding: 0.5em 1.5em;
+  }
+
+  .banner {
+    width: 100%;
+    background-color: #100728;
+  }
+  .banner-left h2 {
+    font-size: 40px;
+    margin-top: 48px;
+    line-height: 50px;
+  }
+  .banner p {
+    font-size: 18px;
+    line-height: 30px;
+    color: rgb(255, 255, 255);
+  }
+}
+
+@media (max-width: 480px) {
+  .submit-btn {
+    font-size: 0.8em;
+    padding: 0.5em 1em;
+  }
+  .list-container {
+    height: 60%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  .list {
+    background-color: rgb(242, 236, 236);
+    height: 50px;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    border-radius: 50px;
+    align-items: center;
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .banner {
+    min-height: 60%;
+    width: 100%;
+    background-color: #0c4b32;
+  }
+}

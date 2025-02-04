@@ -1,0 +1,15 @@
+# vite
+/node_modules
+/.history
+/dist
+/public/build
+/vite.config.js
+
+# general
+.env
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+/.history
