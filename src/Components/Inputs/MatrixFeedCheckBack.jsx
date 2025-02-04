@@ -19,11 +19,10 @@ const MatrixFeedCheckbackField = ({
 
   return (
     <table className="matrix-table">
-      <thead className="matrix-thead">
+      <thead className="matrix-thead"> 
         <tr>
           <th className="matrix-header-empty"></th>
-          {/* Empty header for row labels */}
-          {field.columns.map((column, colIndex) => (
+           {field.columns.map((column, colIndex) => (
             <th
               key={column.id}
               className="matrix-header"
