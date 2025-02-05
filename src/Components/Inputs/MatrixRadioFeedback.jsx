@@ -1,5 +1,6 @@
 import "../../styles/RadioFeedBack.css";
 import React from "react";
+
 const MatrixRadioFeedback = ({
   field,
   formData,
@@ -33,7 +34,18 @@ const MatrixRadioFeedback = ({
       <tbody className="matrix-tbody">
         {field.rows.map((row, rowIndex) => (
           <React.Fragment key={row.id}>
-            <tr key={row.id} className="matrix-row">
+             <tr className="matrix-label-row">
+              <td
+                colSpan={field.columns.length + 1}
+                className="matrix-label"
+                style={{ border: "none" }}
+              >
+                {field.rows[rowIndex].translations?.[selectedLanguage] ||
+                  field.rows[rowIndex].label}
+              </td>
+            </tr>
+
+            <tr className="matrix-row">
               <td
                 className="matrix-cell matrix-cell-label"
                 style={{
@@ -75,17 +87,6 @@ const MatrixRadioFeedback = ({
                 </td>
               ))}
             </tr>
-
-            {/* Insert a label between rows */}
-            {rowIndex !== field.rows.length - 1 && (
-              <tr className="matrix-label-row">
-                <td colSpan={field.columns.length + 1} className="matrix-label" style={{
-                  border:"none"
-                }}>
-                  <span>Hello</span>
-                </td>
-              </tr>
-            )}
           </React.Fragment>
         ))}
       </tbody>

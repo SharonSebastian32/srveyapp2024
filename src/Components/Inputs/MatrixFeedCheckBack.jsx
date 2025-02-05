@@ -7,22 +7,12 @@ const MatrixFeedCheckbackField = ({
   setFormData,
   selectedLanguage,
 }) => {
-  const handleChange = (rowId, columnId) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field.fieldId]: {
-        ...prev[field.fieldId],
-        [rowId]: columnId,
-      },
-    }));
-  };
-
   return (
     <table className="matrix-table">
-      <thead className="matrix-thead"> 
+      <thead className="matrix-thead">
         <tr>
           <th className="matrix-header-empty"></th>
-           {field.columns.map((column, colIndex) => (
+          {field.columns.map((column, colIndex) => (
             <th
               key={column.id}
               className="matrix-header"
@@ -44,7 +34,18 @@ const MatrixFeedCheckbackField = ({
       <tbody className="matrix-tbody">
         {field.rows.map((row, rowIndex) => (
           <React.Fragment key={row.id}>
-            <tr key={row.id} className="matrix-row">
+            <tr className="matrix-label-row">
+              <td
+                colSpan={field.columns.length + 1}
+                className="matrix-label"
+                style={{ border: "none" }}
+              >
+                {field.rows[rowIndex].translations?.[selectedLanguage] ||
+                  field.rows[rowIndex].label}
+              </td>
+            </tr>
+
+            <tr className="matrix-row">
               <td
                 className="matrix-cell matrix-cell-label"
                 style={{
@@ -67,11 +68,19 @@ const MatrixFeedCheckbackField = ({
                 >
                   <div className="radio-group">
                     <input
-                      type="checkbox"
+                      type="radio"
                       name={`${field.fieldId}-${row.id}`}
                       value={column.id}
                       checked={formData[field.fieldId]?.[row.id] === column.id}
-                      onChange={() => handleChange(row.id, column.id)}
+                      onChange={() => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          [field.fieldId]: {
+                            ...prev[field.fieldId],
+                            [row.id]: column.id,
+                          },
+                        }));
+                      }}
                       required={field.required}
                     />
                   </div>

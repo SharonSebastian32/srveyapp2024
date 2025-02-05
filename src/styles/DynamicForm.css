@@ -128,7 +128,7 @@ form .checkbox-group {
   font-size: 20px;
   border-radius: 30px;
   font-weight: 400;
- 
+
   cursor: pointer;
   align-items: center;
   justify-content: center;
@@ -142,7 +142,7 @@ form .checkbox-group {
   font-size: 20px;
   border-radius: 30px;
   font-weight: 400;
-   cursor: pointer;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
 }
@@ -329,6 +329,21 @@ input[type="checkbox"]:focus {
   .matrix-checkbox {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+  }
+
+  form input[type="text"],
+  form input[type="email"],
+  form input[type="date"],
+  form input[type="password"],
+  textarea {
+    width: 90%;
+    padding: 12px 12px;
+    padding-left: 25px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    font-size: 16px;
+    color: #000000;
   }
 }
 

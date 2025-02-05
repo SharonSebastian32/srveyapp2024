@@ -1,3 +1,4 @@
+/* General table styling */
 .matrix-table {
   border-collapse: separate;
   border-spacing: 0 10px;
@@ -86,13 +87,14 @@
   .matrix-header-empty {
     display: none;
   }
+
   .matrix-label {
     display: block;
-    text-align: left; /* Center the label */
-    font-weight: bold; /* Make the label bold */
-    padding: 1em; /* Add padding for spacing */
-    font-size: 16px; /* Adjust the font size if necessary */
-    color: #333; /* Set the text color */
+    text-align: left;
+    font-weight: bold;
+    padding: 1em;
+    font-size: 16px;
+    color: #333;
   }
 
   .matrix-tbody tr:not(.question) .matrix-cell:first-child {
@@ -109,28 +111,34 @@
     border-bottom-left-radius: 50px;
   }
 }
+
 .matrix-label {
   display: none;
 }
+
 @media screen and (max-width: 768px) {
   .matrix-label {
     display: block;
-    text-align: left; /* Center the label */
-    font-weight: bold; /* Make the label bold */
-    padding: 1em; /* Add padding for spacing */
-    font-size: 16px; /* Adjust the font size if necessary */
-    color: #333; /* Set the text color */
+    text-align: left;
+    font-weight: bold;
+    padding: 1em;
+    font-size: 16px;
+    color: #333;
   }
 
   .radio-group input {
     cursor: pointer;
     height: 25px;
     width: 25px;
-    margin-top: 7px;
+    margin-top: 12px;
   }
 }
 
 .matrix-label-row {
+  background-color: #fff;
+  text-align: center;
+  font-style: italic;
+  color: #666;
 }
 
 @media screen and (max-width: 768px) {
