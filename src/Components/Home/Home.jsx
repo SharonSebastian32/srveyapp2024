@@ -1,53 +1,50 @@
-import "../../styles/Home.css";
-import sideImage from "../../assets/sideImage.png";
-import logo from "../../assets/Logo.png";
 import { useNavigate } from "react-router-dom";
-import data from "../../json/dynamicForm.json";
 import { useEffect, useState } from "react";
 import AOS from "aos";
-import "aos/dist/aos.css"; // Import AOS CSS
-
+import "aos/dist/aos.css";
+import { fetchData } from "../../Api/AxiosInstance";
+import Banner from "../../../src/Components/Home/Banner/Banner";
 function Home() {
   const navigate = useNavigate();
   const [initialFields, setInitialFields] = useState([]);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    setInitialFields(data);
+    const getData = async () => {
+      try {
+        const fetchedData = await fetchData();
+        setData(fetchedData);
+        console.log(fetchedData.data.results);
+        const listData = fetchedData.data.results.map((obj) => ({
+          english_title: obj.english_title,
+          formId: obj.id,
+        }));
+        setInitialFields(listData);
+      } catch (error) {
+        console.error("Error fetching data in App:", error);
+      }
+    };
+
+    getData();
+  }, []);
+
+  useEffect(() => {
     AOS.init({
       duration: 2000,
       once: true,
     });
-  }, [data]);
+  }, []);
 
   return (
     <div className="container">
-      <div className="banner">
-        <div className="banner_group">
-          <div className="banner-left">
-            <div data-aos="zoom-out">
-              <img className="logo" src={logo} alt="Side" />
-            </div>
-            <h2 data-aos="fade-right">
-              Welcome to the survey of selection page
-            </h2>
-            <p data-aos="fade-right">Select the Way that you wish to attend </p>
-          </div>
-          <div className="banner-right">
-            <img
-              data-aos="fade-left"
-              className="sideImage"
-              src={sideImage}
-              alt="Side"
-            />
-          </div>
-        </div>
-      </div>
+      <Banner />
 
       <div className="list-container">
-        {initialFields.map((obj, index) => {
-          return (
+        {initialFields.length > 0 &&
+          initialFields.map((obj, index) => (
             <div className="list" key={index} data-aos="fade-up">
               <p>{obj.formId}</p>
+              {/* <p>{obj.english_title}</p> */}
               <button
                 className="submit-btn"
                 style={{ backgroundColor: obj.color }}
@@ -56,8 +53,7 @@ function Home() {
                 Submit
               </button>
             </div>
-          );
-        })}
+          ))}
       </div>
     </div>
   );

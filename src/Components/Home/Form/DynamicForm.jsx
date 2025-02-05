@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import data from "../../../json/dynamicForm.json";
 import "../../../styles//DynamicForm.css";
 import Navbar from "../Header/Navbar";
-
 import TextboxField from "../../Inputs/TextBox";
 import EmailField from "../../Inputs/Email";
 import DateField from "../../Inputs/Date";
