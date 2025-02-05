@@ -6,6 +6,7 @@ export const fetchData = async () => {
   try {
     const response = await axios.get(
       `${API_URL}/api/exam-portal/v1/survey-attendees/get-feedback-survey-list`
+
     );
     return response.data;
   } catch (error) {
@@ -13,6 +14,11 @@ export const fetchData = async () => {
     throw error;
   }
 };
+
+
+
+http://206.81.17.231:8021/api/exam-portal/v1/survey-attendees/get-feedback-survey-question-list?survey_id=89
+
 
 // // Example POST request
 // export const sendData = async (data) => {
