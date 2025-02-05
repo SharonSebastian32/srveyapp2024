@@ -11,7 +11,8 @@ const MatrixFeedCheckbackField = ({
     <table className="matrix-table">
       <thead className="matrix-thead">
         <tr>
-          <th className="matrix-header-empty"></th>
+          <th id="matrix-header-empty" className="matrix-header-empty"></th>
+
           {field.columns.map((column, colIndex) => (
             <th
               key={column.id}
@@ -38,7 +39,7 @@ const MatrixFeedCheckbackField = ({
               <td
                 colSpan={field.columns.length + 1}
                 className="matrix-label"
-                style={{ border: "none" }}
+                style={{ border: "none", padding: "0px" }}
               >
                 {field.rows[rowIndex].translations?.[selectedLanguage] ||
                   field.rows[rowIndex].label}
@@ -50,7 +51,7 @@ const MatrixFeedCheckbackField = ({
                 className="matrix-cell matrix-cell-label"
                 style={{
                   borderTopLeftRadius: "50px",
-                  backgroundColor: "#d6d6d6",
+                  backgroundColor: "#d3f8d2",
                 }}
               >
                 {row.translations?.[selectedLanguage] || row.label}
@@ -68,7 +69,7 @@ const MatrixFeedCheckbackField = ({
                 >
                   <div className="radio-group">
                     <input
-                      type="radio"
+                      type="checkbox"
                       name={`${field.fieldId}-${row.id}`}
                       value={column.id}
                       checked={formData[field.fieldId]?.[row.id] === column.id}

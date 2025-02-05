@@ -212,7 +212,6 @@ const DynamicForm = () => {
             )}
             {sections.map((section) => (
               <div key={section.sectionId}>
-                <h3>{section.sectionName}</h3>
                 {sectionFields[section.sectionId]?.map((field) => (
                   <div key={field.fieldId}>
                     <label htmlFor={field.fieldId}>
@@ -348,26 +347,26 @@ const DynamicForm = () => {
   };
 
   return (
-    <>
-      <div>
-        <Navbar />
-        <div className="form-container">
-          <h2 className="form-title">{formMeta.formName}</h2>
-          <p>{formMeta.formDescription}</p>
-          <select
-            className="language-selector-combo"
-            value={selectedLanguage}
-            onChange={(e) => setSelectedLanguage(e.target.value)}
-          >
-            {/* map less */}
-            <option value="en">English</option>
-            <option value="es">Español</option>
-            <option value="fr">Français</option>
-          </select>
-        </div>
-        <div style={{}}>{renderFormContent()}</div>
+    <div>
+      <Navbar />
+
+      <div className="form-container">
+        {/* <h2 className="form-title">{formMeta.formName}</h2> */}
+        {/* <p>{formMeta.formDescription}</p> */}
+        <select
+          className="language-selector-combo"
+          value={selectedLanguage}
+          onChange={(e) => setSelectedLanguage(e.target.value)}
+        >
+          {/* map less */}
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+        </select>
       </div>
-    </>
+
+      <div style={{}}>{renderFormContent()}</div>
+    </div>
   );
 };
 

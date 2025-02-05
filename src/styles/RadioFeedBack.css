@@ -1,17 +1,18 @@
-/* General table styling */
 .matrix-table {
+  margin-top: 30px;
   border-collapse: separate;
   border-spacing: 0 10px;
   width: 100%;
 }
 
-.matrix-thead tr {
-  background-color: #ffffff;
-  border-radius: 50px;
+.matrix-thead th,
+.matrix-tbody td {
+  vertical-align: middle; /* Ensure vertical alignment */
 }
 
 .matrix-header-empty {
-  width: 0;
+  background-color: #d6d6d6;
+  padding: 30px;
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
 }
@@ -19,6 +20,11 @@
 .matrix-header {
   padding: 0.5em 1em;
   text-align: center;
+}
+
+.matrix-thead tr {
+  background-color: #ffffff;
+  border-radius: 50px;
 }
 
 .matrix-header:first-child {
@@ -34,17 +40,22 @@
 .matrix-tbody tr {
   background-color: white;
   border-radius: 50px;
+  padding-top: 60px;
 }
 
 .matrix-cell {
-  padding: 0.5em 1em;
-  text-align: center;
+  align-items: center;
+  border: none;
 }
 
 .matrix-cell-label {
   background-color: #d6d6d6;
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
+  color: rgb(34, 34, 34);
+  font-weight: bold;
+  padding-left: 25px;
+  align-items: center;
 }
 
 .matrix-cell:first-child {
@@ -68,19 +79,14 @@
   cursor: pointer;
   height: 25px;
   width: 25px;
-  margin-top: 25px;
 }
 
 .matrix-tbody tr:nth-child(odd) .matrix-cell {
-  background-color: rgb(227, 227, 227);
+  background-color: #d3f8d2;
 }
 
 .matrix-tbody tr:nth-child(even) .matrix-cell {
   background-color: rgb(211, 248, 210);
-}
-
-.question {
-  display: none;
 }
 
 @media screen and (max-width: 768px) {
@@ -90,7 +96,6 @@
 
   .matrix-label {
     display: block;
-    text-align: left;
     font-weight: bold;
     padding: 1em;
     font-size: 16px;
@@ -134,15 +139,10 @@
   }
 }
 
-.matrix-label-row {
-  background-color: #fff;
-  text-align: center;
-  font-style: italic;
-  color: #666;
-}
-
-@media screen and (max-width: 768px) {
-  .matrix-label {
-    display: block;
-  }
+.radio-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 15px;
 }

@@ -36,11 +36,12 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
             }}
             required={field.required}
           />
-          <label
+          <label  
             htmlFor={`${field.fieldId}-${option.id}`}
             style={{ paddingTop: ".58em" }}
           >
-            {option.translations?.[selectedLanguage] || option.label}
+            {option.translations?.[selectedLanguage] || option.label} 
+
           </label>
         </div>
       ))}

@@ -34,38 +34,35 @@ const MatrixRadioFeedback = ({
       <tbody className="matrix-tbody">
         {field.rows.map((row, rowIndex) => (
           <React.Fragment key={row.id}>
-             <tr className="matrix-label-row">
+            <tr className="matrix-label-row">
               <td
                 colSpan={field.columns.length + 1}
                 className="matrix-label"
-                style={{ border: "none" }}
+                style={{ border: "none", padding: "0px" }}
               >
                 {field.rows[rowIndex].translations?.[selectedLanguage] ||
                   field.rows[rowIndex].label}
               </td>
             </tr>
 
-            <tr className="matrix-row">
+            <tr
+              className="matrix-row"
+              style={{
+                alignItems: "center",
+              }}
+            >
               <td
                 className="matrix-cell matrix-cell-label"
                 style={{
                   borderTopLeftRadius: "50px",
-                  backgroundColor: "#d6d6d6",
+                  backgroundColor: "#d3f8d2",
                 }}
               >
                 {row.translations?.[selectedLanguage] || row.label}
               </td>
 
               {field.columns.map((column, colIndex) => (
-                <td
-                  key={column.id}
-                  className="matrix-cell"
-                  style={
-                    colIndex === field.columns.length - 1
-                      ? { borderTopRightRadius: "50px" }
-                      : {}
-                  }
-                >
+                <td key={column.id} className="matrix-cell">
                   <div className="radio-group">
                     <input
                       type="radio"

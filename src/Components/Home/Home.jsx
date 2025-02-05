@@ -14,8 +14,8 @@ function Home() {
   useEffect(() => {
     setInitialFields(data);
     AOS.init({
-      duration: 2000,  
-      once: true,  
+      duration: 2000,
+      once: true,
     });
   }, [data]);
 
@@ -46,11 +46,7 @@ function Home() {
       <div className="list-container">
         {initialFields.map((obj, index) => {
           return (
-            <div
-              className="list"
-              key={index}
-              data-aos="fade-up"
-             >
+            <div className="list" key={index} data-aos="fade-up">
               <p>{obj.formId}</p>
               <button
                 className="submit-btn"
@@ -68,4 +64,3 @@ function Home() {
 }
 
 export default Home;
-
