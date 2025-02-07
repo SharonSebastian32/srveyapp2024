@@ -19,8 +19,7 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
           return (
             <div key={option.id} className="radio-item2">
               <label
-                // id="radio-button"
-                style={{
+                 style={{
                   color:
                     formData[field.fieldId] === option.id ? "white" : "black",
                   cursor: "pointer",

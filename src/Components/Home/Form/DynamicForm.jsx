@@ -5,18 +5,14 @@ import "../../../styles/Loader.css";
 import "../../../styles/DynamicForm.css";
 import Header from "../Header/Header";
 import TextboxField from "../../Inputs/TextBox";
-import EmailField from "../../Inputs/Email";
 import DateField from "../../Inputs/Date";
 import RadioField from "../../Inputs/Radio";
-import SelectboxField from "../../Inputs/SelectBox";
 import TextareaField from "../../Inputs/TextArea";
-import MatrixCheckboxField from "../../Inputs/MatrixCheckBox";
-import MatrixRadioField from "../../Inputs/MatrixRadio";
-import MatrixRadioFeedbackField from "../../Inputs/MatrixRadioFeedback";
-import MatrixFeedCheckbackField from "../../Inputs/MatrixFeedCheckBack";
+import MatrixRadioFeedback from "../../Inputs/MatrixRadioFeedback";
 import CheckboxField from "../../Inputs/CheckBox";
 import DateTime from "../../Inputs/DateTime";
 import NumericalValue from "../../Inputs/NumericalValue";
+import SelectBox from "../../Inputs/SelectBox";
 
 const DynamicForm = () => {
   const { formId } = useParams();
@@ -58,6 +54,8 @@ const DynamicForm = () => {
           };
         });
 
+        console.log("Processed Questions:", processedQuestions);
+
         setQuestions(processedQuestions);
         setFormMeta({
           formName: response.option.english_title,
@@ -69,9 +67,18 @@ const DynamicForm = () => {
         });
 
         const initialData = processedQuestions.reduce((acc, question) => {
-          acc[question.fieldId] = "";
+          if (question.type === "matrix_radio") {
+            // Initialize matrix data structure
+            acc[question.fieldId] = {};
+            question.matrixData.rows.forEach((row) => {
+              acc[question.fieldId][row.id] = "";
+            });
+          } else {
+            acc[question.fieldId] = "";
+          }
           return acc;
         }, {});
+
         setFormData(initialData);
         setIsDataLoaded(true);
       } catch (error) {
@@ -91,7 +98,6 @@ const DynamicForm = () => {
       Date: "date",
       Datetime: "datetime-local",
       NumericalValue: "numerical-value",
-
       Matrix: "matrix_radio",
     };
     return typeMap[type] || "textbox";
@@ -114,8 +120,9 @@ const DynamicForm = () => {
     if (question.question_type !== "Matrix") return null;
 
     return {
+      fieldId: `question_${question.id}`,
       rows: question.matrix_row.map((row) => ({
-        id: row.pk,
+        id: row.pk.toString(),
         label: row.row,
         translations: row.other_rows.reduce((acc, trans) => {
           acc[trans.language] = trans.row;
@@ -123,14 +130,15 @@ const DynamicForm = () => {
         }, {}),
       })),
       columns: question.matrix_column.map((col) => ({
-        id: col.pk,
+        id: col.pk.toString(),
         label: col.column,
         translations: col.other_columns.reduce((acc, trans) => {
           acc[trans.language] = trans.column;
           return acc;
         }, {}),
       })),
-      type: question.matrix_type,
+      required: question.is_mandatory,
+      feedback: question.is_feedback,
     };
   };
 
@@ -141,29 +149,20 @@ const DynamicForm = () => {
     }, {});
   };
 
-  const handleChange = (fieldId, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [fieldId]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-  };
-
   const renderField = (question) => {
     const commonProps = {
       key: question.fieldId,
       field: {
         ...question,
         translations: question.translations,
+        ...question.matrixData,
       },
       formData: formData,
-      handleChange: handleChange,
+      setFormData: setFormData,
       selectedLanguage: selectedLanguage,
     };
+
+    console.log(`Rendering field type: ${question.type}`, commonProps);
 
     switch (question.type) {
       case "textbox":
@@ -180,17 +179,28 @@ const DynamicForm = () => {
         return <DateField {...commonProps} />;
       case "datetime-local":
         return <DateTime {...commonProps} />;
-
+      case "DropdownOneAnswer":
+        return <SelectBox {...commonProps} />;
       case "matrix_radio":
-        return <MatrixRadioField {...commonProps} />;
+        return <MatrixRadioFeedback {...commonProps} />;
       default:
         return null;
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    // Add your submission logic here
+  };
+
   const renderFormContent = () => {
     if (!isDataLoaded) {
-      return <div className="loader"></div>;
+      return (
+        <div className="loader-container">
+          <div className="loader"></div>
+        </div>
+      );
     }
 
     if (formMeta.paginationType === "OnePagePerQuestion") {
@@ -220,7 +230,7 @@ const DynamicForm = () => {
             {formMeta.isBackAllowed && !isFirstQuestion && (
               <button
                 type="button"
-                id="previous-btn"
+                className="previous-button"
                 onClick={() => setCurrentPage((prev) => prev - 1)}
               >
                 Previous
@@ -230,7 +240,7 @@ const DynamicForm = () => {
             {!isLastQuestion ? (
               <button
                 type="button"
-                id="next-btn"
+                className="next-button"
                 onClick={() => setCurrentPage((prev) => prev + 1)}
               >
                 Next
