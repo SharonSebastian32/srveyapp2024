@@ -1,72 +1,9 @@
-// import { useNavigate } from "react-router-dom";
-// import { useEffect, useState } from "react";
-// import AOS from "aos";
-// import "aos/dist/aos.css";
-// import { fetchData } from "../../Api/AxiosInstance";
-// import Banner from "../../../src/Components/Home/Banner/Banner";
-// function Home() {
-//   const navigate = useNavigate();
-//   const [initialFields, setInitialFields] = useState([]);
-//   const [data, setData] = useState(null);
-
-//   useEffect(() => {
-//     const getData = async () => {
-//       try {
-//         const fetchedData = await fetchData();
-//         setData(fetchedData);
-//         console.log(fetchedData.data.results);
-//         const listData = fetchedData.data.results.map((obj) => ({
-//           english_title: obj.english_title,
-//           formId: obj.id,
-//         }));
-//         setInitialFields(listData);
-//       } catch (error) {
-//         console.error("Error fetching data in App:", error);
-//       }
-//     };
-
-//     getData();
-//   }, []);
-
-//   useEffect(() => {
-//     AOS.init({
-//       duration: 2000,
-//       once: true,
-//     });
-//   }, []);
-
-//   return (
-//     <div className="container">
-//       <Banner />
-
-//       <div className="list-container">
-//         {initialFields.length > 0 &&
-//           initialFields.map((obj, index) => (
-//             <div className="list" key={index} data-aos="fade-up">
-//               <p>{obj.english_title}</p>
-//               <button
-//                 className="submit-btn"
-//                 style={{ backgroundColor: obj.color }}
-//                 onClick={() => navigate(`/form/${obj.formId}`)}
-//               >
-//                 Submit
-//               </button>
-//             </div>
-//           ))}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Home;
-
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { fetchData } from "../../Api/AxiosApiInstance";
+import Banner from "./Banner/Banner";
 import AOS from "aos";
-import "aos/dist/aos.css";
-import axios from "axios";
-import Banner from "../../../src/Components/Home/Banner/Banner";
-
+import "../../styles/Loader.css";
 function Home() {
   const navigate = useNavigate();
   const [initialFields, setInitialFields] = useState([]);
@@ -75,19 +12,17 @@ function Home() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(
-          "http://206.81.17.231:8021/api/exam-portal/v1/survey-attendees/get-feedback-survey-list"
-        );
-        const fetchedData = response.data;
+        const fetchedData = await fetchData();
         setData(fetchedData);
         console.log(fetchedData.data.results);
         const listData = fetchedData.data.results.map((obj) => ({
           english_title: obj.english_title,
           formId: obj.id,
+          color: obj.color,
         }));
         setInitialFields(listData);
       } catch (error) {
-        console.error("Error fetching data in App:", error);
+        console.error("Error fetching data in Home:", error);
       }
     };
 
@@ -96,45 +31,53 @@ function Home() {
 
   useEffect(() => {
     AOS.init({
-      duration: 2000,
+      duration: 1000,
       once: true,
     });
-  }, []);
+  }, [data]);
 
-  const handleButtonClick = async (formId) => {
+  const handleFormNavigation = async (formId) => {
     try {
-      const response = await axios.get(
-        `http://206.81.17.231:8021/api/exam-portal/v1/survey-attendees/get-feedback-survey-question-list?survey_id=${formId}`
-      );
-      const formData = response.data;
-      console.log("====================================");
-      console.log(formData);
-      console.log("====================================");
-      navigate(`/form/${formId}`, { state: { formData } });
+      navigate(`/form/${formId}`);
     } catch (error) {
-      console.error("Error fetching form data:", error);
+      console.log(error);
     }
   };
 
   return (
-    <div className="container">
+    <div>
       <Banner />
-
       <div className="list-container">
-        {initialFields.length > 0 &&
+        {initialFields.length > 0 ? (
           initialFields.map((obj, index) => (
             <div className="list" key={index} data-aos="fade-up">
-              <p>{obj.formId}</p>
-              {/* <p>{obj.english_title}</p> */}
+              <p>{obj.english_title}</p>
               <button
                 className="submit-btn"
                 style={{ backgroundColor: obj.color }}
-                onClick={() => handleButtonClick(obj.formId)}
+                onClick={() => handleFormNavigation(obj.formId)}
               >
                 Submit
               </button>
             </div>
-          ))}
+          ))
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+              width: "100vw",
+              position: "fixed",
+              top: 0,
+              left: 0,
+              zIndex: 1000,
+            }}
+          >
+            <div className="loader"></div>
+          </div>
+        )}
       </div>
     </div>
   );

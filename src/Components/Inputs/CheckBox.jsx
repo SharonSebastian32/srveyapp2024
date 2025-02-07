@@ -1,21 +1,10 @@
+import "../../../src/styles/checkbox.css";
+
 const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
   return (
     <div className="checkbox-group">
       {field.options.map((option) => (
-        <div
-          key={option.id}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            flexWrap: "wrap",
-            borderRadius: "50px",
-            margin: "10px",
-            border: "1px solid #ccc",
-            padding: "5px 12px",
-          }}
-        >
+        <div key={option.id} id="checkbox-input-div">
           <input
             style={{
               verticalAlign: "middle",
@@ -36,12 +25,11 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
             }}
             required={field.required}
           />
-          <label  
+          <label
             htmlFor={`${field.fieldId}-${option.id}`}
             style={{ paddingTop: ".58em" }}
           >
-            {option.translations?.[selectedLanguage] || option.label} 
-
+            {option.translations?.[selectedLanguage] || option.label}
           </label>
         </div>
       ))}

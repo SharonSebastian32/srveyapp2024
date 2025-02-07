@@ -17,9 +17,9 @@ html {
 }
 
 .banner {
-  min-height: 40%;
+  min-height: 50%;
   width: 100%;
-  background: linear-gradient(90deg, rgb(17, 6, 102), rgb(8, 153, 32));
+  background-image: linear-gradient(to right, #1e0d56, #41ac0b);
   background-size: 200% 200%;
   animation: rotateBackground 3s ease infinite;
 }
@@ -75,9 +75,6 @@ html {
   .banner_group {
     padding: 20px 50px;
   }
-  .sideImage {
-    display: none;
-  }
 }
 @media (max-width: 1023px) {
   .banner_group {
@@ -126,10 +123,12 @@ html {
     width: 50%;
     height: 50%;
   }
+  .sideImage {
+    display: none;
+  }
   .banner {
     min-height: 60%;
     width: 100%;
-    background-color: #100728;
   }
   .banner-left h2 {
     font-size: 24px;
@@ -156,7 +155,6 @@ html {
 
 .list {
   background-color: rgb(233, 233, 233);
-  height: 50px;
   margin-top: 20px;
   margin-left: 80px;
   margin-right: 80px;
@@ -189,7 +187,6 @@ html {
 
   .banner {
     width: 100%;
-    background-color: #100728;
   }
   .banner-left h2 {
     font-size: 40px;
@@ -233,6 +230,5 @@ html {
   .banner {
     min-height: 60%;
     width: 100%;
-    background-color: #0c4b32;
   }
 }

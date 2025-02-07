@@ -1,6 +1,6 @@
 import logo from "../../../assets/Logo.png";
 import "./Header.css";
-const Navbar = () => {
+const Header = () => {
   return (
     <>
       <div className="sm-banner">
@@ -10,4 +10,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Header;

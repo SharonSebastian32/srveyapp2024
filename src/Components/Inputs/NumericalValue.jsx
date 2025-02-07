@@ -1,18 +1,24 @@
-const TextboxField = ({ field, formData, handleChange, selectedLanguage }) => {
+const NumericalValue = ({
+  field,
+  formData,
+  handleChange,
+  selectedLanguage,
+}) => {
   const placeholder =
     field.translationsPlaceholder?.[selectedLanguage] || field.placeholder;
 
   return (
     <input
-      type="text"
+      type="number"
+      min="1"
       id={field.fieldId}
       name={field.fieldId}
       value={formData[field.fieldId] || ""}
       onChange={(e) => handleChange(field.fieldId, e.target.value)}
-      placeholder="Pease type here..."
+      placeholder={placeholder}
       required={field.required}
     />
   );
 };
 
-export default TextboxField;
+export default NumericalValue;

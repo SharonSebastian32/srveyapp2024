@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import data from "../../../json/dynamicForm.json";
-import "../../../styles//DynamicForm.css";
-import Navbar from "../Header/Navbar";
+import { getFormQuestions } from "../../../Api/AxiosApiInstance";
+import "../../../styles/Loader.css";
+import "../../../styles/DynamicForm.css";
+import Header from "../Header/Header";
 import TextboxField from "../../Inputs/TextBox";
 import EmailField from "../../Inputs/Email";
 import DateField from "../../Inputs/Date";
@@ -14,60 +15,131 @@ import MatrixRadioField from "../../Inputs/MatrixRadio";
 import MatrixRadioFeedbackField from "../../Inputs/MatrixRadioFeedback";
 import MatrixFeedCheckbackField from "../../Inputs/MatrixFeedCheckBack";
 import CheckboxField from "../../Inputs/CheckBox";
+import DateTime from "../../Inputs/DateTime";
+import NumericalValue from "../../Inputs/NumericalValue";
 
 const DynamicForm = () => {
   const { formId } = useParams();
   const [formData, setFormData] = useState({});
   const [formMeta, setFormMeta] = useState({});
-  const [initialFields, setInitialFields] = useState([]);
-  const [sections, setSections] = useState([]);
-  const [sectionFields, setSectionFields] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
-  const [selectedLanguage, setSelectedLanguage] = useState("en");
-  const [allFields, setAllFields] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState("1");
+  const [questions, setQuestions] = useState([]);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   useEffect(() => {
-    const loadForm = () => {
-      const currentForm = data.find((item) => item.formId === formId);
+    const loadForm = async () => {
+      try {
+        const response = await getFormQuestions(formId);
 
-      if (currentForm) {
-        const fieldsBySection = currentForm.fields.reduce((acc, field) => {
-          acc[field.sectionId] = acc[field.sectionId] || [];
-          acc[field.sectionId].push(field);
-          return acc;
-        }, {});
+        if (!response || !response.data) {
+          console.error("Invalid response format");
+          return;
+        }
 
-        const allFieldsCombined = [
-          ...(currentForm.initialFields || []),
-          ...(currentForm.fields || []),
-        ];
-
-        const initialData = allFieldsCombined.reduce((acc, field) => {
-          acc[field.fieldId] = "";
-          return acc;
-        }, {});
-
-        setFormMeta({
-          formName: currentForm.formName,
-          formDescription: currentForm.formDescription,
-          typeOfListing: currentForm.typeOfListing,
-          time: currentForm.time,
-          languages: currentForm.languages,
+        const processedQuestions = response.data.map((item) => {
+          const question = item.question;
+          return {
+            id: item.id,
+            fieldId: `question_${item.id}`,
+            type: mapQuestionType(question.question_type),
+            label: item.english_title.replace(/<[^>]*>/g, ""),
+            required: question.is_mandatory,
+            placeholder: question.place_holder,
+            options: processQuestionOptions(question),
+            matrixData: processMatrixData(question),
+            translations: processTranslations(item),
+            feedback: question.is_feedback,
+            validations: {
+              max: question.max_limit,
+              min: question.min_limit,
+              error: question.validation_error,
+            },
+          };
         });
-        setInitialFields(currentForm.initialFields || []);
-        setSections(currentForm.sections || []);
-        setSectionFields(fieldsBySection);
-        setAllFields(allFieldsCombined);
-        setFormData(initialData);
 
-        console.log("Form data loaded:", currentForm);
-      } else {
-        console.error("Form not found for formId:", formId);
+        setQuestions(processedQuestions);
+        setFormMeta({
+          formName: response.option.english_title,
+          paginationType: response.option.pagination_type,
+          survey_languages: response.option.survey_languages || [],
+          isBackAllowed: response.option.is_back_button,
+          timeLimited: response.option.is_survey_time_limit,
+          timeLimit: response.option.survey_time_limit,
+        });
+
+        const initialData = processedQuestions.reduce((acc, question) => {
+          acc[question.fieldId] = "";
+          return acc;
+        }, {});
+        setFormData(initialData);
+        setIsDataLoaded(true);
+      } catch (error) {
+        console.error("Error fetching form data:", error);
       }
     };
 
     loadForm();
   }, [formId]);
+
+  const mapQuestionType = (type) => {
+    const typeMap = {
+      SingleLineTextBox: "textbox",
+      MultipleLinesTextBox: "textarea",
+      MultiplechoiceOneanswer: "radio",
+      MultiplechoiceManyanswers: "checkbox",
+      Date: "date",
+      Datetime: "datetime-local",
+      NumericalValue: "numerical-value",
+
+      Matrix: "matrix_radio",
+    };
+    return typeMap[type] || "textbox";
+  };
+
+  const processQuestionOptions = (question) => {
+    if (!question.answer_title_language) return [];
+
+    return question.answer_title_language.map((answer) => ({
+      value: answer.pk.toString(),
+      label: answer.english_answer,
+      translations: answer.other_answer.reduce((acc, trans) => {
+        acc[trans.language] = trans.answer;
+        return acc;
+      }, {}),
+    }));
+  };
+
+  const processMatrixData = (question) => {
+    if (question.question_type !== "Matrix") return null;
+
+    return {
+      rows: question.matrix_row.map((row) => ({
+        id: row.pk,
+        label: row.row,
+        translations: row.other_rows.reduce((acc, trans) => {
+          acc[trans.language] = trans.row;
+          return acc;
+        }, {}),
+      })),
+      columns: question.matrix_column.map((col) => ({
+        id: col.pk,
+        label: col.column,
+        translations: col.other_columns.reduce((acc, trans) => {
+          acc[trans.language] = trans.column;
+          return acc;
+        }, {}),
+      })),
+      type: question.matrix_type,
+    };
+  };
+
+  const processTranslations = (item) => {
+    return item.section_other_title.other_title.reduce((acc, trans) => {
+      acc[trans.language] = trans.name.replace(/<[^>]*>/g, "");
+      return acc;
+    }, {});
+  };
 
   const handleChange = (fieldId, value) => {
     setFormData((prev) => ({
@@ -76,198 +148,129 @@ const DynamicForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
   };
 
-  const renderField = (field) => {
-    const label = field.translations?.[selectedLanguage] || field.label;
-    const placeholder =
-      field.translationsPlaceholder?.[selectedLanguage] || field.placeholder;
+  const renderField = (question) => {
+    const commonProps = {
+      key: question.fieldId,
+      field: {
+        ...question,
+        translations: question.translations,
+      },
+      formData: formData,
+      handleChange: handleChange,
+      selectedLanguage: selectedLanguage,
+    };
 
-    switch (field.type) {
+    switch (question.type) {
       case "textbox":
-        return (
-          <TextboxField
-            field={field}
-            formData={formData}
-            handleChange={handleChange}
-            selectedLanguage={selectedLanguage}
-          />
-        );
-      case "email":
-        return (
-          <EmailField
-            field={field}
-            formData={formData}
-            handleChange={handleChange}
-            selectedLanguage={selectedLanguage}
-          />
-        );
-      case "date":
-        return (
-          <DateField
-            field={field}
-            formData={formData}
-            handleChange={handleChange}
-          />
-        );
-      case "radio":
-        return (
-          <RadioField
-            field={field}
-            formData={formData}
-            handleChange={handleChange}
-            selectedLanguage={selectedLanguage}
-          />
-        );
-      case "selectbox":
-        return (
-          <SelectboxField
-            field={field}
-            formData={formData}
-            handleChange={handleChange}
-            selectedLanguage={selectedLanguage}
-          />
-        );
+        return <TextboxField {...commonProps} />;
+      case "numerical-value":
+        return <NumericalValue {...commonProps} />;
       case "textarea":
-        return (
-          <TextareaField
-            field={field}
-            formData={formData}
-            handleChange={handleChange}
-            selectedLanguage={selectedLanguage}
-          />
-        );
-      case "matrix_checkbox":
-        return (
-          <MatrixCheckboxField
-            field={field}
-            formData={formData}
-            setFormData={setFormData}
-            selectedLanguage={selectedLanguage}
-          />
-        );
-      case "matrix_radio":
-        return (
-          <MatrixRadioField
-            field={field}
-            formData={formData}
-            setFormData={setFormData}
-            selectedLanguage={selectedLanguage}
-          />
-        );
-      case "matrix_radio_feedback":
-        return (
-          <MatrixRadioFeedbackField
-            field={field}
-            formData={formData}
-            setFormData={setFormData}
-            selectedLanguage={selectedLanguage}
-          />
-        );
-      case "matrix__feedcheckback":
-        return (
-          <MatrixFeedCheckbackField
-            field={field}
-            formData={formData}
-            setFormData={setFormData}
-            selectedLanguage={selectedLanguage}
-          />
-        );
+        return <TextareaField {...commonProps} />;
+      case "radio":
+        return <RadioField {...commonProps} />;
       case "checkbox":
-        return (
-          <CheckboxField
-            field={field}
-            formData={formData}
-            handleChange={handleChange}
-            selectedLanguage={selectedLanguage}
-          />
-        );
+        return <CheckboxField {...commonProps} />;
+      case "date":
+        return <DateField {...commonProps} />;
+      case "datetime-local":
+        return <DateTime {...commonProps} />;
+
+      case "matrix_radio":
+        return <MatrixRadioField {...commonProps} />;
       default:
         return null;
     }
   };
 
   const renderFormContent = () => {
-    switch (formMeta.typeOfListing) {
-      case "one-page-per-question":
-        const currentField = allFields[currentPage];
-        const isLastQuestion = currentPage === allFields.length - 1;
-        const isFirstQuestion = currentPage === 0;
-
-        return (
-          <form
-            onSubmit={isLastQuestion ? handleSubmit : (e) => e.preventDefault()}
-            className="form-container"
-          >
-            <div>
-              <label htmlFor={currentField.fieldId}>
-                {currentField.translations?.[selectedLanguage] ||
-                  currentField.label}
-                {currentField.required && "*"}
-              </label>
-              {renderField(currentField)}
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginTop: "20px",
-              }}
-            >
-              {!isFirstQuestion && (
-                <button
-                  type="button"
-                  id="previous-btn"
-                  onClick={() => setCurrentPage((prev) => prev - 1)}
-                >
-                  Previous
-                </button>
-              )}
-              {!isLastQuestion ? (
-                <button
-                  type="button"
-                  id="next-btn"
-                  onClick={() => setCurrentPage((prev) => prev + 1)}
-                >
-                  Next
-                </button>
-              ) : (
-                <button id="submit-btn" type="submit">
-                  Submit
-                </button>
-              )}
-            </div>
-          </form>
-        );
-
-      default:
-        return null;
+    if (!isDataLoaded) {
+      return <div className="loader"></div>;
     }
+
+    if (formMeta.paginationType === "OnePagePerQuestion") {
+      const currentQuestion = questions[currentPage];
+      const isLastQuestion = currentPage === questions.length - 1;
+      const isFirstQuestion = currentPage === 0;
+
+      return (
+        <form
+          onSubmit={isLastQuestion ? handleSubmit : (e) => e.preventDefault()}
+          className="form-container"
+        >
+          {currentQuestion && (
+            <div className="question-container">
+              <h3 className="question-title">
+                {currentQuestion.translations?.[selectedLanguage] ||
+                  currentQuestion.label}
+                {currentQuestion.required && (
+                  <span className="required-mark">*</span>
+                )}
+              </h3>
+              {renderField(currentQuestion)}
+            </div>
+          )}
+
+          <div className="navigation-buttons">
+            {formMeta.isBackAllowed && !isFirstQuestion && (
+              <button
+                type="button"
+                id="previous-btn"
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+              >
+                Previous
+              </button>
+            )}
+
+            {!isLastQuestion ? (
+              <button
+                type="button"
+                id="next-btn"
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+              >
+                Next
+              </button>
+            ) : (
+              <button type="submit" className="submit-button">
+                Submit
+              </button>
+            )}
+          </div>
+        </form>
+      );
+    }
+
+    return null;
   };
 
   return (
-    <div>
-      <Navbar />
+    <div className="dynamic-form-wrapper">
+      <Header />
 
-      <div className="form-container">
-        {/* <h2 className="form-title">{formMeta.formName}</h2> */}
-        {/* <p>{formMeta.formDescription}</p> */}
-        <select
-          className="language-selector-combo"
-          value={selectedLanguage}
-          onChange={(e) => setSelectedLanguage(e.target.value)}
-        >
-          {/* map less */}
-          <option value="en">English</option>
-          <option value="es">Español</option>
-          <option value="fr">Français</option>
-        </select>
+      <div className="form-header">
+        <h2 className="form-title">{formMeta.formName}</h2>
+
+        {formMeta.survey_languages?.length > 0 && (
+          <select
+            className="language-selector"
+            value={selectedLanguage}
+            onChange={(e) => setSelectedLanguage(e.target.value)}
+          >
+            {formMeta.survey_languages.map((lang) => (
+              <option key={lang.id} value={lang.id}>
+                {lang.name}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
 
-      <div style={{}}>{renderFormContent()}</div>
+      {renderFormContent()}
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import "../../styles/RadioFeedBack.css";
-import React from "react";
 
 const MatrixFeedCheckbackField = ({
   field,
