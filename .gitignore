@@ -2,6 +2,9 @@
 /node_modules
 /.history
 /dist
+/.history
+
+/.env
 /public/build
 /vite.config.js
 
