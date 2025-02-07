@@ -161,6 +161,7 @@ html {
   align-items: center;
   text-align: center;
   padding-left: 20px;
+  border-radius: 10px;
   padding-right: 20px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -169,6 +170,7 @@ html {
 }
 
 .submit-btn {
+  cursor: pointer;
   background: linear-gradient(90deg, rgb(0, 0, 0), rgb(82, 88, 83));
   font-size: 1em;
   padding: 0.5em 2em;
@@ -231,4 +233,10 @@ html {
     min-height: 60%;
     width: 100%;
   }
+}
+
+#list-title {
+  color: rgb(0, 0, 0);
+  font-size: 17px;
+  font-weight: 500;
 }

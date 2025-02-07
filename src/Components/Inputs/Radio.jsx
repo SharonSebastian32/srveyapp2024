@@ -1,10 +1,8 @@
 const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
-  console.log("====================================");
-  console.log(field.required);
-  console.log("====================================");
   const jsonResponse = field.translations?.[selectedLanguage] || field.label;
+
   return (
-    <>
+    <div>
       <div
         dangerouslySetInnerHTML={{
           __html: jsonResponse,
@@ -17,22 +15,33 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
             option.label.length === 1;
 
           return (
-            <div key={option.id} className="radio-item2">
+            <div key={option.value} className="radio-item2">
+              <input
+                type="radio"
+                id={`${field.fieldId}-${option.value}`}
+                name={field.fieldId}
+                value={option.value}
+                checked={formData[field.fieldId] === option.value}
+                onChange={() => handleChange(field.fieldId, option.value)}
+                style={{
+                  display: "none",
+                }}
+              />
               <label
-                 style={{
+                style={{
                   color:
-                    formData[field.fieldId] === option.id ? "white" : "black",
+                    formData[field.fieldId] === option.value
+                      ? "white"
+                      : "black",
                   cursor: "pointer",
                   backgroundColor:
-                    formData[field.fieldId] === option.id
+                    formData[field.fieldId] === option.value
                       ? "rgb(8, 8, 8)"
                       : "rgb(222, 251, 205)",
-                  // border: isSingleCharacter ? "1px solid black" : "none",
                   borderRadius: isSingleCharacter ? "50%" : "50px",
                   padding: isSingleCharacter ? "10px 18px" : "10px 18px",
                 }}
-                htmlFor={`${field.fieldId}-${option.id}`}
-                onClick={() => handleChange(field.fieldId, option.id)}
+                htmlFor={`${field.fieldId}-${option.value}`}
               >
                 {option.translations?.[selectedLanguage] || option.label}
               </label>
@@ -40,7 +49,7 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -6,13 +6,14 @@ import "../../../styles/DynamicForm.css";
 import Header from "../Header/Header";
 import TextboxField from "../../Inputs/TextBox";
 import DateField from "../../Inputs/Date";
-import RadioField from "../../Inputs/Radio";
-import TextareaField from "../../Inputs/TextArea";
+ import TextareaField from "../../Inputs/TextArea";
 import MatrixRadioFeedback from "../../Inputs/MatrixRadioFeedback";
 import CheckboxField from "../../Inputs/CheckBox";
 import DateTime from "../../Inputs/DateTime";
 import NumericalValue from "../../Inputs/NumericalValue";
 import SelectBox from "../../Inputs/SelectBox";
+import FormLoader from "../../../utils/Loader";
+import Radio from "../../Inputs/Radio"; // Ensure this import is correct
 
 const DynamicForm = () => {
   const { formId } = useParams();
@@ -29,7 +30,7 @@ const DynamicForm = () => {
         const response = await getFormQuestions(formId);
 
         if (!response || !response.data) {
-          console.error("Invalid response format");
+          console.error("Data not found");
           return;
         }
 
@@ -68,11 +69,12 @@ const DynamicForm = () => {
 
         const initialData = processedQuestions.reduce((acc, question) => {
           if (question.type === "matrix_radio") {
-            // Initialize matrix data structure
             acc[question.fieldId] = {};
             question.matrixData.rows.forEach((row) => {
               acc[question.fieldId][row.id] = "";
             });
+          } else if (question.type === "checkbox") {
+            acc[question.fieldId] = [];
           } else {
             acc[question.fieldId] = "";
           }
@@ -149,6 +151,13 @@ const DynamicForm = () => {
     }, {});
   };
 
+  const handleChange = (fieldId, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [fieldId]: value,
+    }));
+  };
+
   const renderField = (question) => {
     const commonProps = {
       key: question.fieldId,
@@ -158,7 +167,7 @@ const DynamicForm = () => {
         ...question.matrixData,
       },
       formData: formData,
-      setFormData: setFormData,
+      handleChange: handleChange,
       selectedLanguage: selectedLanguage,
     };
 
@@ -172,7 +181,7 @@ const DynamicForm = () => {
       case "textarea":
         return <TextareaField {...commonProps} />;
       case "radio":
-        return <RadioField {...commonProps} />;
+        return <Radio {...commonProps} />;
       case "checkbox":
         return <CheckboxField {...commonProps} />;
       case "date":
@@ -190,17 +199,12 @@ const DynamicForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Add your submission logic here
+    console.log("Form submitted: pending", formData);
   };
 
   const renderFormContent = () => {
     if (!isDataLoaded) {
-      return (
-        <div className="loader-container">
-          <div className="loader"></div>
-        </div>
-      );
+      return <FormLoader />;
     }
 
     if (formMeta.paginationType === "OnePagePerQuestion") {
@@ -210,8 +214,8 @@ const DynamicForm = () => {
 
       return (
         <form
-          onSubmit={isLastQuestion ? handleSubmit : (e) => e.preventDefault()}
           className="form-container"
+          onSubmit={isLastQuestion ? handleSubmit : (e) => e.preventDefault()}
         >
           {currentQuestion && (
             <div className="question-container">
@@ -226,11 +230,16 @@ const DynamicForm = () => {
             </div>
           )}
 
-          <div className="navigation-buttons">
+          <div
+            className="navigation-buttons"
+            style={{
+              marginTop: "24px",
+            }}
+          >
             {formMeta.isBackAllowed && !isFirstQuestion && (
               <button
                 type="button"
-                className="previous-button"
+                id="previous-btn"
                 onClick={() => setCurrentPage((prev) => prev - 1)}
               >
                 Previous
@@ -240,13 +249,13 @@ const DynamicForm = () => {
             {!isLastQuestion ? (
               <button
                 type="button"
-                className="next-button"
+                id="next-button"
                 onClick={() => setCurrentPage((prev) => prev + 1)}
               >
                 Next
               </button>
             ) : (
-              <button type="submit" className="submit-button">
+              <button type="submit" className="submit-button" id="submit-btn">
                 Submit
               </button>
             )}
@@ -262,12 +271,12 @@ const DynamicForm = () => {
     <div className="dynamic-form-wrapper">
       <Header />
 
-      <div className="form-header">
+      <div className="form-container">
         <h2 className="form-title">{formMeta.formName}</h2>
 
         {formMeta.survey_languages?.length > 0 && (
           <select
-            className="language-selector"
+            className="language-selector-combo"
             value={selectedLanguage}
             onChange={(e) => setSelectedLanguage(e.target.value)}
           >

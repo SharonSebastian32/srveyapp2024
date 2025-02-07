@@ -5,11 +5,11 @@ const DateTime = ({ field, formData, handleChange, selectedLanguage }) => {
     <input
       type="datetime-local"
       id={field.fieldId}
+      placeholder="Please enter value....."
       name={field.fieldId}
       value={formData[field.fieldId] || ""}
       onChange={(e) => handleChange(field.fieldId, e.target.value)}
-      placeholder={placeholder}
-      required={field.required}
+       required={field.required}
     />
   );
 };

@@ -1,6 +1,20 @@
 import "../../../src/styles/checkbox.css";
 
-const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
+const CheckBox = ({ field, formData, setFormData, selectedLanguage }) => {
+  const handleChange = (optionId) => {
+    setFormData((prev) => {
+      const currentSelections = prev[field.fieldId] || [];
+      const newSelections = currentSelections.includes(optionId)
+        ? currentSelections.filter((id) => id !== optionId) 
+        : [...currentSelections, optionId];  
+
+      return {
+        ...prev,
+        [field.fieldId]: newSelections,
+      };
+    });
+  };
+
   return (
     <div className="checkbox-group">
       {field.options.map((option) => (
@@ -16,13 +30,7 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
             name={field.fieldId}
             value={option.id}
             checked={formData[field.fieldId]?.includes(option.id)}
-            onChange={(e) => {
-              const currentValues = formData[field.fieldId] || [];
-              const newValues = e.target.checked
-                ? [...currentValues, option.id]
-                : currentValues.filter((v) => v !== option.id);
-              handleChange(field.fieldId, newValues);
-            }}
+            onChange={() => handleChange(option.id)}
             required={field.required}
           />
           <label

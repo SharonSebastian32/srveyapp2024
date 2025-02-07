@@ -10,6 +10,7 @@ const Date = ({ field, formData, handleChange, selectedLanguage }) => {
       onChange={(e) => handleChange(field.fieldId, e.target.value)}
       placeholder={placeholder}
       required={field.required}
+      
     />
   );
 };
