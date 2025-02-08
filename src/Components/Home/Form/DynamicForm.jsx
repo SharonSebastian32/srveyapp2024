@@ -202,6 +202,7 @@ const DynamicForm = () => {
     if (!isDataLoaded) {
       return <FormLoader />;
     }
+
     if (formMeta.paginationType === "OnePagePerQuestion") {
       const currentQuestion = questions[currentPage];
       const isLastQuestion = currentPage === questions.length - 1;
@@ -252,21 +253,40 @@ const DynamicForm = () => {
           </div>
         </form>
       );
+    } else if (formMeta.paginationType === "OnePageWithAllTheQuestions") {
+      return (
+        <form
+          className="form-container"
+          onSubmit={handleSubmit}
+         >
+          {questions.map((question, index) => (
+            <div key={question.id || index} className="question-container">
+              <h3 className="question-title">
+                {question.translations?.[selectedLanguage] || question.label}
+                {question.required && <span className="required-mark">*</span>}
+              </h3>
+              {renderField(question)}
+            </div>
+          ))}
+
+          <div className="navigation-buttons" style={{ marginTop: "24px" }}>
+            <button type="submit" className="submit-button" id="submit-btn">
+              Submit
+            </button>
+          </div>
+        </form>
+      );
+
+      //question with section  pending
     }
-
-    // else(formMeta.paginationType==="OnePageWithAllTheQuestions"){
-    //   return(
-    //     <></>
-    //   );
-
-    // }
 
     return null;
   };
 
   return (
     <div className="dynamic-form-wrapper">
-      <Header />
+      <Header /> <br />
+      <br />
       <div className="form-container">
         <h2 className="form-title" data-aos="fade-right">
           {formMeta.formName}

@@ -1,12 +1,12 @@
 const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
-  const jsonResponse = field.translations?.[selectedLanguage] || field.label;
+  // const jsonResponse = field.translations?.[selectedLanguage] || field.label;
 
   return (
     <div>
       <div
-        dangerouslySetInnerHTML={{
-          __html: jsonResponse,
-        }}
+        // dangerouslySetInnerHTML={{
+        //   __html: jsonResponse,
+        // }}
       />
       <div className="radio-group2">
         {field.options.map((option) => {

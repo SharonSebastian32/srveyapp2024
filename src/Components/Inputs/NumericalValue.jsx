@@ -15,7 +15,7 @@ const NumericalValue = ({
       name={field.fieldId}
       value={formData[field.fieldId] || ""}
       onChange={(e) => handleChange(field.fieldId, e.target.value)}
-      placeholder={placeholder}
+      placeholder="Please Enter your ctc as numbers....."
       required={field.required}
     />
   );

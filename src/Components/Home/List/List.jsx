@@ -104,7 +104,7 @@ function ListContainer({ initialFields, handleFormNavigation }) {
                   color: "black",
                 }}
               >
-                Once started, complete all the questions before submitting.
+                Once Started, Complete all the Questions.
               </span>
             </div>
           </div>

@@ -171,7 +171,7 @@ html {
 
 .submit-btn {
   cursor: pointer;
-  background-color: yellowgreen;
+  background: linear-gradient(to right, #020202, #6c6c6a);
   font-size: 1em;
   padding: 0.5em 2em;
   color: white;
