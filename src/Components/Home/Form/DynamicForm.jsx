@@ -6,14 +6,14 @@ import "../../../styles/DynamicForm.css";
 import Header from "../Header/Header";
 import TextboxField from "../../Inputs/TextBox";
 import DateField from "../../Inputs/Date";
- import TextareaField from "../../Inputs/TextArea";
+import TextareaField from "../../Inputs/TextArea";
 import MatrixRadioFeedback from "../../Inputs/MatrixRadioFeedback";
 import CheckboxField from "../../Inputs/CheckBox";
 import DateTime from "../../Inputs/DateTime";
 import NumericalValue from "../../Inputs/NumericalValue";
 import SelectBox from "../../Inputs/SelectBox";
 import FormLoader from "../../../utils/Loader";
-import Radio from "../../Inputs/Radio"; // Ensure this import is correct
+import Radio from "../../Inputs/Radio";
 
 const DynamicForm = () => {
   const { formId } = useParams();
@@ -54,8 +54,6 @@ const DynamicForm = () => {
             },
           };
         });
-
-        console.log("Processed Questions:", processedQuestions);
 
         setQuestions(processedQuestions);
         setFormMeta({
@@ -171,8 +169,6 @@ const DynamicForm = () => {
       selectedLanguage: selectedLanguage,
     };
 
-    console.log(`Rendering field type: ${question.type}`, commonProps);
-
     switch (question.type) {
       case "textbox":
         return <TextboxField {...commonProps} />;
@@ -199,7 +195,7 @@ const DynamicForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted: pending", formData);
+    console.log("Form submitted:", formData);
   };
 
   const renderFormContent = () => {
@@ -230,12 +226,7 @@ const DynamicForm = () => {
             </div>
           )}
 
-          <div
-            className="navigation-buttons"
-            style={{
-              marginTop: "24px",
-            }}
-          >
+          <div className="navigation-buttons" style={{ marginTop: "24px" }}>
             {formMeta.isBackAllowed && !isFirstQuestion && (
               <button
                 type="button"
@@ -270,10 +261,8 @@ const DynamicForm = () => {
   return (
     <div className="dynamic-form-wrapper">
       <Header />
-
       <div className="form-container">
         <h2 className="form-title">{formMeta.formName}</h2>
-
         {formMeta.survey_languages?.length > 0 && (
           <select
             className="language-selector-combo"
@@ -288,7 +277,6 @@ const DynamicForm = () => {
           </select>
         )}
       </div>
-
       {renderFormContent()}
     </div>
   );
