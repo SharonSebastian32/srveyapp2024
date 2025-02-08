@@ -202,7 +202,6 @@ const DynamicForm = () => {
     if (!isDataLoaded) {
       return <FormLoader />;
     }
-
     if (formMeta.paginationType === "OnePagePerQuestion") {
       const currentQuestion = questions[currentPage];
       const isLastQuestion = currentPage === questions.length - 1;
@@ -254,6 +253,13 @@ const DynamicForm = () => {
         </form>
       );
     }
+
+    // else(formMeta.paginationType==="OnePageWithAllTheQuestions"){
+    //   return(
+    //     <></>
+    //   );
+
+    // }
 
     return null;
   };

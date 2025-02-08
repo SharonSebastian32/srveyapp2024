@@ -22,12 +22,7 @@ function ListContainer({ initialFields, handleFormNavigation }) {
     <div className="list-container">
       {initialFields.length > 0 ? (
         initialFields.map((obj, index) => (
-          <div
-            className="list"
-            key={index}
-            data-aos="fade-up"
-            data-aos-duration={`${500 + index * 15}`}
-          >
+          <div className="list" key={index}>
             <p id="list-title">{obj.english_title}</p>
             <button
               className="submit-btn"
@@ -109,8 +104,7 @@ function ListContainer({ initialFields, handleFormNavigation }) {
                   color: "black",
                 }}
               >
-                {" "}
-                Once started,complete all the questions before submitting.{" "}
+                Once started, complete all the questions before submitting.
               </span>
             </div>
           </div>
