@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchData } from "../../Api/AxiosApiInstance";
+import { fetchData } from "../../Api/AxiosInstance";
 import Banner from "./Banner/Banner";
 import AOS from "aos";
 import "../../styles/Loader.css";
@@ -16,13 +16,13 @@ function Home() {
       try {
         const fetchedData = await fetchData();
         setData(fetchedData);
-        console.log(fetchedData.data.results);
         const listData = fetchedData.data.results.map((obj) => ({
           english_title: obj.english_title,
           formId: obj.id,
           color: obj.color,
         }));
         setInitialFields(listData);
+        console.log("Survey List :: ", listData);
       } catch (error) {
         console.error("Error fetching data in Home:", error);
       }

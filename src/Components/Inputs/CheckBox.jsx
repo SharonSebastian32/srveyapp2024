@@ -1,4 +1,3 @@
- 
 const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
   const onCheckboxChange = (optionValue) => {
     const currentSelections = formData[field.fieldId] || [];
@@ -12,7 +11,22 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
   return (
     <div className="checkbox-group">
       {field.options.map((option) => (
-        <div key={option.value} id="checkbox-input-div">
+        <div
+          key={option.value}
+          id="checkbox-input-div"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            flexWrap: "wrap",
+            borderRadius: "35px",
+            margin: "10px",
+            border: "1px solid #ccc",
+            paddingLeft: "10px",
+            paddingRight: "50px",
+          }}
+        >
           <input
             style={{
               verticalAlign: "middle",

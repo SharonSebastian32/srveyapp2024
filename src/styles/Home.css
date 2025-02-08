@@ -171,7 +171,7 @@ html {
 
 .submit-btn {
   cursor: pointer;
-  background: linear-gradient(90deg, rgb(0, 0, 0), rgb(82, 88, 83));
+  background-color: yellowgreen;
   font-size: 1em;
   padding: 0.5em 2em;
   color: white;
@@ -239,4 +239,69 @@ html {
   color: rgb(0, 0, 0);
   font-size: 17px;
   font-weight: 500;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+}
+
+.popup-content {
+  background: rgb(255, 255, 255);
+  height: 45%;
+  width: 45%;
+  border-radius: 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-btn {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#pop-up-yes {
+  background-color: rgb(5, 166, 11);
+  color: white;
+  padding: 12px 40px;
+  border-radius: 10px;
+  font-size: 18px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#pop-up-no {
+  background-color: rgb(71, 71, 71);
+  color: white;
+  padding: 12px 40px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+#question-p {
+  color: #000000;
+  font-size: 25px;
+  font-weight: 600;
 }

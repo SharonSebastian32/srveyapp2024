@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getFormQuestions } from "../../../Api/AxiosApiInstance";
+import { getFormQuestions } from "../../../Api/AxiosInstance";
 import "../../../styles/Loader.css";
 import "../../../styles/DynamicForm.css";
 import Header from "../Header/Header";
@@ -262,7 +262,9 @@ const DynamicForm = () => {
     <div className="dynamic-form-wrapper">
       <Header />
       <div className="form-container">
-        <h2 className="form-title">{formMeta.formName}</h2>
+        <h2 className="form-title" data-aos="fade-right">
+          {formMeta.formName}
+        </h2>
         {formMeta.survey_languages?.length > 0 && (
           <select
             className="language-selector-combo"

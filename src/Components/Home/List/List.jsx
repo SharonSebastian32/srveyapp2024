@@ -1,16 +1,40 @@
+import { useState } from "react";
+import { IoWarningOutline } from "react-icons/io5";
+
 function ListContainer({ initialFields, handleFormNavigation }) {
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedFormId, setSelectedFormId] = useState(null);
+
+  const handleButtonClick = (formId) => {
+    setSelectedFormId(formId);
+    setShowPopup(true);
+  };
+
+  const handlePopupResponse = (response) => {
+    if (response === "yes") {
+      handleFormNavigation(selectedFormId);
+    }
+    setShowPopup(false);
+    setSelectedFormId(null);
+  };
+
   return (
     <div className="list-container">
       {initialFields.length > 0 ? (
         initialFields.map((obj, index) => (
-          <div className="list" key={index} data-aos="fade-up">
+          <div
+            className="list"
+            key={index}
+            data-aos="fade-up"
+            data-aos-duration={`${500 + index * 15}`}
+          >
             <p id="list-title">{obj.english_title}</p>
             <button
               className="submit-btn"
               style={{ backgroundColor: obj.color }}
-              onClick={() => handleFormNavigation(obj.formId)}
+              onClick={() => handleButtonClick(obj.formId)}
             >
-              Submit
+              Start
             </button>
           </div>
         ))
@@ -29,6 +53,67 @@ function ListContainer({ initialFields, handleFormNavigation }) {
           }}
         >
           <div className="loader"></div>
+        </div>
+      )}
+      {showPopup && (
+        <div className="popup">
+          <div
+            className="popup-content"
+            data-aos="zoom-in"
+            data-aos-duration="500"
+          >
+            <p id="question-p">Are you sure you want to start the survey?</p>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "150px",
+                justifyContent: "space-between",
+              }}
+            >
+              <button
+                id="pop-up-no"
+                className="popup-btn"
+                onClick={() => handlePopupResponse("no")}
+              >
+                No
+              </button>
+              <button
+                id="pop-up-yes"
+                className="popup-btn"
+                onClick={() => handlePopupResponse("yes")}
+              >
+                Yes
+              </button>
+            </div>
+            <div
+              style={{
+                gap: "10px",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                paddingTop: "50px",
+              }}
+            >
+              <IoWarningOutline
+                style={{
+                  color: "#d9d131",
+                  fontSize: "35px",
+                }}
+              />
+              <span
+                id="warning"
+                style={{
+                  fontSize: "18px",
+                  color: "black",
+                }}
+              >
+                {" "}
+                Once started,complete all the questions before submitting.{" "}
+              </span>
+            </div>
+          </div>
         </div>
       )}
     </div>
