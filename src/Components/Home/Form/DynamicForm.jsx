@@ -82,7 +82,7 @@ const DynamicForm = () => {
         setFormData(initialData);
         setIsDataLoaded(true);
       } catch (error) {
-        console.error("Error fetching form data:", error);
+        console.log("Error fetching form data:", error);
       }
     };
 
@@ -255,10 +255,7 @@ const DynamicForm = () => {
       );
     } else if (formMeta.paginationType === "OnePageWithAllTheQuestions") {
       return (
-        <form
-          className="form-container"
-          onSubmit={handleSubmit}
-         >
+        <form className="form-container" onSubmit={handleSubmit}>
           {questions.map((question, index) => (
             <div key={question.id || index} className="question-container">
               <h3 className="question-title">
@@ -278,6 +275,26 @@ const DynamicForm = () => {
       );
 
       //question with section  pending
+    } else if (formMeta.paginationType === "OnePagePerSection") {
+      return (
+        <form className="form-container" onSubmit={handleSubmit}>
+          {questions.map((question, index) => (
+            <div key={question.id || index} className="question-container">
+              <h3 className="question-title">
+                {question.translations?.[selectedLanguage] || question.label}
+                {question.required && <span className="required-mark">*</span>}
+              </h3>
+              {renderField(question)}
+            </div>
+          ))}
+
+          <div className="navigation-buttons" style={{ marginTop: "24px" }}>
+            <button type="submit" className="submit-button" id="submit-btn">
+              Submit
+            </button>
+          </div>
+        </form>
+      );
     }
 
     return null;
