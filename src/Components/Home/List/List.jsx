@@ -22,7 +22,7 @@ function ListContainer({ initialFields, handleFormNavigation }) {
     <div className="list-container">
       {initialFields.length > 0 ? (
         initialFields.map((obj, index) => (
-          <div className="list" key={index}>
+          <div className="list" key={index} data-aos="fade-up">
             <p id="list-title">{obj.english_title}</p>
             <button
               className="submit-btn"
@@ -96,6 +96,7 @@ function ListContainer({ initialFields, handleFormNavigation }) {
                   color: "#d9d131",
                   fontSize: "35px",
                 }}
+                id="warn-symbol"
               />
               <span
                 id="warning"

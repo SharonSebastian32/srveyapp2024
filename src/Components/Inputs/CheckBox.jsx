@@ -39,7 +39,6 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
             value={option.value}
             checked={formData[field.fieldId]?.includes(option.value)}
             onChange={() => onCheckboxChange(option.value)}
-            required={field.required}
           />
           <label
             htmlFor={`${field.fieldId}-${option.value}`}

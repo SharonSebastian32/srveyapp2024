@@ -273,8 +273,6 @@ const DynamicForm = () => {
           </div>
         </form>
       );
-
-      //question with section  pending
     } else if (formMeta.paginationType === "OnePagePerSection") {
       return (
         <form className="form-container" onSubmit={handleSubmit}>
@@ -302,8 +300,7 @@ const DynamicForm = () => {
 
   return (
     <div className="dynamic-form-wrapper">
-      <Header /> <br />
-      <br />
+      <Header />
       <div className="form-container">
         <h2 className="form-title" data-aos="fade-right">
           {formMeta.formName}
