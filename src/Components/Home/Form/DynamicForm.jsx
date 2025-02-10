@@ -257,7 +257,7 @@ const DynamicForm = () => {
 
     try {
       const response = await PostFormQuestion(transformedData);
-      console.log("Response::==========: ", response.Date);
+      console.log("Response::==========: ", response);
     } catch (error) {
       console.error("Error submitting form:", error);
     }
