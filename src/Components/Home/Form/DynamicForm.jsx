@@ -14,6 +14,8 @@ import NumericalValue from "../../Inputs/NumericalValue";
 import SelectBox from "../../Inputs/SelectBox";
 import FormLoader from "../../../utils/Loader";
 import Radio from "../../Inputs/Radio";
+import { PostFormQuestion } from "../../../Api/AxiosInstance";
+import ProgressBar from "../../../utils/Progressbar";
 
 const DynamicForm = () => {
   const { formId } = useParams();
@@ -23,71 +25,7 @@ const DynamicForm = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("1");
   const [questions, setQuestions] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-
-  useEffect(() => {
-    const loadForm = async () => {
-      try {
-        const response = await getFormQuestions(formId);
-
-        if (!response || !response.data) {
-          console.error("Data not found");
-          return;
-        }
-
-        const processedQuestions = response.data.map((item) => {
-          const question = item.question;
-          return {
-            id: item.id,
-            fieldId: `question_${item.id}`,
-            type: mapQuestionType(question.question_type),
-            label: item.english_title.replace(/<[^>]*>/g, ""),
-            required: question.is_mandatory,
-            placeholder: question.place_holder,
-            options: processQuestionOptions(question),
-            matrixData: processMatrixData(question),
-            translations: processTranslations(item),
-            feedback: question.is_feedback,
-            validations: {
-              max: question.max_limit,
-              min: question.min_limit,
-              error: question.validation_error,
-            },
-          };
-        });
-
-        setQuestions(processedQuestions);
-        setFormMeta({
-          formName: response.option.english_title,
-          paginationType: response.option.pagination_type,
-          survey_languages: response.option.survey_languages || [],
-          isBackAllowed: response.option.is_back_button,
-          timeLimited: response.option.is_survey_time_limit,
-          timeLimit: response.option.survey_time_limit,
-        });
-
-        const initialData = processedQuestions.reduce((acc, question) => {
-          if (question.type === "matrix_radio") {
-            acc[question.fieldId] = {};
-            question.matrixData.rows.forEach((row) => {
-              acc[question.fieldId][row.id] = "";
-            });
-          } else if (question.type === "checkbox") {
-            acc[question.fieldId] = [];
-          } else {
-            acc[question.fieldId] = "";
-          }
-          return acc;
-        }, {});
-
-        setFormData(initialData);
-        setIsDataLoaded(true);
-      } catch (error) {
-        console.log("Error fetching form data:", error);
-      }
-    };
-
-    loadForm();
-  }, [formId]);
+  const [sections, setSections] = useState([]);
 
   const mapQuestionType = (type) => {
     const typeMap = {
@@ -105,7 +43,6 @@ const DynamicForm = () => {
 
   const processQuestionOptions = (question) => {
     if (!question.answer_title_language) return [];
-
     return question.answer_title_language.map((answer) => ({
       value: answer.pk.toString(),
       label: answer.english_answer,
@@ -118,9 +55,8 @@ const DynamicForm = () => {
 
   const processMatrixData = (question) => {
     if (question.question_type !== "Matrix") return null;
-
     return {
-      fieldId: `question_${question.id}`,
+      fieldId: `${question.id}`,
       rows: question.matrix_row.map((row) => ({
         id: row.pk.toString(),
         label: row.row,
@@ -143,11 +79,124 @@ const DynamicForm = () => {
   };
 
   const processTranslations = (item) => {
+    if (!item?.section_other_title?.other_title) return {};
     return item.section_other_title.other_title.reduce((acc, trans) => {
       acc[trans.language] = trans.name.replace(/<[^>]*>/g, "");
       return acc;
     }, {});
   };
+
+  const processQuestion = (question) => {
+    return {
+      id: question.id,
+      fieldId: `question_${question.id}`,
+      type: mapQuestionType(question.question_type),
+      label:
+        question.question_title_language?.name?.replace(/<[^>]*>/g, "") || "",
+      required: question.is_mandatory,
+      placeholder: question.place_holder,
+      options: processQuestionOptions(question),
+      matrixData: processMatrixData(question),
+      translations: processTranslations({
+        section_other_title: {
+          other_title: question.question_title_language?.other_title || [],
+        },
+      }),
+      feedback: question.is_feedback,
+      validations: {
+        max: question.max_limit,
+        min: question.min_limit,
+        error: question.validation_error,
+      },
+    };
+  };
+
+  useEffect(() => {
+    const loadForm = async () => {
+      try {
+        const response = await getFormQuestions(formId);
+
+        if (!response || !response.data) {
+          console.error("Data not found");
+          return;
+        }
+
+        const processedSections = response.data.reduce((acc, item) => {
+          if (item.types === "Section") {
+            const sectionQuestions = (item.question || []).map(processQuestion);
+            acc.push({
+              id: item.id,
+              title: item.english_title,
+              translations: processTranslations(item),
+              questions: sectionQuestions,
+            });
+          } else if (item.types === "Question") {
+            acc.push({
+              id: item.id,
+              title: item.english_title,
+              translations: processTranslations(item),
+              questions: [processQuestion(item.question)],
+            });
+          }
+          return acc;
+        }, []);
+
+        const processedQuestions = response.data.map((item) => {
+          const question = item.question;
+          return {
+            id: item.id,
+            fieldId: `question_${item.id}`,
+            type: mapQuestionType(question.question_type),
+            label: item.english_title.replace(/<[^>]*>/g, ""),
+            required: question.is_mandatory,
+            placeholder: question.place_holder,
+            options: processQuestionOptions(question),
+            matrixData: processMatrixData(question),
+            translations: processTranslations(item),
+            feedback: question.is_feedback,
+            validations: {
+              max: question.max_limit,
+              min: question.min_limit,
+              error: question.validation_error,
+            },
+          };
+        });
+
+        const initialData = {};
+        processedSections.forEach((section) => {
+          section.questions.forEach((question) => {
+            if (question.type === "matrix_radio") {
+              initialData[question.fieldId] = {};
+              question.matrixData?.rows?.forEach((row) => {
+                initialData[question.fieldId][row.id] = "";
+              });
+            } else if (question.type === "checkbox") {
+              initialData[question.fieldId] = [];
+            } else {
+              initialData[question.fieldId] = "";
+            }
+          });
+        });
+
+        setQuestions(processedQuestions);
+        setSections(processedSections);
+        setFormData(initialData);
+        setFormMeta({
+          formName: response.option.english_title,
+          paginationType: response.option.pagination_type,
+          survey_languages: response.option.survey_languages || [],
+          isBackAllowed: response.option.is_back_button,
+          timeLimited: response.option.is_survey_time_limit,
+          timeLimit: response.option.survey_time_limit,
+        });
+        setIsDataLoaded(true);
+      } catch (error) {
+        console.log("Error fetching form data:", error);
+      }
+    };
+
+    loadForm();
+  }, [formId]);
 
   const handleChange = (fieldId, value) => {
     setFormData((prevData) => ({
@@ -164,6 +213,7 @@ const DynamicForm = () => {
         translations: question.translations,
         ...question.matrixData,
       },
+
       formData: formData,
       handleChange: handleChange,
       selectedLanguage: selectedLanguage,
@@ -195,7 +245,22 @@ const DynamicForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
+    const transformedData = {
+      survey_id: formId,
+
+      responses: Object.keys(formData).map((fieldId) => ({
+        question_id: fieldId.replace("question_", ""),
+        answer: formData[fieldId],
+      })),
+    };
+
+    try {
+      const response = await PostFormQuestion(transformedData);
+      console.log("Response::==========: ", response.Date);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   };
 
   const renderFormContent = () => {
@@ -209,49 +274,52 @@ const DynamicForm = () => {
       const isFirstQuestion = currentPage === 0;
 
       return (
-        <form
-          className="form-container"
-          onSubmit={isLastQuestion ? handleSubmit : (e) => e.preventDefault()}
-        >
-          {currentQuestion && (
-            <div className="question-container">
-              <h3 className="question-title">
-                {currentQuestion.translations?.[selectedLanguage] ||
-                  currentQuestion.label}
-                {currentQuestion.required && (
-                  <span className="required-mark">*</span>
-                )}
-              </h3>
-              {renderField(currentQuestion)}
+        <>
+          <form
+            className="form-container"
+            onSubmit={isLastQuestion ? handleSubmit : (e) => e.preventDefault()}
+          >
+            {currentQuestion && (
+              <div className="question-container">
+                <h3 className="question-title">
+                  {currentQuestion.translations?.[selectedLanguage] ||
+                    currentQuestion.label}
+                  {currentQuestion.required && (
+                    <span className="required-mark">*</span>
+                  )}
+                </h3>
+                {renderField(currentQuestion)}
+              </div>
+            )}
+
+            <div className="navigation-buttons" style={{ marginTop: "24px" }}>
+              {formMeta.isBackAllowed && !isFirstQuestion && (
+                <button
+                  type="button"
+                  id="previous-btn"
+                  onClick={() => setCurrentPage((prev) => prev - 1)}
+                >
+                  Previous
+                </button>
+              )}
+
+              {!isLastQuestion ? (
+                <button
+                  type="button"
+                  id="next-button"
+                  onClick={() => setCurrentPage((prev) => prev + 1)}
+                >
+                  Next
+                </button>
+              ) : (
+                <button type="submit" className="submit-button" id="submit-btn">
+                  Submit
+                </button>
+              )}
             </div>
-          )}
-
-          <div className="navigation-buttons" style={{ marginTop: "24px" }}>
-            {formMeta.isBackAllowed && !isFirstQuestion && (
-              <button
-                type="button"
-                id="previous-btn"
-                onClick={() => setCurrentPage((prev) => prev - 1)}
-              >
-                Previous
-              </button>
-            )}
-
-            {!isLastQuestion ? (
-              <button
-                type="button"
-                id="next-button"
-                onClick={() => setCurrentPage((prev) => prev + 1)}
-              >
-                Next
-              </button>
-            ) : (
-              <button type="submit" className="submit-button" id="submit-btn">
-                Submit
-              </button>
-            )}
-          </div>
-        </form>
+          </form>
+          <ProgressBar />
+        </>
       );
     } else if (formMeta.paginationType === "OnePageWithAllTheQuestions") {
       return (
@@ -274,10 +342,23 @@ const DynamicForm = () => {
         </form>
       );
     } else if (formMeta.paginationType === "OnePagePerSection") {
+      const currentSection = sections[currentPage];
+      const isLastSection = currentPage === sections.length - 1;
+      const isFirstSection = currentPage === 0;
       return (
-        <form className="form-container" onSubmit={handleSubmit}>
-          {questions.map((question, index) => (
-            <div key={question.id || index} className="question-container">
+        <form
+          onSubmit={isLastSection ? handleSubmit : (e) => e.preventDefault()}
+          className="form-container"
+        >
+          <div className="section-header">
+            <h3 className="section-title">
+              {currentSection.translations?.[selectedLanguage] ||
+                currentSection.title}
+            </h3>
+          </div>
+
+          {currentSection.questions.map((question) => (
+            <div key={question.fieldId} className="question-container">
               <h3 className="question-title">
                 {question.translations?.[selectedLanguage] || question.label}
                 {question.required && <span className="required-mark">*</span>}
@@ -287,9 +368,29 @@ const DynamicForm = () => {
           ))}
 
           <div className="navigation-buttons" style={{ marginTop: "24px" }}>
-            <button type="submit" className="submit-button" id="submit-btn">
-              Submit
-            </button>
+            {formMeta.isBackAllowed && !isFirstSection && (
+              <button
+                type="button"
+                id="previous-btn"
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+              >
+                Previous
+              </button>
+            )}
+
+            {!isLastSection ? (
+              <button
+                type="button"
+                id="next-button"
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+              >
+                Next
+              </button>
+            ) : (
+              <button type="submit" className="submit-button" id="submit-btn">
+                Submit
+              </button>
+            )}
           </div>
         </form>
       );

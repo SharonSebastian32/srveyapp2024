@@ -12,7 +12,6 @@ export const fetchData = async () => {
     throw error;
   }
 };
-
 export const getFormQuestions = async (formId) => {
   try {
     const response = await axios.get(
@@ -23,5 +22,29 @@ export const getFormQuestions = async (formId) => {
   } catch (error) {
     console.error("Error fetching form data:", error);
     throw error;
+  }
+};
+export const PostFormQuestion = async (formData) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/api/exam-portal/v1/survey-attendees/create-or-update-survey-attendees`,
+      formData
+    );
+    const responseData = response.data;
+    alert("Form data submitted successfully");
+    console.log("response hey", responseData);
+    return {
+      success: true,
+      data: responseData,
+      message: "Form data submitted successfully",
+    };
+  } catch (error) {
+    console.log("Error posting form data:", error);
+    alert("Failed to submit form data");
+    return {
+      success: false,
+      error: error.message,
+      message: "Failed to submit form data",
+    };
   }
 };

@@ -1,5 +1,5 @@
 .form-container {
-  max-width: 800px;
+  max-width: 70vw;
   margin: 0 auto;
   padding: 20px;
   background-color: #ffffff;
@@ -495,4 +495,13 @@ textarea:focus {
   border-right: 6px solid transparent;
   border-top: 6px solid #333;
   pointer-events: none;
+}
+
+.section-title {
+  align-items: center;
+  color: rgb(18, 5, 39);
+  justify-content: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 200px;
 }

@@ -19,7 +19,7 @@ html {
 .banner {
   min-height: 50%;
   width: 100%;
-  background-image: linear-gradient(to right, #1e0d56, #41ac0b);
+  background-image: linear-gradient(to right, #000000, #5c5c5c);
   background-size: 200% 200%;
   animation: rotateBackground 3s ease infinite;
 }
@@ -171,7 +171,7 @@ html {
 
 .submit-btn {
   cursor: pointer;
-  background: linear-gradient(to right, #020202, #6c6c6a);
+  background: #000000e2;
   font-size: 1em;
   padding: 0.5em 2em;
   color: white;
@@ -293,7 +293,7 @@ html {
 }
 
 #pop-up-no {
-  background-color: rgb(71, 71, 71);
+  background-color: rgb(255, 0, 0);
   color: white;
   padding: 12px 40px;
   border-radius: 10px;

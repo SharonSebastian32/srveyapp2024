@@ -1,8 +1,7 @@
 .sm-banner {
   width: 100%;
   height: 10%;
-  background-image: linear-gradient(to right, #1e0d56, #3f8c19);
-
+background-color: hsl(0, 0%, 0%);
   animation: mazingBackground 5s linear infinite;
 }
 @keyframes mazingBackground {
