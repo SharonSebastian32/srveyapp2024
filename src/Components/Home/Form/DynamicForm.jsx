@@ -4,16 +4,9 @@ import { getFormQuestions, PostFormQuestion } from "../../../api/AxiosInstance";
 import "../../../styles/Loader.css";
 import "../../../styles/DynamicForm.css";
 import Header from "../Header/Header";
-import TextboxField from "../../Inputs/TextBox";
-import DateField from "../../Inputs/Date";
-import TextareaField from "../../Inputs/TextArea";
-import MatrixRadioFeedback from "../../Inputs/MatrixRadioFeedback";
-import CheckboxField from "../../Inputs/CheckBox";
-import DateTime from "../../Inputs/DateTime";
-import NumericalValue from "../../Inputs/NumericalValue";
-import SelectBox from "../../Inputs/SelectBox";
+import FormHeader from "./FormHeader";
+import FormContent from "./FormContent";
 import FormLoader from "../../../utils/Loader";
-import Radio from "../../Inputs/Radio";
 
 const DynamicForm = () => {
   const { formId } = useParams();
@@ -89,8 +82,6 @@ const DynamicForm = () => {
       id: question.id,
       fieldId: `question_${question.id}`,
       type: mapQuestionType(question.question_type),
-      label:
-        question.question_title_language?.name?.replace(/<[^>]*>/g, "") || "",
       required: question.is_mandatory,
       placeholder: question.place_holder,
       options: processQuestionOptions(question),
@@ -225,33 +216,33 @@ const DynamicForm = () => {
     e.preventDefault();
 
     const transformedData = {
-      id: 0,
-      survey_id: parseInt(formId, 10),
-      note: "string",
+      survey_id: parseInt(formId),
       attendees_answer: Object.keys(formData).map((fieldId) => ({
         id: 0,
         answer_type: "MultiplechoiceOneanswer", // This should be dynamically set based on the question type
         question_id: parseInt(fieldId.replace("question_", ""), 10),
-        custom_answer: typeof formData[fieldId] === "string" ? formData[fieldId] : "string",
-        choice_answer: typeof formData[fieldId] === "number" ? [formData[fieldId]] : [0],
+        custom_answer:
+          typeof formData[fieldId] === "string" ? formData[fieldId] : "string",
+        choice_answer:
+          typeof formData[fieldId] === "number" ? [formData[fieldId]] : [0],
         metrix_answer: [],
         staring: {
           id: 0,
           staring_id: 0,
-          custom_rating: "string"
+          custom_rating: "string",
         },
         other_answer: "string",
-        excel_answer: "string"
+        excel_answer: "string",
       })),
       initial_field: [
         {
           id: 0,
           initial_id: 0,
           custom_answer: "string",
-          selection_answer: [0]
-        }
+          selection_answer: [0],
+        },
       ],
-      send_email_id: "user@example.com"
+      send_email_id: "user@example.com",
     };
 
     console.log("Transformed Data:", JSON.stringify(transformedData, null, 2)); // Add logging
@@ -263,184 +254,31 @@ const DynamicForm = () => {
       console.error("Error submitting form:", error);
     }
   };
-
-  const renderField = (question) => {
-    const commonProps = {
-      key: question.fieldId,
-      field: {
-        ...question,
-        translations: question.translations,
-        ...question.matrixData,
-      },
-      formData: formData,
-      handleChange: handleChange,
-      selectedLanguage: selectedLanguage,
-    };
-
-    switch (question.type) {
-      case "textbox":
-        return <TextboxField {...commonProps} />;
-      case "numerical-value":
-        return <NumericalValue {...commonProps} />;
-      case "textarea":
-        return <TextareaField {...commonProps} />;
-      case "radio":
-        return <Radio {...commonProps} />;
-      case "checkbox":
-        return <CheckboxField {...commonProps} />;
-      case "date":
-        return <DateField {...commonProps} />;
-      case "datetime-local":
-        return <DateTime {...commonProps} />;
-      case "DropdownOneAnswer":
-        return <SelectBox {...commonProps} />;
-      case "matrix_radio":
-        return <MatrixRadioFeedback {...commonProps} />;
-      default:
-        return null;
-    }
-  };
-
-  const renderFormContent = () => {
-    if (!isDataLoaded) {
-      return <FormLoader />;
-    }
-
-    if (formMeta.paginationType === "OnePagePerQuestion") {
-      const currentQuestion = questions[currentPage];
-      const isLastQuestion = currentPage === questions.length - 1;
-      const isFirstQuestion = currentPage === 0;
-
-      return (
-        <>
-          <form className="form-container" onSubmit={handleSubmit}>
-            {currentQuestion && (
-              <div className="question-container">
-                <h3 className="question-title">
-                  {currentQuestion.translations?.[selectedLanguage] ||
-                    currentQuestion.label}
-                  {currentQuestion.required && (
-                    <span className="required-mark">*</span>
-                  )}
-                </h3>
-                {renderField(currentQuestion)}
-              </div>
-            )}
-
-            <div className="navigation-buttons" style={{ marginTop: "24px" }}>
-              {formMeta.isBackAllowed && !isFirstQuestion && (
-                <button
-                  type="button"
-                  id="previous-btn"
-                  onClick={handlePrevious}
-                >
-                  Previous
-                </button>
-              )}
-
-              {!isLastQuestion ? (
-                <button type="button" id="next-button" onClick={handleNext}>
-                  Next
-                </button>
-              ) : (
-                <button type="submit" className="submit-button" id="submit-btn">
-                  Submit
-                </button>
-              )}
-            </div>
-          </form>
-        </>
-      );
-    } else if (formMeta.paginationType === "OnePageWithAllTheQuestions") {
-      return (
-        <form className="form-container" onSubmit={handleSubmit}>
-          {questions.map((question, index) => (
-            <div key={question.id || index} className="question-container">
-              <h3 className="question-title">
-                {question.translations?.[selectedLanguage] || question.label}
-                {question.required && <span className="required-mark">*</span>}
-              </h3>
-              {renderField(question)}
-            </div>
-          ))}
-
-          <div className="navigation-buttons" style={{ marginTop: "24px" }}>
-            <button type="submit" className="submit-button" id="submit-btn">
-              Submit
-            </button>
-          </div>
-        </form>
-      );
-    } else if (formMeta.paginationType === "OnePagePerSection") {
-      const currentSection = sections[currentPage];
-      const isLastSection = currentPage === sections.length - 1;
-      const isFirstSection = currentPage === 0;
-
-      return (
-        <form className="form-container" onSubmit={handleSubmit}>
-          <div className="section-header">
-            <h3 className="section-title">
-              {currentSection.translations?.[selectedLanguage] ||
-                currentSection.title}
-            </h3>
-          </div>
-
-          {currentSection.questions.map((question) => (
-            <div key={question.fieldId} className="question-container">
-              <h3 className="question-title">
-                {question.translations?.[selectedLanguage] || question.label}
-                {question.required && <span className="required-mark">*</span>}
-              </h3>
-              {renderField(question)}
-            </div>
-          ))}
-
-          <div className="navigation-buttons" style={{ marginTop: "24px" }}>
-            {formMeta.isBackAllowed && !isFirstSection && (
-              <button type="button" id="previous-btn" onClick={handlePrevious}>
-                Previous
-              </button>
-            )}
-
-            {!isLastSection ? (
-              <button type="button" id="next-button" onClick={handleNext}>
-                Next
-              </button>
-            ) : (
-              <button type="submit" className="submit-button" id="submit-btn">
-                Submit
-              </button>
-            )}
-          </div>
-        </form>
-      );
-    }
-
-    return null;
-  };
-
+  
   return (
     <div className="dynamic-form-wrapper">
       <Header />
-      <div className="form-container">
-        <h2 className="form-title" data-aos="fade-right">
-          {formMeta.formName}
-        </h2>
-        {formMeta.survey_languages?.length > 0 && (
-          <select
-            className="language-selector-combo"
-            value={selectedLanguage}
-            onChange={(e) => setSelectedLanguage(e.target.value)}
-          >
-            {formMeta.survey_languages.map((lang) => (
-              <option key={lang.id} value={lang.id}>
-                {lang.name}
-              </option>
-            ))}
-          </select>
-        )}
-      </div>
-      {renderFormContent()}
+      <FormHeader
+        formMeta={formMeta}
+        selectedLanguage={selectedLanguage}
+        setSelectedLanguage={setSelectedLanguage}
+      />
+      {isDataLoaded ? (
+        <FormContent
+          formMeta={formMeta}
+          questions={questions}
+          sections={sections}
+          currentPage={currentPage}
+          handleChange={handleChange}
+          handleNext={handleNext}
+          handlePrevious={handlePrevious}
+          handleSubmit={handleSubmit}
+          formData={formData}
+          selectedLanguage={selectedLanguage}
+        />
+      ) : (
+        <FormLoader />
+      )}
     </div>
   );
 };
