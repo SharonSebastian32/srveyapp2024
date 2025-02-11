@@ -13,7 +13,6 @@ export const fetchData = async () => {
   }
 };
 
-
 export const getFormQuestions = async (formId) => {
   try {
     const response = await axios.get(
@@ -27,7 +26,6 @@ export const getFormQuestions = async (formId) => {
   }
 };
 
-
 export const PostFormQuestion = async (formData) => {
   try {
     const response = await axios.post(
@@ -36,7 +34,6 @@ export const PostFormQuestion = async (formData) => {
     );
     const responseData = response.data;
     alert("Form data submitted successfully");
-    console.log("response hey", responseData);
     return {
       success: true,
       data: responseData,
@@ -44,7 +41,7 @@ export const PostFormQuestion = async (formData) => {
     };
   } catch (error) {
     console.log("Error posting form data:", error);
-    alert("Failed to submit form data");
+
     return {
       success: false,
       error: error.message,
@@ -52,52 +49,3 @@ export const PostFormQuestion = async (formData) => {
     };
   }
 };
-
-
-  
-
-
-
-//  {
-//  "id": 0,
-//   "survey_id": 0,
-//   "note": "string",
-//   "attendees_answer": [
-//     {
-//       "id": 0,
-//       "answer_type": "MultiplechoiceOneanswer",
-//       "question_id": 0,
-//       "custom_answer": "string",
-//       "choice_answer": [
-//         0
-//       ],
-//       "metrix_answer": [
-//         {
-//           "id": 0,
-//           "answer_row": 0,
-//           "answer_column": [
-//             0
-//           ]
-//         }
-//       ],
-//       "staring": {
-//         "id": 0,
-//         "staring_id": 0,
-//         "custom_rating": "string"
-//       },
-//       "other_answer": "string",
-//       "excel_answer": "string"
-//     }
-//   ],
-//   "initial_field": [
-//     {
-//       "id": 0,
-//       "initial_id": 0,
-//       "custom_answer": "string",
-//       "selection_answer": [
-//         0
-//       ]
-//     }
-//   ],
-//   "send_email_id": "user@example.com"
-// }

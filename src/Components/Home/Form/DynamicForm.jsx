@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getFormQuestions, PostFormQuestion } from "../../../Api/AxiosInstance";
+import { getFormQuestions, PostFormQuestion } from "../../../api/AxiosInstance";
 import "../../../styles/Loader.css";
 import "../../../styles/DynamicForm.css";
 import Header from "../Header/Header";
@@ -119,6 +119,8 @@ const DynamicForm = () => {
           return;
         }
 
+        console.log("API Response:", response.data);
+
         const processedSections = response.data.reduce((acc, item) => {
           if (item.types === "Section") {
             const sectionQuestions = (item.question || []).map(processQuestion);
@@ -138,6 +140,8 @@ const DynamicForm = () => {
           }
           return acc;
         }, []);
+
+        console.log("Processed Sections:", processedSections);
 
         const processedQuestions = response.data.map((item) => {
           const question = item.question;
@@ -160,6 +164,8 @@ const DynamicForm = () => {
           };
         });
 
+        console.log("Processed Questions:", processedQuestions);
+
         const initialData = {};
         processedSections.forEach((section) => {
           section.questions.forEach((question) => {
@@ -175,6 +181,8 @@ const DynamicForm = () => {
             }
           });
         });
+
+        console.log("Initial Form Data:", initialData);
 
         setQuestions(processedQuestions);
         setSections(processedSections);
@@ -217,12 +225,36 @@ const DynamicForm = () => {
     e.preventDefault();
 
     const transformedData = {
-      survey_id: formId,
-      responses: Object.keys(formData).map((fieldId) => ({
-        question_id: fieldId.replace("question_", ""),
-        answer: formData[fieldId],
+      id: 0,
+      survey_id: parseInt(formId, 10),
+      note: "string",
+      attendees_answer: Object.keys(formData).map((fieldId) => ({
+        id: 0,
+        answer_type: "MultiplechoiceOneanswer", // This should be dynamically set based on the question type
+        question_id: parseInt(fieldId.replace("question_", ""), 10),
+        custom_answer: typeof formData[fieldId] === "string" ? formData[fieldId] : "string",
+        choice_answer: typeof formData[fieldId] === "number" ? [formData[fieldId]] : [0],
+        metrix_answer: [],
+        staring: {
+          id: 0,
+          staring_id: 0,
+          custom_rating: "string"
+        },
+        other_answer: "string",
+        excel_answer: "string"
       })),
+      initial_field: [
+        {
+          id: 0,
+          initial_id: 0,
+          custom_answer: "string",
+          selection_answer: [0]
+        }
+      ],
+      send_email_id: "user@example.com"
     };
+
+    console.log("Transformed Data:", JSON.stringify(transformedData, null, 2)); // Add logging
 
     try {
       const response = await PostFormQuestion(transformedData);
