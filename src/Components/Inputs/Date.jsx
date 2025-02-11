@@ -3,6 +3,7 @@ import { useEffect } from "react";
 const Date = ({ field, formData, handleChange, selectedLanguage }) => {
   const placeholder =
     field.translationsPlaceholder?.[selectedLanguage] || field.placeholder;
+  console.log(field.id);
 
   useEffect(() => {
     aos.init({
@@ -17,7 +18,7 @@ const Date = ({ field, formData, handleChange, selectedLanguage }) => {
       type="date"
       id={field.fieldId}
       name={field.fieldId}
-      value={formData[field.fieldId] || ""}
+      value={formData[field.fieldId]}
       onChange={(e) => handleChange(field.fieldId, e.target.value)}
       placeholder={placeholder}
       required

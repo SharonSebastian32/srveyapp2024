@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getFormQuestions } from "../../../Api/AxiosInstance";
+import { getFormQuestions, PostFormQuestion } from "../../../Api/AxiosInstance";
 import "../../../styles/Loader.css";
 import "../../../styles/DynamicForm.css";
 import Header from "../Header/Header";
@@ -14,8 +14,6 @@ import NumericalValue from "../../Inputs/NumericalValue";
 import SelectBox from "../../Inputs/SelectBox";
 import FormLoader from "../../../utils/Loader";
 import Radio from "../../Inputs/Radio";
-import { PostFormQuestion } from "../../../Api/AxiosInstance";
-import ProgressBar from "../../../utils/Progressbar";
 
 const DynamicForm = () => {
   const { formId } = useParams();
@@ -205,6 +203,35 @@ const DynamicForm = () => {
     }));
   };
 
+  const handleNext = (e) => {
+    e.preventDefault();
+    setCurrentPage((prev) => prev + 1);
+  };
+
+  const handlePrevious = (e) => {
+    e.preventDefault();
+    setCurrentPage((prev) => prev - 1);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const transformedData = {
+      survey_id: formId,
+      responses: Object.keys(formData).map((fieldId) => ({
+        question_id: fieldId.replace("question_", ""),
+        answer: formData[fieldId],
+      })),
+    };
+
+    try {
+      const response = await PostFormQuestion(transformedData);
+      console.log("Response:", response);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
   const renderField = (question) => {
     const commonProps = {
       key: question.fieldId,
@@ -213,7 +240,6 @@ const DynamicForm = () => {
         translations: question.translations,
         ...question.matrixData,
       },
-
       formData: formData,
       handleChange: handleChange,
       selectedLanguage: selectedLanguage,
@@ -243,26 +269,6 @@ const DynamicForm = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const transformedData = {
-      survey_id: formId,
-
-      responses: Object.keys(formData).map((fieldId) => ({
-        question_id: fieldId.replace("question_", ""),
-        answer: formData[fieldId],
-      })),
-    };
-
-    try {
-      const response = await PostFormQuestion(transformedData);
-      console.log("Response::==========: ", response);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-  };
-
   const renderFormContent = () => {
     if (!isDataLoaded) {
       return <FormLoader />;
@@ -275,10 +281,7 @@ const DynamicForm = () => {
 
       return (
         <>
-          <form
-            className="form-container"
-            onSubmit={isLastQuestion ? handleSubmit : (e) => e.preventDefault()}
-          >
+          <form className="form-container" onSubmit={handleSubmit}>
             {currentQuestion && (
               <div className="question-container">
                 <h3 className="question-title">
@@ -297,18 +300,14 @@ const DynamicForm = () => {
                 <button
                   type="button"
                   id="previous-btn"
-                  onClick={() => setCurrentPage((prev) => prev - 1)}
+                  onClick={handlePrevious}
                 >
                   Previous
                 </button>
               )}
 
               {!isLastQuestion ? (
-                <button
-                  type="button"
-                  id="next-button"
-                  onClick={() => setCurrentPage((prev) => prev + 1)}
-                >
+                <button type="button" id="next-button" onClick={handleNext}>
                   Next
                 </button>
               ) : (
@@ -318,7 +317,6 @@ const DynamicForm = () => {
               )}
             </div>
           </form>
-          <ProgressBar />
         </>
       );
     } else if (formMeta.paginationType === "OnePageWithAllTheQuestions") {
@@ -345,11 +343,9 @@ const DynamicForm = () => {
       const currentSection = sections[currentPage];
       const isLastSection = currentPage === sections.length - 1;
       const isFirstSection = currentPage === 0;
+
       return (
-        <form
-          onSubmit={isLastSection ? handleSubmit : (e) => e.preventDefault()}
-          className="form-container"
-        >
+        <form className="form-container" onSubmit={handleSubmit}>
           <div className="section-header">
             <h3 className="section-title">
               {currentSection.translations?.[selectedLanguage] ||
@@ -369,21 +365,13 @@ const DynamicForm = () => {
 
           <div className="navigation-buttons" style={{ marginTop: "24px" }}>
             {formMeta.isBackAllowed && !isFirstSection && (
-              <button
-                type="button"
-                id="previous-btn"
-                onClick={() => setCurrentPage((prev) => prev - 1)}
-              >
+              <button type="button" id="previous-btn" onClick={handlePrevious}>
                 Previous
               </button>
             )}
 
             {!isLastSection ? (
-              <button
-                type="button"
-                id="next-button"
-                onClick={() => setCurrentPage((prev) => prev + 1)}
-              >
+              <button type="button" id="next-button" onClick={handleNext}>
                 Next
               </button>
             ) : (
