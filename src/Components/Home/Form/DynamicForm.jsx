@@ -7,7 +7,6 @@ import Header from "../Header/Header";
 import FormHeader from "./FormHeader";
 import FormContent from "./FormContent";
 import FormLoader from "../../../utils/Loader";
-
 const DynamicForm = () => {
   const { formId } = useParams();
   const [formData, setFormData] = useState({});
@@ -28,6 +27,7 @@ const DynamicForm = () => {
       Datetime: "datetime-local",
       NumericalValue: "numerical-value",
       Matrix: "matrix_radio",
+      DropdownOneAnswer: "selectbox",
     };
     return typeMap[type] || "textbox";
   };
@@ -196,10 +196,11 @@ const DynamicForm = () => {
   }, [formId]);
 
   const handleChange = (fieldId, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [fieldId]: value,
-    }));
+    setFormData((prevData) => {
+      const updatedData = { ...prevData, [fieldId]: value };
+      console.log("Updated Form Data:", updatedData);
+      return updatedData;
+    });
   };
 
   const handleNext = (e) => {
@@ -214,47 +215,46 @@ const DynamicForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const transformedData = {
       survey_id: parseInt(formId),
-      attendees_answer: Object.keys(formData).map((fieldId) => ({
-        id: 0,
-        answer_type: "MultiplechoiceOneanswer", // This should be dynamically set based on the question type
-        question_id: parseInt(fieldId.replace("question_", ""), 10),
-        custom_answer:
-          typeof formData[fieldId] === "string" ? formData[fieldId] : "string",
-        choice_answer:
-          typeof formData[fieldId] === "number" ? [formData[fieldId]] : [0],
-        metrix_answer: [],
-        staring: {
-          id: 0,
-          staring_id: 0,
-          custom_rating: "string",
-        },
-        other_answer: "string",
-        excel_answer: "string",
-      })),
-      initial_field: [
-        {
-          id: 0,
-          initial_id: 0,
-          custom_answer: "string",
-          selection_answer: [0],
-        },
-      ],
-      send_email_id: "user@example.com",
+      attendees_answer: questions.map((question) => {
+        const answer = formData[question.fieldId];
+        return {
+          answer_type: question.answer_type,
+          question_id: question.id,
+          custom_answer: typeof answer === "string" ? answer : "",
+          choice_answer:
+            question.type === "matrix_radio"
+              ? Object.keys(answer).map((rowId) => ({
+                  answer_row: parseInt(rowId),
+                  answer_column: Array.isArray(answer[rowId])
+                    ? answer[rowId].map(Number)
+                    : [parseInt(answer[rowId])],
+                  custom_answer: "",
+                }))
+              : Array.isArray(answer)
+              ? answer.map((choice) => ({
+                  answer_row: 0,
+                  answer_column: [choice],
+                  custom_answer: question.type === "checkbox" ? choice : "",
+                }))
+              : [],
+        };
+      }),
     };
-
-    console.log("Transformed Data:", JSON.stringify(transformedData, null, 2)); // Add logging
+    console.log(
+      "Transformed Data before submission:",
+      JSON.stringify(transformedData)
+    );
 
     try {
       const response = await PostFormQuestion(transformedData);
-      console.log("Response:", response);
+      console.log("Response after submission:", response);
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   };
-  
+
   return (
     <div className="dynamic-form-wrapper">
       <Header />

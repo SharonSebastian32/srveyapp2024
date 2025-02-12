@@ -1,5 +1,5 @@
 import FormField from "./FormField";
-
+import QuestionProgress from "../../../utils/Progressbar";
 const FormContent = ({
   formMeta,
   questions,
@@ -34,38 +34,45 @@ const FormContent = ({
     const isFirstQuestion = currentPage === 0;
 
     return (
-      <form className="form-container" onSubmit={handleSubmit}>
-        {currentQuestion && (
-          <div className="question-container">
-            <h3 className="question-title">
-              {currentQuestion.translations?.[selectedLanguage] ||
-                currentQuestion.label}
-              {currentQuestion.required && (
-                <span className="required-mark">*</span>
-              )}
-            </h3>
-            {renderField(currentQuestion)}
+      <>
+        {" "}
+        <form className="form-container" onSubmit={handleSubmit}>
+          {currentQuestion && (
+            <div className="question-container">
+              <h3 className="question-title">
+                {currentQuestion.translations?.[selectedLanguage] ||
+                  currentQuestion.label}
+                {currentQuestion.required && (
+                  <span className="required-mark">*</span>
+                )}
+              </h3>
+              {renderField(currentQuestion)}
+            </div>
+          )}
+
+          <div className="navigation-buttons" style={{ marginTop: "24px" }}>
+            {formMeta.isBackAllowed && !isFirstQuestion && (
+              <button type="button" id="previous-btn" onClick={handlePrevious}>
+                Previous
+              </button>
+            )}
+
+            {!isLastQuestion ? (
+              <button type="button" id="next-button" onClick={handleNext}>
+                Next
+              </button>
+            ) : (
+              <button type="submit" className="submit-button" id="submit-btn">
+                Submit
+              </button>
+            )}
           </div>
-        )}
-
-        <div className="navigation-buttons" style={{ marginTop: "24px" }}>
-          {formMeta.isBackAllowed && !isFirstQuestion && (
-            <button type="button" id="previous-btn" onClick={handlePrevious}>
-              Previous
-            </button>
-          )}
-
-          {!isLastQuestion ? (
-            <button type="button" id="next-button" onClick={handleNext}>
-              Next
-            </button>
-          ) : (
-            <button type="submit" className="submit-button" id="submit-btn">
-              Submit
-            </button>
-          )}
-        </div>
-      </form>
+        </form>
+        <QuestionProgress
+          currentQuestion={currentPage}
+          totalQuestions={questions.length}
+        />
+      </>
     );
   } else if (formMeta.paginationType === "OnePageWithAllTheQuestions") {
     return (

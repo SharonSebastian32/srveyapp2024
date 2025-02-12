@@ -12,20 +12,19 @@ export const fetchData = async () => {
     throw error;
   }
 };
-
 export const getFormQuestions = async (formId) => {
   try {
     const response = await axios.get(
       `${API_URL}/api/exam-portal/v1/survey-attendees/get-feedback-survey-question-list?survey_id=${formId}`
     );
     const responseData = response.data;
+    console.log("Response data from the API:", responseData);
     return responseData;
   } catch (error) {
     console.error("Error fetching form data:", error);
     throw error;
   }
 };
-
 export const PostFormQuestion = async (formData) => {
   try {
     const response = await axios.post(
@@ -41,7 +40,6 @@ export const PostFormQuestion = async (formData) => {
     };
   } catch (error) {
     console.log("Error posting form data:", error);
-
     return {
       success: false,
       error: error.message,

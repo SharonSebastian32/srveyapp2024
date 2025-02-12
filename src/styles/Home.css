@@ -19,7 +19,7 @@ html {
 .banner {
   min-height: 50%;
   width: 100%;
-  background-image: linear-gradient(to right, #0d8103, #160a55);
+  background-image: linear-gradient(to right, #00a72f, #160a55);
   background-size: 200% 200%;
   animation: rotateBackground 3s ease infinite;
 }
@@ -171,7 +171,7 @@ html {
 
 .submit-btn {
   cursor: pointer;
-  background: #7cb80d;
+  background: #000000;
   font-size: 1em;
   padding: 0.5em 2em;
   color: white;
