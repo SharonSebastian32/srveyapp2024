@@ -17,7 +17,7 @@ html {
 }
 
 .banner {
-  min-height: 50%;
+  min-height: 70%;
   width: 100%;
   background-image: linear-gradient(to right, #00a72f, #160a55);
   background-size: 200% 200%;
@@ -75,6 +75,9 @@ html {
   .banner_group {
     padding: 20px 50px;
   }
+  .sideImage {
+    display: none;
+  }
 }
 @media (max-width: 1023px) {
   .banner_group {
@@ -94,6 +97,9 @@ html {
     margin: 0;
     width: 200px;
     height: 60px;
+  }
+  .sideImage {
+    display: none;
   }
 
   .banner-left h2 {
@@ -123,6 +129,7 @@ html {
     width: 50%;
     height: 50%;
   }
+
   .sideImage {
     display: none;
   }
@@ -187,6 +194,9 @@ html {
     padding: 0.5em 1.5em;
   }
 
+  .sideImage {
+    display: none;
+  }
   .banner {
     width: 100%;
   }
@@ -206,6 +216,9 @@ html {
   .submit-btn {
     font-size: 0.8em;
     padding: 0.5em 1em;
+  }
+  .sideImage {
+    display: none;
   }
   .list-container {
     height: 60%;
@@ -317,6 +330,9 @@ html {
     padding: 30px;
   }
   #warn-symbol {
+    display: none;
+  }
+  .sideImage {
     display: none;
   }
 }

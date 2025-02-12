@@ -118,7 +118,13 @@ form .checkbox-group {
   flex-direction: row;
   justify-content: space-between;
 }
-
+.navigation-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20px;
+  justify-content: space-between;
+}
 #next-button {
   padding: 8px 45px;
   border: none;
@@ -131,7 +137,7 @@ form .checkbox-group {
   justify-content: center;
   display: flex;
   flex-direction: row;
-  border-radius: 3px;
+  border-radius: 30px;
 }
 #previous-btn {
   padding: 8px 12px;

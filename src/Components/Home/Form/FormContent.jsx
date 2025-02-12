@@ -1,4 +1,4 @@
-import FormField from "./FormField";
+import FormField from "../../../Components/Home/Form/FormFIeld";
 import QuestionProgress from "../../../utils/Progressbar";
 const FormContent = ({
   formMeta,
@@ -35,7 +35,6 @@ const FormContent = ({
 
     return (
       <>
-        {" "}
         <form className="form-container" onSubmit={handleSubmit}>
           {currentQuestion && (
             <div className="question-container">
@@ -51,7 +50,7 @@ const FormContent = ({
           )}
 
           <div className="navigation-buttons" style={{ marginTop: "24px" }}>
-            {formMeta.isBackAllowed && !isFirstQuestion && (
+            {!isFirstQuestion && (
               <button type="button" id="previous-btn" onClick={handlePrevious}>
                 Previous
               </button>
@@ -74,7 +73,10 @@ const FormContent = ({
         />
       </>
     );
-  } else if (formMeta.paginationType === "OnePageWithAllTheQuestions") {
+  }
+  
+  
+  else if (formMeta.paginationType === "OnePageWithAllTheQuestions") {
     return (
       <form className="form-container" onSubmit={handleSubmit}>
         {questions.map((question, index) => (
@@ -94,48 +96,56 @@ const FormContent = ({
         </div>
       </form>
     );
-  } else if (formMeta.paginationType === "OnePagePerSection") {
+  } 
+  
+  
+  else if (formMeta.paginationType === "OnePagePerSection") {
     const currentSection = sections[currentPage];
     const isLastSection = currentPage === sections.length - 1;
     const isFirstSection = currentPage === 0;
 
     return (
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div className="section-header">
-          <h3 className="section-title">
-            {currentSection.translations?.[selectedLanguage] ||
-              currentSection.title}
-          </h3>
-        </div>
-
-        {currentSection.questions.map((question) => (
-          <div key={question.fieldId} className="question-container">
-            <h3 className="question-title">
-              {question.translations?.[selectedLanguage] || question.label}
-              {question.required && <span className="required-mark">*</span>}
+      <>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div className="section-header">
+            <h3 className="section-title">
+              {currentSection.translations?.[selectedLanguage] ||
+                currentSection.title}
             </h3>
-            {renderField(question)}
           </div>
-        ))}
+          {currentSection.questions.map((question) => (
+            <div key={question.fieldId} className="question-container">
+              <h3 className="question-title">
+                {question.translations?.[selectedLanguage] || question.label}
+                {question.required && <span className="required-mark">*</span>}
+              </h3>
+              {renderField(question)}
+            </div>
+          ))}
 
-        <div className="navigation-buttons" style={{ marginTop: "24px" }}>
-          {formMeta.isBackAllowed && !isFirstSection && (
-            <button type="button" id="previous-btn" onClick={handlePrevious}>
-              Previous
-            </button>
-          )}
+          <div className="navigation-buttons" style={{ marginTop: "24px" }}>
+            {formMeta.isBackAllowed && !isFirstSection && (
+              <button type="button" id="previous-btn" onClick={handlePrevious}>
+                Previous
+              </button>
+            )}
 
-          {!isLastSection ? (
-            <button type="button" id="next-button" onClick={handleNext}>
-              Next
-            </button>
-          ) : (
-            <button type="submit" className="submit-button" id="submit-btn">
-              Submit
-            </button>
-          )}
-        </div>
-      </form>
+            {!isLastSection ? (
+              <button type="button" id="next-button" onClick={handleNext}>
+                Next
+              </button>
+            ) : (
+              <button type="submit" className="submit-button" id="submit-btn">
+                Submit
+              </button>
+            )}
+          </div>
+        </form>
+        <QuestionProgress
+          currentQuestion={currentPage}
+          totalQuestions={questions.length}
+        />
+      </>
     );
   }
 
