@@ -73,10 +73,7 @@ const FormContent = ({
         />
       </>
     );
-  }
-  
-  
-  else if (formMeta.paginationType === "OnePageWithAllTheQuestions") {
+  } else if (formMeta.paginationType === "OnePageWithAllTheQuestions") {
     return (
       <form className="form-container" onSubmit={handleSubmit}>
         {questions.map((question, index) => (
@@ -96,10 +93,7 @@ const FormContent = ({
         </div>
       </form>
     );
-  } 
-  
-  
-  else if (formMeta.paginationType === "OnePagePerSection") {
+  } else if (formMeta.paginationType === "OnePagePerSection") {
     const currentSection = sections[currentPage];
     const isLastSection = currentPage === sections.length - 1;
     const isFirstSection = currentPage === 0;

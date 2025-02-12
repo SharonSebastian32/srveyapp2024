@@ -7,7 +7,7 @@ import Header from "../Header/Header";
 import FormHeader from "./FormHeader";
 import FormContent from "./FormContent";
 import FormLoader from "../../../utils/Loader";
-const DynamicForm = () => {
+const DynamicForm = (initialFields) => {
   const { formId } = useParams();
   const [formData, setFormData] = useState({});
   const [formMeta, setFormMeta] = useState({});
@@ -140,6 +140,7 @@ const DynamicForm = () => {
             id: item.id,
             fieldId: `question_${item.id}`,
             type: mapQuestionType(question.question_type),
+            answer_type: question.answer_type,
             label: item.english_title.replace(/<[^>]*>/g, ""),
             required: question.is_mandatory,
             placeholder: question.place_holder,
@@ -215,33 +216,47 @@ const DynamicForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const transformedData = {
-      survey_id: parseInt(formId),
+      survey_id: formId,
+      answer_type: questions.map((question) => question.answer_type),
+
       attendees_answer: questions.map((question) => {
         const answer = formData[question.fieldId];
+
+        if (
+          question.type === "radio" ||
+          question.type === "checkbox" ||
+          question.type === "selectbox"
+        ) {
+          return {
+            question_id: question.id,
+            choice_answer: Array.isArray(answer)
+              ? answer.map(Number)
+              : [Number(answer)],
+          };
+        }
+
+        if (question.type === "matrix_radio") {
+          return {
+            question_id: question.id,
+            choice_answer: Object.keys(answer).map((rowId) => ({
+              answer_row: parseInt(rowId),
+              answer_column: Array.isArray(answer[rowId])
+                ? answer[rowId].map(Number)
+                : [parseInt(answer[rowId])],
+            })),
+          };
+        }
+
         return {
-          answer_type: question.answer_type,
           question_id: question.id,
-          custom_answer: typeof answer === "string" ? answer : "",
-          choice_answer:
-            question.type === "matrix_radio"
-              ? Object.keys(answer).map((rowId) => ({
-                  answer_row: parseInt(rowId),
-                  answer_column: Array.isArray(answer[rowId])
-                    ? answer[rowId].map(Number)
-                    : [parseInt(answer[rowId])],
-                  custom_answer: "",
-                }))
-              : Array.isArray(answer)
-              ? answer.map((choice) => ({
-                  answer_row: 0,
-                  answer_column: [choice],
-                  custom_answer: question.type === "checkbox" ? choice : "",
-                }))
-              : [],
+          custom_answer: answer || "",
         };
       }),
+      initial_field: [{}],
     };
+
     console.log(
       "Transformed Data before submission:",
       JSON.stringify(transformedData)
@@ -256,30 +271,32 @@ const DynamicForm = () => {
   };
 
   return (
-    <div className="dynamic-form-wrapper">
-      <Header />
-      <FormHeader
-        formMeta={formMeta}
-        selectedLanguage={selectedLanguage}
-        setSelectedLanguage={setSelectedLanguage}
-      />
-      {isDataLoaded ? (
-        <FormContent
+    <>
+      <div className="dynamic-form-wrapper">
+        <Header />
+        <FormHeader
           formMeta={formMeta}
-          questions={questions}
-          sections={sections}
-          currentPage={currentPage}
-          handleChange={handleChange}
-          handleNext={handleNext}
-          handlePrevious={handlePrevious}
-          handleSubmit={handleSubmit}
-          formData={formData}
           selectedLanguage={selectedLanguage}
+          setSelectedLanguage={setSelectedLanguage}
         />
-      ) : (
-        <FormLoader />
-      )}
-    </div>
+        {isDataLoaded ? (
+          <FormContent
+            formMeta={formMeta}
+            questions={questions}
+            sections={sections}
+            currentPage={currentPage}
+            handleChange={handleChange}
+            handleNext={handleNext}
+            handlePrevious={handlePrevious}
+            handleSubmit={handleSubmit}
+            formData={formData}
+            selectedLanguage={selectedLanguage}
+          />
+        ) : (
+          <FormLoader />
+        )}
+      </div>
+    </>
   );
 };
 

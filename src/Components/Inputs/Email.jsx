@@ -9,7 +9,7 @@ const Date = ({ field, formData, handleChange, selectedLanguage }) => {
       value={formData[field.fieldId] || ""}
       onChange={(e) => handleChange(field.fieldId, e.target.value)}
       placeholder="example@email.com"
-      required={field.required}
+      required
     />
   );
 };

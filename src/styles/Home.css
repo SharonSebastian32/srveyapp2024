@@ -280,12 +280,12 @@ html {
   background: rgb(255, 255, 255);
   height: 45%;
   width: 45%;
-  border-radius: 30px;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 30px;
 }
 
 .popup-btn {
@@ -300,17 +300,18 @@ html {
   background-color: rgb(5, 166, 11);
   color: white;
   padding: 12px 40px;
-  border-radius: 10px;
+  border-radius: 30px;
+
   font-size: 18px;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 #pop-up-no {
   background-color: rgb(255, 0, 0);
-  color: white;
+  color: rgb(255, 255, 255);
   padding: 12px 40px;
-  border-radius: 10px;
   font-size: 18px;
+  border-radius: 30px;
 }
 
 #question-p {
@@ -334,5 +335,18 @@ html {
   }
   .sideImage {
     display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .popup-content {
+    height: 25%;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
   }
 }

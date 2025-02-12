@@ -1,6 +1,19 @@
-const EmailField = ({ field, formData, handleChange, selectedLanguage }) => {
+const MatrixCheckBox = ({ field, formData, setFormData, selectedLanguage }) => {
   const placeholder =
     field.translationsPlaceholder?.[selectedLanguage] || field.placeholder;
+
+  const onCheckboxChange = (rowId, columnId) => {
+    const newValues = formData[field.fieldId]?.[rowId]?.includes(columnId)
+      ? formData[field.fieldId]?.[rowId]?.filter((value) => value !== columnId)
+      : [...formData[field.fieldId]?.[rowId], columnId];
+    setFormData((prev) => ({
+      ...prev,
+      [field.fieldId]: {
+        ...prev[field.fieldId],
+        [rowId]: newValues,
+      },
+    }));
+  };
 
   return (
     <div className="matrix-checkbox">
@@ -40,20 +53,7 @@ const EmailField = ({ field, formData, handleChange, selectedLanguage }) => {
                     checked={formData[field.fieldId]?.[row.id]?.includes(
                       column.id
                     )}
-                    onChange={(e) => {
-                      const newValues = e.target.checked
-                        ? [...formData[field.fieldId]?.[row.id], column.id]
-                        : formData[field.fieldId]?.[row.id]?.filter(
-                            (value) => value !== column.id
-                          );
-                      setFormData((prev) => ({
-                        ...prev,
-                        [field.fieldId]: {
-                          ...prev[field.fieldId],
-                          [row.id]: newValues,
-                        },
-                      }));
-                    }}
+                    onChange={() => onCheckboxChange(row.id, column.id)}
                     required={field.required}
                     style={{ display: "block", margin: "0 auto" }}
                   />
@@ -67,4 +67,4 @@ const EmailField = ({ field, formData, handleChange, selectedLanguage }) => {
   );
 };
 
-export default EmailField;
+export default MatrixCheckBox;

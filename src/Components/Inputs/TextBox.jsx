@@ -10,7 +10,6 @@ const TextboxField = ({ field, formData, handleChange, selectedLanguage }) => {
       value={formData[field.fieldId] || ""}
       onChange={(e) => handleChange(field.fieldId, e.target.value)}
       placeholder="Pease type here..."
-      required={field.required}
     />
   );
 };

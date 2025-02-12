@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchData } from "../../Api/AxiosInstance";
+import { fetchData } from "../../api/AxiosInstance";
 import Banner from "./Banner/Banner";
 import AOS from "aos";
 import "../../styles/Loader.css";
@@ -20,6 +20,8 @@ function Home() {
           english_title: obj.english_title,
           formId: obj.id,
           color: obj.color,
+          survey_time_limit: obj.survey_time_limit,
+          background_color: obj.background_color,
         }));
         setInitialFields(listData);
         console.log("Survey List :: ", listData);

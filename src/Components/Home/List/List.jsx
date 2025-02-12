@@ -24,6 +24,22 @@ function ListContainer({ initialFields, handleFormNavigation }) {
         initialFields.map((obj, index) => (
           <div className="list" key={index} data-aos="fade-up">
             <p id="list-title">{obj.english_title}</p>
+            {obj.survey_time_limit && (
+              <div>
+                <span id="duration">Duration</span>
+                <span
+                  style={{
+                    backgroundColor: "#f3dedc",
+                    color: "#de0000",
+                    padding: "5px 10px",
+                    borderRadius: "5px",
+                    fontSize: "18px",
+                  }}
+                >
+                  {obj.survey_time_limit}
+                </span>
+              </div>
+            )}
             <button
               className="submit-btn"
               style={{ backgroundColor: obj.color }}
