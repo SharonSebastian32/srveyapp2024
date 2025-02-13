@@ -7,7 +7,7 @@ const Header = () => {
         <img
           className="logo-img"
           src={logo}
-          alt=""
+          alt="_LOGO"
           data-aos="fade-right"
           data-aos-duration="1000"
         />

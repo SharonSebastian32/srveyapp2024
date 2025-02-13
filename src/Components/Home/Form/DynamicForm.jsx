@@ -1,5 +1,5 @@
-// src/components/DynamicForm/DynamicForm.jsx
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import { getFormQuestions, PostFormQuestion } from "../../../api/AxiosInstance";
 import "../../../styles/Loader.css";
@@ -219,6 +219,49 @@ const DynamicForm = () => {
     setCurrentPage((prev) => prev - 1);
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const transformedData = {
+  //     survey_id: formId,
+  //     attendees_answer: questions.map((question) => {
+  //       const answer = formData[question.fieldId];
+  //       let formattedAnswer = {
+  //         answer_type: question.answer_type,
+  //         question_id: question.id,
+  //         excel_answer: "",
+  //         is_other: false,
+  //       };
+
+  //       if (question.type === "radio" || question.type === "selectbox") {
+  //         formattedAnswer.choice_answer = [Number(answer)];
+  //         formattedAnswer.excel_answer = answer;
+  //       } else if (question.type === "checkbox") {
+  //         formattedAnswer.choice_answer = answer.map(Number);
+  //         formattedAnswer.excel_answer = answer.join(", ");
+  //       } else if (question.type === "matrix_radio") {
+  //         formattedAnswer.choice_answer = Object.keys(answer).map((rowId) => ({
+  //           answer_row: parseInt(rowId),
+  //           answer_column: Array.isArray(answer[rowId])
+  //             ? answer[rowId].map(Number)
+  //             : [parseInt(answer[rowId])],
+  //         }));
+  //       } else {
+  //         formattedAnswer.custom_answer = answer || "";
+  //         formattedAnswer.excel_answer = answer || "";
+  //       }
+
+  //       return formattedAnswer;
+  //     }),
+  //   };
+
+  //   try {
+  //     const response = await PostFormQuestion(transformedData);
+  //     console.log("Response after submission:", response);
+  //   } catch (error) {
+  //     console.error("Error submitting form:", error);
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -258,8 +301,33 @@ const DynamicForm = () => {
     try {
       const response = await PostFormQuestion(transformedData);
       console.log("Response after submission:", response);
+
+      if (response.success) {
+        await Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "Your form has been submitted successfully.",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#3085d6",
+        });
+      } else {
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong while submitting your form!",
+          confirmButtonColor: "#d33",
+        });
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
+
+      await Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong while submitting your form!",
+
+        confirmButtonColor: "#d33",
+      });
     }
   };
 

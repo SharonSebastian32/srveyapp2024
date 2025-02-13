@@ -11,6 +11,7 @@ const FormHeader = ({ formMeta, selectedLanguage, setSelectedLanguage }) => {
             value={selectedLanguage}
             onChange={(e) => setSelectedLanguage(e.target.value)}
           >
+            <option value="">Select Language</option>
             {formMeta.survey_languages.map((lang) => (
               <option key={lang.id} value={lang.id}>
                 {lang.name}

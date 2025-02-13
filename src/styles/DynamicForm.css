@@ -159,11 +159,11 @@ form .checkbox-group {
 
 #submit-btn {
   border-radius: 0px;
-  padding: 12px 24px;
+  padding: 5px 12px;
   border: none;
   border-radius: 10px;
-  background-color: #16653a;
-  color: #fbfbfb;
+  background-color: #abdcc1;
+  color: black;
   font-size: 20px;
   font-weight: 400;
   cursor: pointer;
@@ -455,7 +455,7 @@ textarea:focus {
 
 .custom-select {
   position: relative;
-  width: 200px;
+  width: 100%;
   margin: 20px 0;
 }
 
@@ -481,4 +481,5 @@ textarea:focus {
 }
 .language-selector-combo option {
   padding: 10px;
+  width: 100%;
 }

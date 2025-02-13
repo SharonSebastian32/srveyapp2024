@@ -104,21 +104,24 @@ function ListContainer({ initialFields, handleFormNavigation }) {
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "center",
-                paddingTop: "50px",
+                paddingTop: "30px",
               }}
             >
               <IoWarningOutline
                 style={{
-                  color: "#d9d131",
-                  fontSize: "35px",
+                  color: "#bf8d02",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+
                 }}
                 id="warn-symbol"
               />
               <span
                 id="warning"
                 style={{
-                  fontSize: "18px",
+                  fontSize: "14px",
                   color: "black",
+                  fontWeight: "300",
                 }}
               >
                 Once Started, Complete all the Questions.

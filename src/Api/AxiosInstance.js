@@ -32,7 +32,6 @@ export const PostFormQuestion = async (formData) => {
       formData
     );
     const responseData = response.data;
-    alert("Form data submitted successfully");
     return {
       success: true,
       data: responseData,

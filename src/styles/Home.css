@@ -19,7 +19,7 @@ html {
 .banner {
   min-height: 70%;
   width: 100%;
-  background-image: linear-gradient(to right, #00a72f, #160a55);
+  background-image: linear-gradient(to right, #000000, #B9FF66);
   background-size: 200% 200%;
   animation: rotateBackground 3s ease infinite;
 }
@@ -343,9 +343,7 @@ html {
     height: 30%;
     padding: 30px;
   }
-  #warn-symbol {
-    display: none;
-  }
+
   .sideImage {
     display: none;
   }
