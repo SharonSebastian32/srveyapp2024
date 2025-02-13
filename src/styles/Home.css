@@ -19,7 +19,8 @@ html {
 .banner {
   min-height: 70%;
   width: 100%;
-  background-image: linear-gradient(to right, #000000, #B9FF66);
+  /* background-color: #000000; */
+  background: linear-gradient(to right, #000000, #96f443);
   background-size: 200% 200%;
   animation: rotateBackground 3s ease infinite;
 }
@@ -310,8 +311,8 @@ html {
 }
 
 #pop-up-yes {
-  background-color: rgb(5, 166, 11);
-  color: white;
+  background-color: #a6ec52;
+  color: black;
   padding: 12px 40px;
   border-radius: 5px;
 
@@ -320,8 +321,8 @@ html {
 }
 
 #pop-up-no {
-  background-color: rgb(255, 0, 0);
-  color: rgb(255, 255, 255);
+  background-color: rgb(163, 161, 161);
+  color: #000000;
   padding: 12px 40px;
   font-size: 18px;
   border-radius: 0px;

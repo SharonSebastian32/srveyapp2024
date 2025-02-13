@@ -101,12 +101,6 @@ const FormContent = ({
     return (
       <>
         <form className="form-container" onSubmit={handleSubmit}>
-          <div className="section-header">
-            <h3 className="section-title">
-              {currentSection.translations?.[selectedLanguage] ||
-                currentSection.title}
-            </h3>
-          </div>
           {currentSection.questions.map((question) => (
             <div key={question.fieldId} className="question-container">
               <h3 className="question-title">

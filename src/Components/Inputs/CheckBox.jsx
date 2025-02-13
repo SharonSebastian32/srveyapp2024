@@ -25,13 +25,14 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
             border: "1px solid #ccc",
             paddingLeft: "10px",
             paddingRight: "50px",
-          }}
+           }}
         >
           <input
             style={{
               verticalAlign: "middle",
               position: "relative",
               bottom: "1px",
+              
             }}
             type="checkbox"
             id={`${field.fieldId}-${option.value}`}
