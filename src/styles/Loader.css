@@ -1,21 +1,25 @@
-/* HTML: <div class="loader"></div> */
 .loader {
-  --d: 22px;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  color: #000000;
-  box-shadow: calc(1 * var(--d)) calc(0 * var(--d)) 0 0,
-    calc(0.707 * var(--d)) calc(0.707 * var(--d)) 0 1px,
-    calc(0 * var(--d)) calc(1 * var(--d)) 0 2px,
-    calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px,
-    calc(-1 * var(--d)) calc(0 * var(--d)) 0 4px,
-    calc(-0.707 * var(--d)) calc(-0.707 * var(--d)) 0 5px,
-    calc(0 * var(--d)) calc(-1 * var(--d)) 0 6px;
-  animation: l27 1s infinite steps(8);
+  width: 45px;
+  aspect-ratio: 1;
+  --c: no-repeat linear-gradient(#000 0 0);
+  background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;
+  background-size: 20% 100%;
+  animation: l1 1s infinite linear;
 }
-@keyframes l27 {
+@keyframes l1 {
+  0% {
+    background-size: 20% 100%, 20% 100%, 20% 100%;
+  }
+  33% {
+    background-size: 20% 10%, 20% 100%, 20% 100%;
+  }
+  50% {
+    background-size: 20% 100%, 20% 10%, 20% 100%;
+  }
+  66% {
+    background-size: 20% 100%, 20% 100%, 20% 10%;
+  }
   100% {
-    transform: rotate(1turn);
+    background-size: 20% 100%, 20% 100%, 20% 100%;
   }
 }

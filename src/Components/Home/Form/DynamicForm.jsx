@@ -1,3 +1,4 @@
+// src/components/DynamicForm/DynamicForm.jsx
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getFormQuestions, PostFormQuestion } from "../../../api/AxiosInstance";
@@ -7,7 +8,9 @@ import Header from "../Header/Header";
 import FormHeader from "./FormHeader";
 import FormContent from "./FormContent";
 import FormLoader from "../../../utils/Loader";
-const DynamicForm = (initialFields) => {
+import PageNotFound from "../../../utils/PageNotFound";
+
+const DynamicForm = () => {
   const { formId } = useParams();
   const [formData, setFormData] = useState({});
   const [formMeta, setFormMeta] = useState({});
@@ -16,6 +19,7 @@ const DynamicForm = (initialFields) => {
   const [questions, setQuestions] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [sections, setSections] = useState([]);
+  const [error, setError] = useState(null);
 
   const mapQuestionType = (type) => {
     const typeMap = {
@@ -106,11 +110,16 @@ const DynamicForm = (initialFields) => {
         const response = await getFormQuestions(formId);
 
         if (!response || !response.data) {
-          console.error("Data not found");
+          setError("NO_DATA");
+          setIsDataLoaded(true);
           return;
         }
 
-        console.log("API Response:", response.data);
+        if (response.data.length === 0) {
+          setError("NO_QUESTIONS");
+          setIsDataLoaded(true);
+          return;
+        }
 
         const processedSections = response.data.reduce((acc, item) => {
           if (item.types === "Section") {
@@ -132,15 +141,13 @@ const DynamicForm = (initialFields) => {
           return acc;
         }, []);
 
-        console.log("Processed Sections:", processedSections);
-
         const processedQuestions = response.data.map((item) => {
           const question = item.question;
           return {
             id: item.id,
             fieldId: `question_${item.id}`,
             type: mapQuestionType(question.question_type),
-            answer_type: question.answer_type,
+            answer_type: question.question_type,
             label: item.english_title.replace(/<[^>]*>/g, ""),
             required: question.is_mandatory,
             placeholder: question.place_holder,
@@ -155,8 +162,6 @@ const DynamicForm = (initialFields) => {
             },
           };
         });
-
-        console.log("Processed Questions:", processedQuestions);
 
         const initialData = {};
         processedSections.forEach((section) => {
@@ -174,8 +179,6 @@ const DynamicForm = (initialFields) => {
           });
         });
 
-        console.log("Initial Form Data:", initialData);
-
         setQuestions(processedQuestions);
         setSections(processedSections);
         setFormData(initialData);
@@ -190,6 +193,8 @@ const DynamicForm = (initialFields) => {
         setIsDataLoaded(true);
       } catch (error) {
         console.log("Error fetching form data:", error);
+        setError("LOAD_ERROR");
+        setIsDataLoaded(true);
       }
     };
 
@@ -219,48 +224,36 @@ const DynamicForm = (initialFields) => {
 
     const transformedData = {
       survey_id: formId,
-      answer_type: questions.map((question) => question.answer_type),
-
       attendees_answer: questions.map((question) => {
         const answer = formData[question.fieldId];
-
-        if (
-          question.type === "radio" ||
-          question.type === "checkbox" ||
-          question.type === "selectbox"
-        ) {
-          return {
-            question_id: question.id,
-            choice_answer: Array.isArray(answer)
-              ? answer.map(Number)
-              : [Number(answer)],
-          };
-        }
-
-        if (question.type === "matrix_radio") {
-          return {
-            question_id: question.id,
-            choice_answer: Object.keys(answer).map((rowId) => ({
-              answer_row: parseInt(rowId),
-              answer_column: Array.isArray(answer[rowId])
-                ? answer[rowId].map(Number)
-                : [parseInt(answer[rowId])],
-            })),
-          };
-        }
-
-        return {
+        let formattedAnswer = {
+          answer_type: question.answer_type,
           question_id: question.id,
-          custom_answer: answer || "",
+          excel_answer: "",
+          is_other: false,
         };
-      }),
-      initial_field: [{}],
-    };
 
-    console.log(
-      "Transformed Data before submission:",
-      JSON.stringify(transformedData)
-    );
+        if (question.type === "radio" || question.type === "selectbox") {
+          formattedAnswer.choice_answer = [Number(answer)];
+          formattedAnswer.excel_answer = answer;
+        } else if (question.type === "checkbox") {
+          formattedAnswer.choice_answer = answer.map(Number);
+          formattedAnswer.excel_answer = answer.join(", ");
+        } else if (question.type === "matrix_radio") {
+          formattedAnswer.choice_answer = Object.keys(answer).map((rowId) => ({
+            answer_row: parseInt(rowId),
+            answer_column: Array.isArray(answer[rowId])
+              ? answer[rowId].map(Number)
+              : [parseInt(answer[rowId])],
+          }));
+        } else {
+          formattedAnswer.custom_answer = answer || "";
+          formattedAnswer.excel_answer = answer || "";
+        }
+
+        return formattedAnswer;
+      }),
+    };
 
     try {
       const response = await PostFormQuestion(transformedData);
@@ -270,33 +263,40 @@ const DynamicForm = (initialFields) => {
     }
   };
 
-  return (
-    <>
+  if (isDataLoaded && error) {
+    return (
       <div className="dynamic-form-wrapper">
         <Header />
-        <FormHeader
-          formMeta={formMeta}
-          selectedLanguage={selectedLanguage}
-          setSelectedLanguage={setSelectedLanguage}
-        />
-        {isDataLoaded ? (
-          <FormContent
-            formMeta={formMeta}
-            questions={questions}
-            sections={sections}
-            currentPage={currentPage}
-            handleChange={handleChange}
-            handleNext={handleNext}
-            handlePrevious={handlePrevious}
-            handleSubmit={handleSubmit}
-            formData={formData}
-            selectedLanguage={selectedLanguage}
-          />
-        ) : (
-          <FormLoader />
-        )}
+        <PageNotFound />
       </div>
-    </>
+    );
+  }
+
+  return (
+    <div className="dynamic-form-wrapper">
+      <Header />
+      <FormHeader
+        formMeta={formMeta}
+        selectedLanguage={selectedLanguage}
+        setSelectedLanguage={setSelectedLanguage}
+      />
+      {isDataLoaded ? (
+        <FormContent
+          formMeta={formMeta}
+          questions={questions}
+          sections={sections}
+          currentPage={currentPage}
+          handleChange={handleChange}
+          handleNext={handleNext}
+          handlePrevious={handlePrevious}
+          handleSubmit={handleSubmit}
+          formData={formData}
+          selectedLanguage={selectedLanguage}
+        />
+      ) : (
+        <FormLoader />
+      )}
+    </div>
   );
 };
 

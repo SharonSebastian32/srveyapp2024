@@ -161,10 +161,9 @@ html {
 }
 
 .list {
-  background-color: rgb(233, 233, 233);
   margin-top: 20px;
-  margin-left: 80px;
-  margin-right: 80px;
+  margin-left: 160px;
+  margin-right: 160px;
   align-items: center;
   text-align: center;
   padding-left: 20px;
@@ -184,14 +183,29 @@ html {
   color: white;
   margin: 2px;
   border: none;
-  border-radius: 30px;
+  border-radius: 20px;
   transition: all 0.3s ease;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 780px) {
   .submit-btn {
     font-size: 0.9em;
     padding: 0.5em 1.5em;
+  }
+  .list {
+    height: 50px;
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    align-items: center;
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+
+    flex-direction: row;
+    justify-content: space-between;
   }
 
   .sideImage {
@@ -227,11 +241,10 @@ html {
     margin: 0;
   }
   .list {
-    background-color: rgb(233, 233, 233);
     height: 50px;
     margin-top: 20px;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
     align-items: center;
     text-align: center;
     padding-left: 20px;
@@ -285,7 +298,7 @@ html {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 30px;
+  border-radius: 0px;
 }
 
 .popup-btn {
@@ -300,7 +313,7 @@ html {
   background-color: rgb(5, 166, 11);
   color: white;
   padding: 12px 40px;
-  border-radius: 30px;
+  border-radius: 5px;
 
   font-size: 18px;
   transition: background-color 0.3s ease, transform 0.3s ease;
@@ -311,7 +324,7 @@ html {
   color: rgb(255, 255, 255);
   padding: 12px 40px;
   font-size: 18px;
-  border-radius: 30px;
+  border-radius: 0px;
 }
 
 #question-p {
@@ -347,6 +360,6 @@ html {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 30px;
+    /* border-radius: 30px; */
   }
 }
