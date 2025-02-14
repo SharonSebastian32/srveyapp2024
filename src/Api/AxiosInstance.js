@@ -4,7 +4,7 @@ const API_URL = import.meta.env.VITE_API_BASE_URL;
 export const fetchData = async () => {
   try {
     const response = await axios.get(
-      `${API_URL}/api/exam-portal/v1/survey-attendees/get-feedback-survey-list`
+      `${API_URL}/api/exam-portal/v1/survey-attendees/get-feedback-survey-list?page=1&limit=100&status=true`
     );
     return response.data;
   } catch (error) {

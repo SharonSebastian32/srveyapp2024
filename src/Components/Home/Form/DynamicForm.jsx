@@ -25,13 +25,13 @@ const DynamicForm = () => {
     const typeMap = {
       SingleLineTextBox: "textbox",
       MultipleLinesTextBox: "textarea",
+      DropdownOneAnswer: "selectbox",
       MultiplechoiceOneanswer: "radio",
       MultiplechoiceManyanswers: "checkbox",
       Date: "date",
       Datetime: "datetime-local",
       NumericalValue: "numerical-value",
       Matrix: "matrix_radio",
-      DropdownOneAnswer: "selectbox",
     };
     return typeMap[type] || "textbox";
   };

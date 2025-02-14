@@ -132,7 +132,7 @@ const FormContent = ({
         <QuestionProgress
           currentQuestion={currentPage}
           totalQuestions={questions.length}
-        />
+         />
       </>
     );
   }

@@ -467,11 +467,13 @@ textarea:focus {
 
 .language-selector-combo {
   padding: 10px;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 5px;
   background-color: #fff;
   font-size: 16px;
   color: #333;
+  border: 2px solid #000000;
+  border-radius: 50px;
   appearance: none;
   background-position: right 10px center;
   background-size: 10px;

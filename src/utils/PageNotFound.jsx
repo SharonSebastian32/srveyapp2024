@@ -14,7 +14,7 @@ const PageNotFound = () => {
         }}
       >
         <img src={NoData} alt="image" id="no_data" data-aos="fade-up" />
-        <h2 data-aos="zoom-in">No Data</h2>
+        <h2 data-aos="zoom-in">You Dont Have Any Surveys At The Moment</h2>
       </div>
     </div>
   );
