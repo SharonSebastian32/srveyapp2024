@@ -36,7 +36,7 @@ const DynamicForm = () => {
       NumericalValue: "numerical-value",
       Matrix: "matrix_radio",
     };
-    return typeMap[type] || "textbox";
+    return typeMap[type] || null;
   };
 
   const processQuestionOptions = (question) => {
@@ -204,6 +204,26 @@ const DynamicForm = () => {
     loadForm();
   }, [formId]);
 
+  const resetForm = () => {
+    const initialData = {};
+    sections.forEach((section) => {
+      section.questions.forEach((question) => {
+        if (question.type === "matrix_radio") {
+          initialData[question.fieldId] = {};
+          question.matrixData?.rows?.forEach((row) => {
+            initialData[question.fieldId][row.id] = "";
+          });
+        } else if (question.type === "checkbox") {
+          initialData[question.fieldId] = [];
+        } else {
+          initialData[question.fieldId] = "";
+        }
+      });
+    });
+    setFormData(initialData);
+    setCurrentPage(0);
+  };
+
   const handleChange = (fieldId, value) => {
     setFormData((prevData) => {
       const updatedData = { ...prevData, [fieldId]: value };
@@ -267,6 +287,7 @@ const DynamicForm = () => {
           confirmButtonText: "OK",
           confirmButtonColor: "#3085d6",
         });
+        resetForm();
       } else {
         await Swal.fire({
           icon: "error",
@@ -325,3 +346,4 @@ const DynamicForm = () => {
 };
 
 export default DynamicForm;
+
