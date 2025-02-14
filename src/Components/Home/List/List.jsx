@@ -148,7 +148,7 @@ function ListContainer({ initialFields, handleFormNavigation }) {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedFormId, setSelectedFormId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 7;
 
   const handleButtonClick = (formId) => {
     setSelectedFormId(formId);
@@ -173,7 +173,13 @@ function ListContainer({ initialFields, handleFormNavigation }) {
       <div className="list-container">
         {currentItems.length > 0 ? (
           currentItems.map((obj, index) => (
-            <div className="list" key={index} data-aos="fade-up">
+            <div
+              className="list"
+              key={index}
+              style={{
+                height: "45px",
+              }}
+            >
               <p id="list-title">{obj.english_title}</p>
               {obj.survey_time_limit && (
                 <div>
@@ -231,7 +237,7 @@ function ListContainer({ initialFields, handleFormNavigation }) {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  gap: "150px",
+                  gap: "50px",
                   justifyContent: "space-between",
                 }}
               >

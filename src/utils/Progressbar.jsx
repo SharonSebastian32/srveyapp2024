@@ -2,7 +2,7 @@ const QuestionProgress = ({ currentQuestion, totalQuestions }) => {
   const progress = ((currentQuestion + 1) / totalQuestions) * 100;
 
   return (
-    <div style={{ width: "100%", marginTop: "11rem", marginBottom: "1.5rem" }}>
+    <div style={{ width: "100%", marginTop: "6rem", marginBottom: "1.5rem" }}>
       <div
         style={{
           display: "flex",
@@ -20,14 +20,14 @@ const QuestionProgress = ({ currentQuestion, totalQuestions }) => {
         style={{
           width: "100%",
           height: "0.625rem",
-          backgroundColor: "#e0e0e0",
+          backgroundColor: "#ffff",
           borderRadius: "9999px",
         }}
       >
         <div
           style={{
             height: "0.625rem",
-            backgroundColor: "#7c8c3e",
+            backgroundColor: "#b3ff5a",
             borderRadius: "9999px",
             transition: "all 0.3s ease-in-out",
             width: `${progress}%`,
