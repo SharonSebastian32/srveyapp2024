@@ -18,23 +18,23 @@ const FormField = ({ field, formData, handleChange, selectedLanguage }) => {
 
   switch (field.type) {
     case "textbox":
-      return <TextboxField {...commonProps} />;
+      return <TextboxField {...commonProps} key={field.fieldId} />;
     case "numerical-value":
-      return <NumericalValue {...commonProps} />;
+      return <NumericalValue {...commonProps} key={field.fieldId} />;
     case "textarea":
-      return <TextareaField {...commonProps} />;
+      return <TextareaField {...commonProps} key={field.fieldId} />;
     case "radio":
-      return <Radio {...commonProps} />;
+      return <Radio {...commonProps} key={field.fieldId} />;
     case "checkbox":
-      return <CheckboxField {...commonProps} />;
+      return <CheckboxField {...commonProps} key={field.fieldId} />;
     case "date":
-      return <DateField {...commonProps} />;
+      return <DateField {...commonProps} key={field.fieldId} />;
     case "datetime-local":
-      return <DateTime {...commonProps} />;
+      return <DateTime {...commonProps} key={field.fieldId} />;
     case "DropdownOneAnswer":
-      return <SelectBox {...commonProps} />;
+      return <SelectBox {...commonProps} key={field.fieldId} />;
     case "matrix_radio":
-      return <MatrixRadioFeedback {...commonProps} />;
+      return <MatrixRadioFeedback {...commonProps} key={field.fieldId} />;
     default:
       return null;
   }

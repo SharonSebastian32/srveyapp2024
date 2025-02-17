@@ -6,7 +6,7 @@ function ListContainer({ initialFields, handleFormNavigation }) {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedFormId, setSelectedFormId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 10;
 
   const handleButtonClick = (formId) => {
     setSelectedFormId(formId);

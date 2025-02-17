@@ -293,7 +293,7 @@ const DynamicForm = () => {
           icon: "error",
           title: "Oops...",
           text: "Something went wrong while submitting your form!",
-          confirmButtonColor: "#d33",
+          confirmButtonColor: "red",
         });
       }
     } catch (error) {
@@ -303,7 +303,7 @@ const DynamicForm = () => {
         icon: "error",
         title: "Oops...",
         text: "Something went wrong while submitting your form!",
-        confirmButtonColor: "#d33",
+        confirmButtonColor: "red",
       });
     }
   };
@@ -346,4 +346,3 @@ const DynamicForm = () => {
 };
 
 export default DynamicForm;
-
