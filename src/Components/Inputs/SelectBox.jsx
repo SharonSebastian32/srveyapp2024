@@ -9,7 +9,7 @@ const SelectBox = ({ field, formData, handleChange, selectedLanguage }) => {
         name={field.fieldId}
         value={formData[field.fieldId] || ""}
         onChange={(e) => handleChange(field.fieldId, e.target.value)}
-        required={field.required}
+        required
       >
         <option value="">{placeholder}</option>
         {field.options.map((option) => (
@@ -21,6 +21,5 @@ const SelectBox = ({ field, formData, handleChange, selectedLanguage }) => {
     </div>
   );
 };
-
 
 export default SelectBox;

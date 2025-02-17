@@ -19,7 +19,7 @@ html {
 .banner {
   min-height: 70%;
   width: 100%;
-background-color: rgb(16, 11, 46);
+  background: linear-gradient(to top, black, #2b4353);
   background-size: 200% 200%;
   animation: rotateBackground 3s ease infinite;
 }
@@ -241,7 +241,7 @@ background-color: rgb(16, 11, 46);
   .list-container {
     height: 60%;
     width: 100%;
-    padding: 0;
+    padding-top: 45px;
     margin: 0;
   }
   .list {
@@ -360,7 +360,6 @@ background-color: rgb(16, 11, 46);
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* border-radius: 30px; */
   }
 }
 

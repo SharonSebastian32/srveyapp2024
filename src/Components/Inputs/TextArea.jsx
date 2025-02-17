@@ -9,9 +9,9 @@ const TextArea = ({ field, formData, handleChange, selectedLanguage }) => {
       value={formData[field.fieldId] || ""}
       onChange={(e) => handleChange(field.fieldId, e.target.value)}
       placeholder="Please text here."
-      required={field.required}
+      required
     />
   );
-};
+};0
 
 export default TextArea;
