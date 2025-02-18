@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchData } from "../../api/UseAxiosService";
+import { fetchData } from "../../Api/UseAxiosService.js";
 import Banner from "./Banner/Banner";
 import AOS from "aos";
 import "../../styles/Loader.css";
