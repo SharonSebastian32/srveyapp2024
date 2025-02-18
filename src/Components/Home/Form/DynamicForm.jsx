@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import {
   getFormQuestions,
   PostFormQuestion,
-} from "../../../api/UseAxiosService";
+} from "../../../Api/UseAxiosService";
 import "../../../styles/Loader.css";
 import "../../../styles/DynamicForm.css";
 import Header from "../Header/Header";
@@ -12,6 +12,7 @@ import FormHeader from "./FormHeader";
 import FormContent from "./FormContent";
 import FormLoader from "../../../utils/Loader";
 import PageNotFound from "../../../utils/PageNotFound";
+// import QuestionProgress from "../../../utils/Progressbar";
 
 const DynamicForm = () => {
   const { formId } = useParams();
@@ -325,6 +326,10 @@ const DynamicForm = () => {
         selectedLanguage={selectedLanguage}
         setSelectedLanguage={setSelectedLanguage}
       />
+      {/* <QuestionProgress
+        currentQuestion={currentPage}
+        totalQuestions={questions.length}
+      /> */}
       {isDataLoaded ? (
         <FormContent
           formMeta={formMeta}

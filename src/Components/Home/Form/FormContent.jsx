@@ -15,7 +15,7 @@ const FormContent = ({
   formData,
   selectedLanguage,
 }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false); // State for loading
+  const [isSubmitting, setIsSubmitting] = useState(false); 
 
   const renderField = (question) => {
     const commonProps = {

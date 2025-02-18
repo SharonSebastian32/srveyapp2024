@@ -1,6 +1,5 @@
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_BASE_URL;
-
 export const fetchData = async () => {
   try {
     const response = await axios.get(
@@ -12,7 +11,6 @@ export const fetchData = async () => {
     throw error;
   }
 };
-
 export const getFormQuestions = async (formId) => {
   try {
     const response = await axios.get(
@@ -26,7 +24,6 @@ export const getFormQuestions = async (formId) => {
     throw error;
   }
 };
-
 export const PostFormQuestion = async (formData) => {
   try {
     const response = await axios.post(
