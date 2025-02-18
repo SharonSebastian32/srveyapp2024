@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { IoWarningOutline } from "react-icons/io5";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 function ListContainer({ initialFields, handleFormNavigation }) {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedFormId, setSelectedFormId] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
 
   const handleButtonClick = (formId) => {
     setSelectedFormId(formId);
@@ -21,22 +20,21 @@ function ListContainer({ initialFields, handleFormNavigation }) {
     setSelectedFormId(null);
   };
 
-  // Calculate paginated items
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = initialFields.slice(indexOfFirstItem, indexOfLastItem);
+  AOS.init();
 
   return (
     <>
       <div className="list-container">
-        {currentItems.length > 0 ? (
-          currentItems.map((obj, index) => (
+        {initialFields.length > 0 ? (
+          initialFields.map((obj, index) => (
             <div
               className="list"
               key={index}
               style={{
                 height: "45px",
               }}
+              data-aos="fade-up"
+              data-aos-duration="400"
             >
               <p id="list-title">{obj.english_title}</p>
               {obj.survey_time_limit && (
@@ -147,27 +145,6 @@ function ListContainer({ initialFields, handleFormNavigation }) {
           </div>
         )}
       </div>
-
-      {/* Pagination Component */}
-      {initialFields.length > 10 && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: "1rem",
-            marginBottom: "1.5rem",
-          }}
-        >
-          <Stack spacing={2}>
-            <Pagination
-              count={Math.ceil(initialFields.length / itemsPerPage)}
-              page={currentPage}
-              onChange={(event, page) => setCurrentPage(page)}
-            />
-          </Stack>
-        </div>
-      )}
     </>
   );
 }

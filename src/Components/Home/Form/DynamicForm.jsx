@@ -113,12 +113,14 @@ const DynamicForm = () => {
         const response = await getFormQuestions(formId);
 
         if (!response || !response.data) {
+          console.log("No data available");
           setError("NO_DATA");
           setIsDataLoaded(true);
           return;
         }
 
         if (response.data.length === 0) {
+          console.log("No questions found");
           setError("NO_QUESTIONS");
           setIsDataLoaded(true);
           return;
@@ -139,6 +141,7 @@ const DynamicForm = () => {
               title: item.english_title,
               translations: processTranslations(item),
               questions: [processQuestion(item.question)],
+              color: item.color,
             });
           }
           return acc;
@@ -157,12 +160,6 @@ const DynamicForm = () => {
             options: processQuestionOptions(question),
             matrixData: processMatrixData(question),
             translations: processTranslations(item),
-            feedback: question.is_feedback,
-            validations: {
-              max: question.max_limit,
-              min: question.min_limit,
-              error: question.validation_error,
-            },
           };
         });
 
@@ -182,6 +179,16 @@ const DynamicForm = () => {
           });
         });
 
+        console.log("Processed Questions:", processedQuestions);
+        console.log("Processed Sections:", processedSections);
+        console.log("Initial Form Data:", initialData);
+        console.log("Form Meta:", {
+          formName: response.option.english_title,
+          paginationType: response.option.pagination_type,
+          survey_languages: response.option.survey_languages || [],
+          fontColor: response.data[0].font_color,
+        });
+
         setQuestions(processedQuestions);
         setSections(processedSections);
         setFormData(initialData);
@@ -189,10 +196,9 @@ const DynamicForm = () => {
           formName: response.option.english_title,
           paginationType: response.option.pagination_type,
           survey_languages: response.option.survey_languages || [],
-          isBackAllowed: response.option.is_back_button,
-          timeLimited: response.option.is_survey_time_limit,
-          timeLimit: response.option.survey_time_limit,
+          font_color: response.option.font_color,
         });
+
         setIsDataLoaded(true);
       } catch (error) {
         console.log("Error fetching form data:", error);
@@ -346,4 +352,3 @@ const DynamicForm = () => {
 };
 
 export default DynamicForm;
-

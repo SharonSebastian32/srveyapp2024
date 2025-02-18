@@ -1,9 +1,9 @@
 const FormHeader = ({ formMeta, selectedLanguage, setSelectedLanguage }) => {
   return (
     <div className="form-container">
-      <h2 className="form-title" data-aos="fade-right">
+      {/* <h2 className="form-title" data-aos="fade-right">
         {formMeta.formName}
-      </h2>
+      </h2> */} <br />
       {formMeta.survey_languages?.length > 0 && (
         <div className="custom-select">
           <select

@@ -1,5 +1,6 @@
 import FormField from "../../../Components/Home/Form/FormFIeld";
 import QuestionProgress from "../../../utils/Progressbar";
+
 const FormContent = ({
   formMeta,
   questions,
@@ -25,7 +26,7 @@ const FormContent = ({
       selectedLanguage: selectedLanguage,
     };
 
-    return <FormField {...commonProps} />;
+    return <FormField key={question.fieldId} {...commonProps} />;
   };
 
   if (formMeta.paginationType === "OnePagePerQuestion") {
@@ -38,7 +39,12 @@ const FormContent = ({
         <form className="form-container" onSubmit={handleSubmit}>
           {currentQuestion && (
             <div className="question-container">
-              <h3 className="question-title">
+              <h3
+                className="question-title"
+                style={{
+                  marginTop: "24px",
+                }}
+              >
                 {currentQuestion.translations?.[selectedLanguage] ||
                   currentQuestion.label}
                 {currentQuestion.required && (
@@ -132,7 +138,7 @@ const FormContent = ({
         <QuestionProgress
           currentQuestion={currentPage}
           totalQuestions={questions.length}
-         />
+        />
       </>
     );
   }
