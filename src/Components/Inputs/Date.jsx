@@ -13,8 +13,6 @@ const Date = ({ field, formData, handleChange, selectedLanguage }) => {
 
   return (
     <input
-      data-aos="fade-right"
-      data-aos-duration="500"
       type="date"
       id={field.fieldId}
       name={field.fieldId}

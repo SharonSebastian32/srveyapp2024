@@ -4,17 +4,17 @@
   font-family: "Poppins";
 }
 
-form h2 {
+/* form h2 {
   font-size: 28px;
   margin-bottom: 20px;
   color: #333;
-}
-
+} */
+/* 
 form p {
   font-size: 16px;
   margin-bottom: 20px;
   color: #666;
-}
+} */
 
 form label {
   display: block;
@@ -195,13 +195,13 @@ input[type="checkbox"] {
   color: #333;
 }
 
-form h3 {
+/* form h3 {
   font-size: 24px;
   margin-bottom: 15px;
   color: #444;
   border-bottom: 2px solid #eee;
   padding-bottom: 5px;
-}
+} */
 
 .matrix-feedcheckback {
   margin-bottom: 20px;

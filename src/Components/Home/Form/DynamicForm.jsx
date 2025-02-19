@@ -69,21 +69,23 @@ const DynamicForm = () => {
           return acc;
         }, {}),
       })),
-      required: question.is_mandatory,
-      feedback: question.is_feedback,
     };
   };
   const processTranslations = (item) => {
     if (!item?.section_other_title?.other_title) return {};
     return item.section_other_title.other_title.reduce((acc, trans) => {
-      acc[trans.language] = trans.name.replace(/<[^>]*>/g, "");
+      acc[trans.language] = trans.name;
       return acc;
     }, {});
   };
   const processQuestion = (question) => {
     return {
       id: question.id,
-      fieldId: `question_${question.id}`,
+
+      fieldId: `_id: ${question.id}`,
+      back_ground_color: question.back_ground_color,
+      shape: ` ${question.shape}`,
+      font_color: question.font_color,
       type: mapQuestionType(question.question_type),
       required: question.is_mandatory,
       placeholder: question.place_holder,
@@ -91,15 +93,9 @@ const DynamicForm = () => {
       matrixData: processMatrixData(question),
       translations: processTranslations({
         section_other_title: {
-          other_title: question.question_title_language?.other_title || [],
+          other_title: question.question_title_language?.other_title,
         },
       }),
-      feedback: question.is_feedback,
-      validations: {
-        max: question.max_limit,
-        min: question.min_limit,
-        error: question.validation_error,
-      },
     };
   };
   useEffect(() => {
@@ -149,7 +145,10 @@ const DynamicForm = () => {
             fieldId: `question_${item.id}`,
             type: mapQuestionType(question.question_type),
             answer_type: question.question_type,
-            label: item.english_title.replace(/<[^>]*>/g, ""),
+            back_ground_color: question.back_ground_color,
+            shape: question.shape,
+            font_color: question.font_color,
+            label: item.english_title,
             required: question.is_mandatory,
             placeholder: question.place_holder,
             options: processQuestionOptions(question),
@@ -183,6 +182,7 @@ const DynamicForm = () => {
           survey_languages: response.option.survey_languages || [],
           font_color: response.data[0].font_color,
           back_ground_color: response.data[0].back_ground_color,
+          shape: response.data[0].shape,
         });
 
         setIsDataLoaded(true);

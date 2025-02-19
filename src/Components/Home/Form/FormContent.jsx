@@ -1,6 +1,5 @@
 import FormField from "../../../Components/Home/Form/FormFIeld";
 import QuestionProgress from "../../../utils/Progressbar";
-
 const FormContent = ({
   formMeta,
   questions,
@@ -28,8 +27,13 @@ const FormContent = ({
     return <FormField key={question.fieldId} {...commonProps} />;
   };
 
-  const titleColor = formMeta.font_color;
-  const bgColor = formMeta.back_ground_color;
+  console.log("Questions: _needed_ones_", questions);
+  // const a = [];
+
+  // for (let i = 0; i < questions.length; i++) {
+  //   a.push(questions[i].font_color);
+  // }
+  // console.log(a);
 
   if (formMeta.paginationType === "OnePagePerQuestion") {
     const currentQuestion = questions[currentPage];
@@ -42,20 +46,25 @@ const FormContent = ({
           {currentQuestion && (
             <div className="question-container">
               <div>
-                <h3
-                  className="question-title"
-                  style={{
-                    color: titleColor,
-                    backgroundColor: bgColor,
-                    padding: "10px",
-                  }}
-                >
-                  {currentQuestion.translations?.[selectedLanguage] ||
-                    currentQuestion.label}
-                  {currentQuestion.required && (
-                    <span className="required-mark">*</span>
-                  )}
-                </h3>
+                <div className="question-title">
+                  {console.log(currentQuestion.label)}
+                  <div
+                    style={{
+                      borderRadius:
+                        currentQuestion.shape === "Circle" ? "50px" : "0px",
+                      backgroundColor: currentQuestion.back_ground_color,
+                      color: currentQuestion.font_color,
+                      padding: "2px 15px",
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        currentQuestion.translations?.[selectedLanguage] ||
+                        currentQuestion.label,
+                    }}
+                  />
+                  <br />
+                  <br />
+                </div>
               </div>
               {renderField(currentQuestion)}
             </div>
@@ -87,13 +96,24 @@ const FormContent = ({
     );
   } else if (formMeta.paginationType === "OnePageWithAllTheQuestions") {
     return (
-      <form className="form-container" onSubmit={handleSubmit}>
+      <form className="form-container" onSubmit={handleSubmit} style={{}}>
         {questions.map((question, index) => (
           <div key={question.id || index} className="question-container">
-            <h3 className="question-title" style={{ color: titleColor }}>
-              {question.translations?.[selectedLanguage] || question.label}
-              {question.required && <span className="required-mark">*</span>}
-            </h3>
+            <div
+              style={{
+                borderRadius: question.shape === "Circle" ? "50px" : "0px",
+                backgroundColor: question.back_ground_color,
+                color: question.font_color,
+                padding: "2px 15px",
+              }}
+              dangerouslySetInnerHTML={{
+                __html:
+                  question.translations?.[selectedLanguage] || question.label,
+              }}
+            />
+            <br />
+            <br />
+
             {renderField(question)}
           </div>
         ))}
@@ -115,10 +135,26 @@ const FormContent = ({
         <form className="form-container" onSubmit={handleSubmit}>
           {currentSection.questions.map((question) => (
             <div key={question.fieldId} className="question-container">
-              <h3 className="question-title" style={{ color: titleColor }}>
+              {/* <h3 className="question-title" style={{ color: titleColor }}>
                 {question.translations?.[selectedLanguage] || question.label}
                 {question.required && <span className="required-mark">*</span>}
-              </h3>
+              </h3> */}
+
+              <div
+                style={{
+                  borderRadius: br_Radius,
+                  backgroundColor: bgColor,
+                  color: titleColor,
+                  padding: "2px 15px",
+                }}
+                dangerouslySetInnerHTML={{
+                  __html:
+                    question.translations?.[selectedLanguage] || question.label,
+                }}
+              />
+              <br />
+              <br />
+
               {renderField(question)}
             </div>
           ))}
