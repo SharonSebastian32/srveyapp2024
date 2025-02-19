@@ -38,7 +38,6 @@ const DynamicForm = () => {
     };
     return typeMap[type] || null;
   };
-
   const processQuestionOptions = (question) => {
     if (!question.answer_title_language) return [];
     return question.answer_title_language.map((answer) => ({
@@ -50,7 +49,6 @@ const DynamicForm = () => {
       }, {}),
     }));
   };
-
   const processMatrixData = (question) => {
     if (question.question_type !== "Matrix") return null;
     return {
@@ -75,7 +73,6 @@ const DynamicForm = () => {
       feedback: question.is_feedback,
     };
   };
-
   const processTranslations = (item) => {
     if (!item?.section_other_title?.other_title) return {};
     return item.section_other_title.other_title.reduce((acc, trans) => {
@@ -83,7 +80,6 @@ const DynamicForm = () => {
       return acc;
     }, {});
   };
-
   const processQuestion = (question) => {
     return {
       id: question.id,
@@ -106,7 +102,6 @@ const DynamicForm = () => {
       },
     };
   };
-
   useEffect(() => {
     const loadForm = async () => {
       try {
@@ -179,16 +174,6 @@ const DynamicForm = () => {
           });
         });
 
-        console.log("Processed Questions:", processedQuestions);
-        console.log("Processed Sections:", processedSections);
-        console.log("Initial Form Data:", initialData);
-        console.log("Form Meta:", {
-          formName: response.option.english_title,
-          paginationType: response.option.pagination_type,
-          survey_languages: response.option.survey_languages || [],
-          fontColor: response.data[0].font_color,
-        });
-
         setQuestions(processedQuestions);
         setSections(processedSections);
         setFormData(initialData);
@@ -196,7 +181,8 @@ const DynamicForm = () => {
           formName: response.option.english_title,
           paginationType: response.option.pagination_type,
           survey_languages: response.option.survey_languages || [],
-          font_color: response.option.font_color,
+          font_color: response.data[0].font_color,
+          back_ground_color: response.data[0].back_ground_color,
         });
 
         setIsDataLoaded(true);
@@ -209,7 +195,6 @@ const DynamicForm = () => {
 
     loadForm();
   }, [formId]);
-
   const resetForm = () => {
     const initialData = {};
     sections.forEach((section) => {
@@ -229,7 +214,6 @@ const DynamicForm = () => {
     setFormData(initialData);
     setCurrentPage(0);
   };
-
   const handleChange = (fieldId, value) => {
     setFormData((prevData) => {
       const updatedData = { ...prevData, [fieldId]: value };
@@ -237,17 +221,14 @@ const DynamicForm = () => {
       return updatedData;
     });
   };
-
   const handleNext = (e) => {
     e.preventDefault();
     setCurrentPage((prev) => prev + 1);
   };
-
   const handlePrevious = (e) => {
     e.preventDefault();
     setCurrentPage((prev) => prev - 1);
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -313,7 +294,6 @@ const DynamicForm = () => {
       });
     }
   };
-
   if (isDataLoaded && error) {
     return (
       <div className="dynamic-form-wrapper">

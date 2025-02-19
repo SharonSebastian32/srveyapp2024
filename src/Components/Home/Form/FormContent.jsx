@@ -7,8 +7,8 @@ const FormContent = ({
   sections,
   currentPage,
   handleChange,
-  handleNext,
   handlePrevious,
+  handleNext,
   handleSubmit,
   formData,
   selectedLanguage,
@@ -25,9 +25,11 @@ const FormContent = ({
       handleChange: handleChange,
       selectedLanguage: selectedLanguage,
     };
-
     return <FormField key={question.fieldId} {...commonProps} />;
   };
+
+  const titleColor = formMeta.font_color;
+  const bgColor = formMeta.back_ground_color;
 
   if (formMeta.paginationType === "OnePagePerQuestion") {
     const currentQuestion = questions[currentPage];
@@ -39,18 +41,22 @@ const FormContent = ({
         <form className="form-container" onSubmit={handleSubmit}>
           {currentQuestion && (
             <div className="question-container">
-              <h3
-                className="question-title"
-                style={{
-                  marginTop: "24px",
-                }}
-              >
-                {currentQuestion.translations?.[selectedLanguage] ||
-                  currentQuestion.label}
-                {currentQuestion.required && (
-                  <span className="required-mark">*</span>
-                )}
-              </h3>
+              <div>
+                <h3
+                  className="question-title"
+                  style={{
+                    color: titleColor,
+                    backgroundColor: bgColor,
+                    padding: "10px",
+                  }}
+                >
+                  {currentQuestion.translations?.[selectedLanguage] ||
+                    currentQuestion.label}
+                  {currentQuestion.required && (
+                    <span className="required-mark">*</span>
+                  )}
+                </h3>
+              </div>
               {renderField(currentQuestion)}
             </div>
           )}
@@ -84,7 +90,7 @@ const FormContent = ({
       <form className="form-container" onSubmit={handleSubmit}>
         {questions.map((question, index) => (
           <div key={question.id || index} className="question-container">
-            <h3 className="question-title">
+            <h3 className="question-title" style={{ color: titleColor }}>
               {question.translations?.[selectedLanguage] || question.label}
               {question.required && <span className="required-mark">*</span>}
             </h3>
@@ -109,7 +115,7 @@ const FormContent = ({
         <form className="form-container" onSubmit={handleSubmit}>
           {currentSection.questions.map((question) => (
             <div key={question.fieldId} className="question-container">
-              <h3 className="question-title">
+              <h3 className="question-title" style={{ color: titleColor }}>
                 {question.translations?.[selectedLanguage] || question.label}
                 {question.required && <span className="required-mark">*</span>}
               </h3>
