@@ -126,6 +126,7 @@ const DynamicForm = () => {
               translations: processTranslations(item),
               questions: sectionQuestions,
             });
+            console.log("Section Questions: ", sectionQuestions);
           } else if (item.types === "Question") {
             acc.push({
               id: item.id,
@@ -180,9 +181,6 @@ const DynamicForm = () => {
           formName: response.option.english_title,
           paginationType: response.option.pagination_type,
           survey_languages: response.option.survey_languages || [],
-          font_color: response.data[0].font_color,
-          back_ground_color: response.data[0].back_ground_color,
-          shape: response.data[0].shape,
         });
 
         setIsDataLoaded(true);
