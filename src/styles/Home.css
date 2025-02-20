@@ -189,6 +189,7 @@ html {
   padding-right: 20px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
+  height: 45px;
   flex-direction: row;
   justify-content: space-between;
 }
@@ -275,12 +276,6 @@ html {
     min-height: 100%;
     width: 100%;
   }
-}
-
-#list-title {
-  color: rgb(0, 0, 0);
-  font-size: 18px;
-  font-weight: 500;
 }
 
 @keyframes spin {
@@ -382,8 +377,8 @@ html {
 }
 
 #list-title {
-  color: rgb(7, 7, 7);
-  font-size: 19px;
-  font-weight: 600;
-  font-family: "Poppins";
+  color: #000000;
+  font-size: 16px;
+  font-weight: normal;
+   font-family: "Poppins";
 }

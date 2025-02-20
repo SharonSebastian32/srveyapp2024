@@ -59,7 +59,6 @@ const FormContent = ({
                   }}
                 />
                 <br />
-                <br />
               </div>
             </div>
             {renderField(currentQuestion)}
@@ -123,9 +122,9 @@ const FormContent = ({
           <div key={question.fieldId} className="question-container">
             <div
               style={{
-                borderRadius: "50px",
-                backgroundColor: "red",
-                color: "white",
+                borderRadius: question.shape === "Circle" ? "50px" : "0px",
+                backgroundColor: question.back_ground_color,
+                color: question.font_color,
                 padding: "2px 15px",
               }}
               dangerouslySetInnerHTML={{
@@ -138,6 +137,7 @@ const FormContent = ({
             {renderField(question)}
           </div>
         ))}
+
         <div className="navigation-buttons" style={{ marginTop: "24px" }}>
           {formMeta.isBackAllowed && !isFirstSection && (
             <button type="button" id="previous-btn" onClick={handlePrevious}>
@@ -159,7 +159,7 @@ const FormContent = ({
   }
 
   return (
-    <div style={{ position: "relative", minHeight: "100vh" }}>
+    <div style={{ position: "relative", Height: "100vh" }}>
       {content}
       <div style={{ position: "fixed", bottom: "0", width: "100%" }}>
         <QuestionProgress

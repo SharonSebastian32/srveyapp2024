@@ -81,11 +81,11 @@ const DynamicForm = () => {
   const processQuestion = (question) => {
     return {
       id: question.id,
-
       fieldId: `_id: ${question.id}`,
       back_ground_color: question.back_ground_color,
       shape: ` ${question.shape}`,
       font_color: question.font_color,
+      is_horizontal: question.is_horizontal,
       type: mapQuestionType(question.question_type),
       required: question.is_mandatory,
       placeholder: question.place_holder,
@@ -125,8 +125,10 @@ const DynamicForm = () => {
               title: item.english_title,
               translations: processTranslations(item),
               questions: sectionQuestions,
+              font_color: item.font_color,
+              background_color: item.back_ground_color,
             });
-            console.log("Section Questions: ", sectionQuestions);
+            console.log(sectionQuestions);
           } else if (item.types === "Question") {
             acc.push({
               id: item.id,
@@ -150,6 +152,7 @@ const DynamicForm = () => {
             shape: question.shape,
             font_color: question.font_color,
             label: item.english_title,
+            is_horizontal: question.is_horizontal,
             required: question.is_mandatory,
             placeholder: question.place_holder,
             options: processQuestionOptions(question),
