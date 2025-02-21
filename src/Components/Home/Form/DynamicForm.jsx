@@ -35,6 +35,7 @@ const DynamicForm = () => {
       Datetime: "datetime-local",
       NumericalValue: "numerical-value",
       Matrix: "matrix_radio",
+      DropdownMultipleAnswer: "selectbox",
       Rating: "Rating",
     };
     return typeMap[type] || null;
@@ -44,6 +45,7 @@ const DynamicForm = () => {
     return question.answer_title_language.map((answer) => ({
       value: answer.pk.toString(),
       label: answer.english_answer,
+      image: answer.image,
       translations: answer.other_answer.reduce((acc, trans) => {
         acc[trans.language] = trans.answer;
         return acc;
@@ -87,7 +89,6 @@ const DynamicForm = () => {
       shape: ` ${question.shape}`,
       font_color: question.font_color,
       is_horizontal: question.is_horizontal,
-
       type: mapQuestionType(question.question_type),
       required: question.is_mandatory,
       placeholder: question.place_holder,
@@ -100,6 +101,7 @@ const DynamicForm = () => {
       }),
     };
   };
+
   useEffect(() => {
     const loadForm = async () => {
       try {
@@ -148,6 +150,8 @@ const DynamicForm = () => {
           return {
             id: item.id,
             fieldId: `question_${item.id}`,
+            staring: question.staring,
+
             type: mapQuestionType(question.question_type),
             answer_type: question.question_type,
             back_ground_color: question.back_ground_color,
@@ -273,8 +277,7 @@ const DynamicForm = () => {
         await Swal.fire({
           icon: "success",
           title: "Success!",
-          text: "Your form has been submitted successfully.",
-          confirmButtonText: "OK",
+          text: "Your reponse has been submitted.",
           confirmButtonColor: "#3085d6",
         });
         resetForm();
@@ -282,7 +285,7 @@ const DynamicForm = () => {
         await Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Something went wrong while submitting your form!",
+          text: "Something went wrong while submitting your response!",
           confirmButtonColor: "#d33",
         });
       }

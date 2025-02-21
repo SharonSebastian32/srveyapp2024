@@ -166,7 +166,7 @@ const FormContent = ({
     formMeta.paginationType === "OnePagePerSection";
 
   return (
-    <div style={{ position: "relative", minHeight: "100vh" }}>
+    <div style={{ position: "relative", marginBottom: "150px" }}>
       {content}
       {showProgressBar && (
         <div style={{ position: "fixed", bottom: "0", width: "100%" }}>

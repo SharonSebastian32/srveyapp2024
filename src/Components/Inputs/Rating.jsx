@@ -1,7 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
-function Rating() {
+function Rating(question) {
+  console.log("heio", question.field.staring.labels);
+  const label = question.field.staring.labels;
   return (
     <div
       style={{
@@ -10,17 +12,19 @@ function Rating() {
         gap: "1rem",
       }}
     >
-      <FontAwesomeIcon
-        icon={faStar}
-        size="2x"
-        style={{ color: "#998005", cursor: "pointer" }}
-      />
-      <FontAwesomeIcon icon={faStar} size="2x" style={{ cursor: "pointer" }} />
-      <FontAwesomeIcon icon={faStar} size="2x" style={{ cursor: "pointer" }} />
-      <FontAwesomeIcon icon={faStar} size="2x" style={{ cursor: "pointer" }} />
+      {label.map((label, index) => (
+        <div key={index}>
+          <FontAwesomeIcon
+            icon={faStar}
+            size="2x"
+            style={{ cursor: "pointer" }}
+          />
+
+          <p>{label.title}</p>
+        </div>
+      ))}
     </div>
   );
 }
 
 export default Rating;
-

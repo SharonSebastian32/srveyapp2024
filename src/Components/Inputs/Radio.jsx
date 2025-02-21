@@ -2,6 +2,7 @@ import "../../styles/tooltip.css";
 
 const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
   console.log("field", field);
+
   return (
     <div
       className="radio-group2"
@@ -18,35 +19,57 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
 
         return (
           <div key={option.value} className="radio-item2">
-            <input
-              type="radio"
-              id={`${field.fieldId}-${option.value}`}
-              name={field.fieldId}
-              value={option.value}
-              checked={formData[field.fieldId] === option.value}
-              onChange={() => handleChange(field.fieldId, option.value)}
-              style={{ display: "none" }}
-            />
-            <label
+            <div
+              className="label-container"
               style={{
-                color:
-                  formData[field.fieldId] === option.value ? "white" : "black",
-                backgroundColor:
-                  formData[field.fieldId] === option.value
-                    ? "rgb(8, 8, 8)"
-                    : "rgb(222, 251, 205)",
-                borderRadius: isSingleCharacter ? "50%" : "50px",
-                padding: isSingleCharacter ? "10px 18px" : "10px 18px",
+                border: "1px solid black",
+                borderRadius: "5px",
+                padding: "10px",
               }}
-              htmlFor={`${field.fieldId}-${option.value}`}
             >
-              {option.translations?.[selectedLanguage] || option.label}
-              <span className="tooltip">
-                {option.tooltip ||
-                  option.translations?.[selectedLanguage] ||
-                  option.label}
-              </span>
-            </label>
+              {option.image && (
+                <img
+                  src={option.image}
+                  alt=""
+                  style={{
+                    width: "200px",
+                    height: "220px",
+                    objectFit: "cover",
+                  }}
+                />
+              )}
+              <input
+                type="radio"
+                id={`${field.fieldId}-${option.value}`}
+                name={field.fieldId}
+                value={option.value}
+                checked={formData[field.fieldId] === option.value}
+                onChange={() => handleChange(field.fieldId, option.value)}
+                style={{ display: "none" }}
+              />
+              <label
+                style={{
+                  color:
+                    formData[field.fieldId] === option.value
+                      ? "white"
+                      : "black",
+                  backgroundColor:
+                    formData[field.fieldId] === option.value
+                      ? "rgb(8, 8, 8)"
+                      : "rgb(222, 251, 205)",
+                  borderRadius: isSingleCharacter ? "50%" : "50px",
+                  padding: "10px 18px",
+                }}
+                htmlFor={`${field.fieldId}-${option.value}`}
+              >
+                {option.translations?.[selectedLanguage] || option.label}
+                <span className="tooltip">
+                  {option.tooltip ||
+                    option.translations?.[selectedLanguage] ||
+                    option.label}
+                </span>
+              </label>
+            </div>
           </div>
         );
       })}

@@ -36,7 +36,7 @@ const FormField = ({ field, formData, handleChange, selectedLanguage }) => {
     case "matrix_radio":
       return <MatrixRadioFeedback {...commonProps} />;
     case "Rating":
-      return <Rating />;
+      return <Rating {...commonProps} />;
     default:
       return null;
   }
