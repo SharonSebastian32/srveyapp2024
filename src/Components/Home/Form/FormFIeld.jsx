@@ -7,7 +7,7 @@ import DateTime from "../../Inputs/DateTime";
 import NumericalValue from "../../Inputs/NumericalValue";
 import SelectBox from "../../Inputs/SelectBox";
 import Radio from "../../Inputs/Radio";
-
+import Rating from "../../Inputs/Rating";
 const FormField = ({ field, formData, handleChange, selectedLanguage }) => {
   const commonProps = {
     field,
@@ -35,6 +35,8 @@ const FormField = ({ field, formData, handleChange, selectedLanguage }) => {
       return <SelectBox {...commonProps} />;
     case "matrix_radio":
       return <MatrixRadioFeedback {...commonProps} />;
+    case "Rating":
+      return <Rating />;
     default:
       return null;
   }

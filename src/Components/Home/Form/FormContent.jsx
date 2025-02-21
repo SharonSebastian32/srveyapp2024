@@ -1,6 +1,5 @@
 import FormField from "../../../Components/Home/Form/FormField";
 import QuestionProgress from "../../../utils/Progressbar";
-
 const FormContent = ({
   formMeta,
   questions,
@@ -84,7 +83,11 @@ const FormContent = ({
     );
   } else if (formMeta.paginationType === "OnePageWithAllTheQuestions") {
     content = (
-      <form className="form-container" onSubmit={handleSubmit}>
+      <form
+        className="form-container"
+        onSubmit={handleSubmit}
+        style={{ marginBottom: "50px" }}
+      >
         {questions.map((question, index) => (
           <div key={question.id || index} className="question-container">
             <div
@@ -99,7 +102,7 @@ const FormContent = ({
                   question.translations?.[selectedLanguage] || question.label,
               }}
             />
-            <br />
+
             <br />
             {renderField(question)}
           </div>
@@ -132,7 +135,7 @@ const FormContent = ({
                   question.translations?.[selectedLanguage] || question.label,
               }}
             />
-            <br />
+
             <br />
             {renderField(question)}
           </div>
@@ -158,15 +161,25 @@ const FormContent = ({
     );
   }
 
+  const showProgressBar =
+    formMeta.paginationType === "OnePagePerQuestion" ||
+    formMeta.paginationType === "OnePagePerSection";
+
   return (
-    <div style={{ position: "relative", Height: "100vh" }}>
+    <div style={{ position: "relative", minHeight: "100vh" }}>
       {content}
-      <div style={{ position: "fixed", bottom: "0", width: "100%" }}>
-        <QuestionProgress
-          currentQuestion={currentPage}
-          totalQuestions={questions.length}
-        />
-      </div>
+      {showProgressBar && (
+        <div style={{ position: "fixed", bottom: "0", width: "100%" }}>
+          <QuestionProgress
+            currentQuestion={currentPage}
+            totalQuestions={
+              formMeta.paginationType === "OnePagePerQuestion"
+                ? questions.length
+                : sections.length
+            }
+          />
+        </div>
+      )}
     </div>
   );
 };

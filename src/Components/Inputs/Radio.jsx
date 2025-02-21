@@ -1,12 +1,13 @@
 import "../../styles/tooltip.css";
 
 const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
+  console.log("field", field);
   return (
     <div
       className="radio-group2"
       style={{
         display: "flex",
-        flexDirection: field.is_horizontal ? "row" : "column", // Use is_horizontal to determine direction
+        flexDirection: field.is_horizontal === true ? "row" : "column",
         gap: "10px",
       }}
     >
@@ -41,7 +42,9 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
             >
               {option.translations?.[selectedLanguage] || option.label}
               <span className="tooltip">
-                {option.translations?.[selectedLanguage] || option.label}
+                {option.tooltip ||
+                  option.translations?.[selectedLanguage] ||
+                  option.label}
               </span>
             </label>
           </div>

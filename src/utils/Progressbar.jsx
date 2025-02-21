@@ -27,7 +27,7 @@ const QuestionProgress = ({ currentQuestion, totalQuestions }) => {
         <div
           style={{
             height: "0.625rem",
-            backgroundColor: "black",
+            backgroundColor: "#074004",
             borderRadius: "9999px",
             transition: "all 0.3s ease-in-out",
             width: `${progress}%`,

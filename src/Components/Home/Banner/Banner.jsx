@@ -26,8 +26,8 @@ function Banner() {
               />
             </div>
             <div data-aos="fade-up">
-              <h2>Welcome to the survey of selection page</h2>
-              <p>Select the Way that you wish to attend </p>
+              <h2>Welcome to the survey selection page.</h2>
+              <p>Select the Way that you wish to attend.</p>
             </div>
           </div>
           <div className="banner-right">

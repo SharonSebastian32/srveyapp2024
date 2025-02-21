@@ -35,6 +35,7 @@ const DynamicForm = () => {
       Datetime: "datetime-local",
       NumericalValue: "numerical-value",
       Matrix: "matrix_radio",
+      Rating: "Rating",
     };
     return typeMap[type] || null;
   };
@@ -86,6 +87,7 @@ const DynamicForm = () => {
       shape: ` ${question.shape}`,
       font_color: question.font_color,
       is_horizontal: question.is_horizontal,
+
       type: mapQuestionType(question.question_type),
       required: question.is_mandatory,
       placeholder: question.place_holder,
