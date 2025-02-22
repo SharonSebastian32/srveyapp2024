@@ -300,6 +300,7 @@ const DynamicForm = () => {
       });
     }
   };
+
   if (isDataLoaded && error) {
     return (
       <div className="dynamic-form-wrapper">

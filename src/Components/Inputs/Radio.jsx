@@ -21,10 +21,12 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
           <div key={option.value} className="radio-item2">
             <div
               className="label-container"
+              onClick={() => handleChange(field.fieldId, option.value)}
               style={{
-                border: "1px solid black",
+                border: option.image ? "1px solid black" : "none",
                 borderRadius: "5px",
                 padding: "10px",
+                cursor: "pointer",
               }}
             >
               {option.image && (
@@ -44,7 +46,6 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                 name={field.fieldId}
                 value={option.value}
                 checked={formData[field.fieldId] === option.value}
-                onChange={() => handleChange(field.fieldId, option.value)}
                 style={{ display: "none" }}
               />
               <label
