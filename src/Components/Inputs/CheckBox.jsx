@@ -36,7 +36,7 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
             width: "180px",
           }}
         >
-          {option.image || option.label ? (
+          {option.image ? (
             <>
               <input
                 type="checkbox"
@@ -58,28 +58,15 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
                   flexDirection: "column",
                 }}
               >
-                {option.image && (
-                  <img
-                    src={option.image}
-                    alt=""
-                    style={{
-                      width: "150px",
-                      height: "160px",
-                      objectFit: "cover",
-                    }}
-                  />
-                )}
-                {option.emoji ? (
-                  <IconComponent
-                    iconName={option.emoji}
-                    color={option.color}
-                    style={{ paddingTop: "5px" }}
-                  />
-                ) : (
-                  <div>
-                    {option.translations?.[selectedLanguage] || option.label}
-                  </div>
-                )}
+                <img
+                  src={option.image}
+                  alt=""
+                  style={{
+                    width: "150px",
+                    height: "160px",
+                    objectFit: "cover",
+                  }}
+                />
               </label>
             </>
           ) : (
@@ -99,11 +86,13 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
                 checked={formData[field.fieldId]?.includes(option.value)}
                 onChange={() => onCheckboxChange(option.value)}
               />
-              <IconComponent
-                iconName={option.emoji}
-                color={option.color}
-                style={{ paddingLeft: "5px" }}
-              />
+              {option.emoji && (
+                <IconComponent
+                  iconName={option.emoji}
+                  color={option.color}
+                  style={{ paddingLeft: "5px" }}
+                />
+              )}
             </div>
           )}
         </div>
@@ -113,3 +102,4 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
 };
 
 export default CheckBox;
+

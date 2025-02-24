@@ -15,11 +15,6 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
       }}
     >
       {field.options.map((option) => {
-        const isSingleCharacter =
-          option.translations?.[selectedLanguage]?.length === 1 ||
-          option.label.length === 1;
-        const isEmoji = option.emoji;
-
         return (
           <div key={option.value} className="radio-item2">
             <div
@@ -30,7 +25,7 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                 borderRadius: "5px",
                 padding: "8px",
                 cursor: "pointer",
-                margin: "2px",
+                margin: "10px",
               }}
             >
               {option.image && (
@@ -41,6 +36,7 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                     width: "200px",
                     height: "220px",
                     objectFit: "cover",
+                    padding: "10px",
                   }}
                 />
               )}
@@ -52,57 +48,38 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                 checked={formData[field.fieldId] === option.value}
                 style={{ display: "none" }}
               />
-              <label
-                style={{
-                  color:
-                    formData[field.fieldId] === option.value
-                      ? "white"
-                      : "black",
-                  backgroundColor:
-                    formData[field.fieldId] === option.value
-                      ? "rgb(0, 0, 0)"
-                      : "rgb(218, 218, 218)",
-                  borderRadius: isEmoji
-                    ? "50%"
-                    : isSingleCharacter
-                    ? "50%"
-                    : "50px",
-                  padding: "4px",
-                }}
-                htmlFor={`${field.fieldId}-${option.value}`}
-              >
-                {option.emoji ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "2em",
-                      height: "2em",
-                      borderRadius: "50%",
-                      backgroundColor:
-                        formData[field.fieldId] === option.value
-                          ? "rgb(0, 0, 0)"
-                          : "rgb(218, 218, 218)",
-                      padding: "4px",
-                    }}
-                  >
-                    <IconComponent
-                      iconName={option.emoji}
-                      color={option.color}
-                      size="1em"
-                    />
-                  </div>
-                ) : (
-                  option.translations?.[selectedLanguage] || option.label
-                )}
+              {!option.image && (
+                <label>
+                  <span className="tooltip">
+                    {option.tooltip ||
+                      option.translations?.[selectedLanguage] ||
+                      option.label}
+                  </span>
+                </label>
+              )}
+              {option.image ? null : (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "2em",
+                    height: "2em",
+                    borderRadius: "6%",
+                    backgroundColor:
+                      formData[field.fieldId] === option.value
+                        ? "rgb(0, 0, 0)"
+                        : "rgb(203, 255, 190)",
 
-                <span className="tooltip">
-                  {option.tooltip ||
-                    option.translations?.[selectedLanguage] ||
-                    option.label}
-                </span>
-              </label>
+                    color:
+                      formData[field.fieldId] === option.value
+                        ? "white"
+                        : "black",
+                  }}
+                >
+                  {option.translations?.[selectedLanguage] || option.label}
+                </div>
+              )}
             </div>{" "}
           </div>
         );
