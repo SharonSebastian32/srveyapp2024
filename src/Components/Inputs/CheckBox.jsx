@@ -1,4 +1,5 @@
 import IconComponent from "../../utils/Icons";
+import AOS from "aos";
 
 const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
   const onCheckboxChange = (optionValue) => {
@@ -9,6 +10,8 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
 
     handleChange(field.fieldId, newSelections);
   };
+
+  AOS.init();
 
   return (
     <div
@@ -57,6 +60,7 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
                   display: "flex",
                   flexDirection: "column",
                 }}
+                data-aos="zoom-in"
               >
                 <img
                   src={option.image}
@@ -102,4 +106,3 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
 };
 
 export default CheckBox;
-

@@ -2,14 +2,10 @@ import { useState } from "react";
 import { IoWarningOutline } from "react-icons/io5";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Pagination from "@mui/material/Pagination";
 
 function ListContainer({ initialFields, handleFormNavigation }) {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedFormId, setSelectedFormId] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
-  const totalPages = Math.ceil(initialFields.length / itemsPerPage);
 
   const handleButtonClick = (formId) => {
     setSelectedFormId(formId);
@@ -24,10 +20,6 @@ function ListContainer({ initialFields, handleFormNavigation }) {
     setSelectedFormId(null);
   };
 
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
-
   AOS.init();
 
   return (
@@ -35,54 +27,39 @@ function ListContainer({ initialFields, handleFormNavigation }) {
       <div className="list-container">
         {initialFields.length > 0 ? (
           <>
-            {initialFields
-              .slice(
-                (currentPage - 1) * itemsPerPage,
-                currentPage * itemsPerPage
-              )
-              .map((obj, index) => (
-                <div
-                  className="list"
-                  key={index}
-                  data-aos="fade-up"
-                  data-aos-duration="400"
+            {initialFields.map((obj, index) => (
+              <div
+                className="list"
+                key={index}
+                data-aos="fade-right"
+                data-aos-duration="400"
+              >
+                <p id="list-title">{obj.english_title}</p>
+                {obj.survey_time_limit && (
+                  <div>
+                    <span id="duration">Duration</span>
+                    <span
+                      style={{
+                        backgroundColor: "#f3dedc",
+                        color: "#de0000",
+                        padding: "5px 10px",
+                        borderRadius: "5px",
+                        fontSize: "18px",
+                      }}
+                    >
+                      {obj.survey_time_limit}
+                    </span>
+                  </div>
+                )}
+                <button
+                  className="submit-btn"
+                  style={{ backgroundColor: obj.color }}
+                  onClick={() => handleButtonClick(obj.formId)}
                 >
-                  <p id="list-title">{obj.english_title}</p>
-                  {obj.survey_time_limit && (
-                    <div>
-                      <span id="duration">Duration</span>
-                      <span
-                        style={{
-                          backgroundColor: "#f3dedc",
-                          color: "#de0000",
-                          padding: "5px 10px",
-                          borderRadius: "5px",
-                          fontSize: "18px",
-                        }}
-                      >
-                        {obj.survey_time_limit}
-                      </span>
-                    </div>
-                  )}
-                  <button
-                    className="submit-btn"
-                    style={{ backgroundColor: obj.color }}
-                    onClick={() => handleButtonClick(obj.formId)}
-                  >
-                    Start
-                  </button>
-                </div>
-              ))}
-            <Pagination
-              count={totalPages}
-              page={currentPage}
-              onChange={handlePageChange}
-              style={{
-                marginTop: "20px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            />
+                  Start
+                </button>
+              </div>
+            ))}
           </>
         ) : (
           <div
@@ -114,7 +91,7 @@ function ListContainer({ initialFields, handleFormNavigation }) {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  gap: "50px",
+                  gap: "90px",
                   justifyContent: "space-between",
                 }}
               >
@@ -156,7 +133,7 @@ function ListContainer({ initialFields, handleFormNavigation }) {
                   style={{
                     fontSize: "14px",
                     color: "black",
-                    fontWeight: "300",
+                    fontWeight: "500",
                   }}
                 >
                   Once Started, Complete all the Questions.
@@ -171,3 +148,4 @@ function ListContainer({ initialFields, handleFormNavigation }) {
 }
 
 export default ListContainer;
+

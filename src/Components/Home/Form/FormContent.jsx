@@ -1,5 +1,6 @@
 import FormField from "../../../Components/Home/Form/FormField";
 import QuestionProgress from "../../../utils/Progressbar";
+import AOS from "aos";
 const FormContent = ({
   formMeta,
   questions,
@@ -26,7 +27,7 @@ const FormContent = ({
     };
     return <FormField key={question.fieldId} {...commonProps} />;
   };
-
+  AOS.init();
   console.log("Questions: _needed_ones_", questions);
 
   let content;
@@ -91,7 +92,7 @@ const FormContent = ({
         {questions.map((question, index) => (
           <div key={question.id || index} className="question-container">
             <div
-              style={{
+               style={{
                 borderRadius: question.shape === "Circle" ? "50px" : "0px",
                 backgroundColor: question.back_ground_color,
                 color: question.font_color,
