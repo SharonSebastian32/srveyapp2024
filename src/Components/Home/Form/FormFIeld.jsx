@@ -15,6 +15,7 @@ const FormField = ({ field, formData, handleChange, selectedLanguage }) => {
     handleChange,
     selectedLanguage,
   };
+  console.log('field', field);
 
   switch (field.type) {
     case "textbox":

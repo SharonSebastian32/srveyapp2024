@@ -46,6 +46,9 @@ const DynamicForm = () => {
       value: answer.pk.toString(),
       label: answer.english_answer,
       image: answer.image,
+      emoji: answer.emoji,
+      other_answer: answer.other_answer,
+      color: answer.color,
       translations: answer.other_answer.reduce((acc, trans) => {
         acc[trans.language] = trans.answer;
         return acc;
@@ -236,6 +239,7 @@ const DynamicForm = () => {
     e.preventDefault();
     setCurrentPage((prev) => prev - 1);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -300,6 +304,115 @@ const DynamicForm = () => {
       });
     }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const transformedData = {
+  //     survey_id: formId,
+  //     attendees_answer: questions
+  //       .map((question) => {
+  //         const answer = formData[question.fieldId] || "";
+  //         let formattedAnswer = {
+  //           answer_type: question.answer_type,
+  //           question_id: question.id,
+  //         };
+
+  //         // Handle different question types
+  //         if (question.answer_type === "Rating") {
+  //           // Handle Rating type
+  //           if (answer && typeof answer === "object") {
+  //             formattedAnswer = {
+  //               ...formattedAnswer,
+  //               answer_type: "Ranking", // Change to Ranking as per backend expectation
+  //               custom_answer: answer.custom_answer || "",
+  //               staring: {
+  //                 id: answer.staring?.id || 17,
+  //                 staring_id: answer.staring?.staring_id || 17,
+  //                 custom_rating: answer.staring?.custom_rating || "",
+  //               },
+  //             };
+  //           }
+  //         } else if (
+  //           question.type === "radio" ||
+  //           question.type === "selectbox"
+  //         ) {
+  //           // Handle radio and selectbox
+  //           formattedAnswer.choice_answer = answer ? [Number(answer)] : [];
+  //         } else if (question.type === "checkbox") {
+  //           // Handle checkbox
+  //           formattedAnswer.choice_answer = Array.isArray(answer)
+  //             ? answer.map(Number)
+  //             : [];
+  //         } else if (question.type === "matrix_radio") {
+  //           // Handle matrix radio
+  //           formattedAnswer.matrix_answer = Object.keys(answer).map(
+  //             (rowId) => ({
+  //               answer_row: parseInt(rowId),
+  //               answer_column: Array.isArray(answer[rowId])
+  //                 ? answer[rowId].map(Number)
+  //                 : [parseInt(answer[rowId])],
+  //             })
+  //           );
+  //         } else {
+  //           // Handle default case (text inputs, etc.)
+  //           formattedAnswer.custom_answer = answer || "";
+  //         }
+
+  //         return formattedAnswer;
+  //       })
+  //       .filter((answer) => {
+  //         // Filter out empty answers
+  //         if (answer.choice_answer) {
+  //           return answer.choice_answer.length > 0;
+  //         }
+  //         if (answer.matrix_answer) {
+  //           return answer.matrix_answer.length > 0;
+  //         }
+  //         if (answer.custom_answer) {
+  //           return answer.custom_answer.length > 0;
+  //         }
+  //         if (answer.staring) {
+  //           return true;
+  //         }
+  //         return false;
+  //       }),
+  //   };
+
+  //   try {
+  //     console.log("Submitting data:", transformedData); // Debug log
+  //     const response = await PostFormQuestion(transformedData);
+  //     console.log("Response after submission:", response);
+
+  //     if (response.success) {
+  //       await Swal.fire({
+  //         icon: "success",
+  //         title: "Success!",
+  //         text: "Your response has been submitted.",
+  //         confirmButtonColor: "#3085d6",
+  //       });
+  //       resetForm();
+  //     } else {
+  //       await Swal.fire({
+  //         icon: "error",
+  //         title: "Oops...",
+  //         text:
+  //           response.message ||
+  //           "Something went wrong while submitting your response!",
+  //         confirmButtonColor: "#d33",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error submitting form:", error);
+
+  //     await Swal.fire({
+  //       icon: "error",
+  //       title: "Oops...",
+  //       text: "Something went wrong while submitting your form!",
+  //       confirmButtonColor: "#d33",
+  //     });
+  //   }
+  // };
 
   if (isDataLoaded && error) {
     return (

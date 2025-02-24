@@ -1,22 +1,63 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLaugh } from "@fortawesome/free-solid-svg-icons";
-function Rating({ field }) {
-  const labels = field.staring.labels;
+import {
+  faLaugh,
+  faStar,
+  faThumbsUp,
+  faGrin,
+  faHeart,
+} from "@fortawesome/free-solid-svg-icons";
+
+function Rating({ field, value, onChange }) {
+  const labels = field.staring?.labels || [];
+  const shape = field.staring?.shape || "fas fa-star";
   const [selectedRating, setSelectedRating] = useState(null);
+
+  const iconMap = {
+    "fas fa-thumbs-up": faThumbsUp,
+    "fas fa-heart": faHeart,
+    "fas fa-star": faStar,
+    "fas fa-grin": faGrin,
+    "fas fa-laugh": faLaugh,
+  };
+
+  useEffect(() => {
+    if (value?.staring?.custom_rating) {
+      setSelectedRating(parseInt(value.staring.custom_rating) - 1);
+    }
+  }, [value]);
+
+  const handleRatingClick = (index) => {
+    setSelectedRating(index);
+    if (onChange) {
+      onChange({
+        answer_type: "Ranking",
+        question_id: field.id,
+        custom_answer: labels[index]?.title || "",
+        staring: {
+          id: field.staring?.id || 17,
+          staring_id: field.staring?.id || 17,
+          custom_rating: (index + 1).toString(),
+        },
+      });
+    }
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
       {labels.map((label, index) => (
         <div key={index} style={{ position: "relative" }}>
           <FontAwesomeIcon
-            icon={faLaugh}
-            size="2x"
+            icon={iconMap[shape] || faStar}
             style={{
               cursor: "pointer",
-              color: selectedRating >= index ? "orange" : "black",
+              fontSize: "1.4em",
+              color:
+                selectedRating >= index
+                  ? field.staring?.color || "orange"
+                  : "black",
             }}
-            onClick={() => setSelectedRating(index)}
+            onClick={() => handleRatingClick(index)}
             onMouseEnter={(e) => {
               const tooltip = e.currentTarget.nextSibling;
               tooltip.style.visibility = "visible";

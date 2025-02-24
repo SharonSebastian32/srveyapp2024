@@ -1,3 +1,5 @@
+import IconComponent from "../../utils/Icons";
+
 const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
   const onCheckboxChange = (optionValue) => {
     const currentSelections = formData[field.fieldId] || [];
@@ -9,60 +11,101 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
   };
 
   return (
-    <div className="checkbox-group">
+    <div
+      className="checkbox-group-1"
+      style={{
+        display: "flex",
+        flexDirection: field.is_horizontal ? "row" : "column",
+        flexWrap: "wrap",
+        gap: "25px",
+      }}
+    >
       {field.options.map((option) => (
         <div
           key={option.value}
           id="checkbox-input-div"
           style={{
-            position: "relative",
             display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            flexWrap: "wrap",
-            borderRadius: "10px",
-            margin: "10px",
+            alignItems: "flex-start",
+            textAlign: "left",
+            borderRadius: "5px",
+            // margin: "10px",
             border: "1px solid #ccc",
             padding: "10px",
+            position: "relative",
+            width: "180px",
           }}
         >
-          <label
-            htmlFor={`${field.fieldId}-${option.value}`}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              paddingTop: "0.58em",
-            }}
-          >
-            <img
-              src={option.image}
-              alt=""
+          {option.image || option.label ? (
+            <>
+              <input
+                type="checkbox"
+                id={`${field.fieldId}-${option.value}`}
+                name={field.fieldId}
+                value={option.value}
+                required
+                checked={formData[field.fieldId]?.includes(option.value)}
+                onChange={() => onCheckboxChange(option.value)}
+                style={{
+                  marginBottom: "5px",
+                  marginRight: "8px",
+                }}
+              />
+              <label
+                htmlFor={`${field.fieldId}-${option.value}`}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {option.image && (
+                  <img
+                    src={option.image}
+                    alt=""
+                    style={{
+                      width: "150px",
+                      height: "160px",
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
+                {option.emoji ? (
+                  <IconComponent
+                    iconName={option.emoji}
+                    color={option.color}
+                    style={{ paddingTop: "5px" }}
+                  />
+                ) : (
+                  <div>
+                    {option.translations?.[selectedLanguage] || option.label}
+                  </div>
+                )}
+              </label>
+            </>
+          ) : (
+            <div
               style={{
-                width: "150px",
-                height: "160px",
-                objectFit: "cover",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
               }}
-            />
-            <span>
-              {option.translations?.[selectedLanguage] || option.label}
-            </span>
-          </label>
-          <input
-            type="checkbox"
-            id={`${field.fieldId}-${option.value}`}
-            name={field.fieldId}
-            value={option.value}
-            checked={formData[field.fieldId]?.includes(option.value)}
-            onChange={() => onCheckboxChange(option.value)}
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
-            }}
-          />
+            >
+              <input
+                type="checkbox"
+                id={`${field.fieldId}-${option.value}`}
+                name={field.fieldId}
+                value={option.value}
+                required
+                checked={formData[field.fieldId]?.includes(option.value)}
+                onChange={() => onCheckboxChange(option.value)}
+              />
+              <IconComponent
+                iconName={option.emoji}
+                color={option.color}
+                style={{ paddingLeft: "5px" }}
+              />
+            </div>
+          )}
         </div>
       ))}
     </div>

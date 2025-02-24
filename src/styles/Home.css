@@ -221,7 +221,7 @@ html {
     padding: 0;
     padding-top: 40px;
   }
-  .list {
+  /* .list {
     margin-top: 10px;
     margin-left: 50px;
     margin-right: 50px;
@@ -233,7 +233,7 @@ html {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-  }
+  } */
 
   .sideImage {
     display: none;
@@ -268,7 +268,7 @@ html {
     padding-top: 40px;
   }
   .list {
-    height: 50px;
+    height: 60px;
     margin-top: 20px;
     margin-left: 10px;
     margin-right: 10px;
