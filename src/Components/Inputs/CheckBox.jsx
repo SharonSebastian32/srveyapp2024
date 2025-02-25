@@ -1,7 +1,6 @@
 import IconComponent from "../../utils/Icons";
 import AOS from "aos";
-
-const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
+ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
   const onCheckboxChange = (optionValue) => {
     const currentSelections = formData[field.fieldId] || [];
     const newSelections = currentSelections.includes(optionValue)
@@ -32,8 +31,7 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
             alignItems: "flex-start",
             textAlign: "left",
             borderRadius: "5px",
-            // margin: "10px",
-            border: "1px solid #ccc",
+             border: "1px solid #ccc",
             padding: "10px",
             position: "relative",
             width: "180px",
@@ -63,6 +61,7 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
                 data-aos="zoom-in"
               >
                 <img
+                  id="radio-image"
                   src={option.image}
                   alt=""
                   style={{

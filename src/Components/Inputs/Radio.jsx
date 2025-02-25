@@ -1,7 +1,7 @@
 import "../../styles/tooltip.css";
 import IconComponent from "../../utils/Icons";
 import AOS from "aos";
-
+import "../../../src/styles/Radio.css";
 const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
   console.log("field", field);
   AOS.init();
@@ -21,7 +21,7 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
           option.label.length === 1;
         const isEmoji = option.emoji && !option.image;
         const hasImage = !!option.image;
-        const isSelected = formData[field.fieldId] === option.value; // Check if this option is selected
+        const isSelected = formData[field.fieldId] === option.value;  
 
         return (
           <div key={option.value} className="radio-item2">
@@ -31,8 +31,8 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
               style={{
                 border: hasImage
                   ? isSelected
-                    ? "3px solid black" // Thicker border for selected image
-                    : "1px solid black"
+                    ? "3px solid black"
+                    : "1px solid grey"
                   : "none",
                 borderRadius: "5px",
                 cursor: "pointer",
@@ -50,6 +50,7 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                     style={{ display: "none" }}
                   />
                   <img
+                    id="radio-image"
                     data-aos="zoom-in"
                     src={option.image}
                     alt=""
@@ -57,7 +58,7 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                       width: "200px",
                       height: "220px",
                       objectFit: "cover",
-                      margin: "20px",
+                      margin: "10px",
                     }}
                   />
                 </>
@@ -73,13 +74,12 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                   />
                   <label
                     style={{
-                      display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
+                      padding: "5px 10px",
                       width: isEmoji ? "2em" : "auto",
                       height: isEmoji ? "2em" : "auto",
                       borderRadius: isEmoji ? "50%" : "50px",
-                      padding: "4px 10px",
                       backgroundColor: isSelected
                         ? "rgb(12, 12, 12)"
                         : "rgb(218, 218, 218)",
