@@ -8,7 +8,6 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
   AOS.init();
   return (
     <>
-      {" "}
       <div
         className="radio-group2"
         style={{
@@ -40,6 +39,7 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                   borderRadius: "5px",
                   cursor: "pointer",
                   margin: "2px",
+                  display: "inline-block",
                 }}
               >
                 {hasImage ? (
@@ -75,7 +75,7 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                       checked={isSelected}
                       style={{ display: "none" }}
                     />
-                    <label
+                    {/* <label id="radio-label-one"
                       style={{
                         alignItems: "center",
                         justifyContent: "center",
@@ -83,10 +83,9 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                         width: isEmoji ? "2em" : "auto",
                         height: isEmoji ? "2em" : "auto",
                         borderRadius: isEmoji ? "50%" : "50px",
-                        backgroundColor: isSelected
-                          ? "rgb(0, 0, 0)"
-                          : "rgb(229, 247, 204)",
-                        color: isSelected ? "white" : "black",
+                        // backgroundColor: isSelected ? "rgb(0, 0, 0)" : "",
+                        // color: isSelected ? "white" : "black",
+                        // border: "1px solid black",
                       }}
                       htmlFor={`${field.fieldId}-${option.value}`}
                     >
@@ -103,6 +102,55 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                               ? "rgb(0, 0, 0)"
                               : "rgb(233, 254, 202)",
                             padding: "4px",
+                          }}
+                        >
+                          <IconComponent
+                            iconName={option.emoji}
+                            color={option.color}
+                            size="1em"
+                            data-aos="zoom-in"
+                          />
+                        </div>
+                      ) : (
+                        option.translations?.[selectedLanguage] || option.label
+                      )}
+                      <span className="tooltip">
+                        {option.tooltip ||
+                          option.translations?.[selectedLanguage] ||
+                          option.label}
+                      </span>
+                    </label> */}
+
+                    <label
+                      id="radio-label-one"
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "5px 12px",
+                        width: isEmoji ? "2em" : "auto",
+                        height: isEmoji ? "2em" : "auto",
+                        borderRadius: isEmoji ? "50%" : "50px",
+                        backgroundColor:
+                          !isEmoji && isSelected ? "rgb(0, 0, 0)" : "",
+                        color: !isEmoji && isSelected ? "white" : "black",
+                        border: !isEmoji ? "1px solid black" : "none",
+                      }}
+                      htmlFor={`${field.fieldId}-${option.value}`}
+                    >
+                      {isEmoji ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: "50%",
+                            backgroundColor: isSelected
+                              ? "rgb(6, 6, 6)"
+                              : "rgb(255, 255, 255)",
+                            padding: "4px",
+                            border: "1px solid black",
                           }}
                         >
                           <IconComponent

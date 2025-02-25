@@ -2,10 +2,13 @@ import { useState } from "react";
 import { IoWarningOutline } from "react-icons/io5";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Pagination } from "@mui/material";
 
 function ListContainer({ initialFields, handleFormNavigation }) {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedFormId, setSelectedFormId] = useState(null);
+  const [page, setPage] = useState(1);
+  const rowsPerPage = 10;
 
   const handleButtonClick = (formId) => {
     setSelectedFormId(formId);
@@ -27,39 +30,53 @@ function ListContainer({ initialFields, handleFormNavigation }) {
       <div className="list-container">
         {initialFields.length > 0 ? (
           <>
-            {initialFields.map((obj, index) => (
-              <div
-                className="list"
-                key={index}
-                data-aos="fade-right"
-                data-aos-duration="400"
-              >
-                <p id="list-title">{obj.english_title}</p>
-                {obj.survey_time_limit && (
-                  <div>
-                    <span id="duration">Duration</span>
-                    <span
-                      style={{
-                        backgroundColor: "#f3dedc",
-                        color: "#de0000",
-                        padding: "5px 10px",
-                        borderRadius: "5px",
-                        fontSize: "18px",
-                      }}
-                    >
-                      {obj.survey_time_limit}
-                    </span>
-                  </div>
-                )}
-                <button
-                  className="submit-btn"
-                  style={{ backgroundColor: obj.color }}
-                  onClick={() => handleButtonClick(obj.formId)}
+            {initialFields
+              .slice((page - 1) * rowsPerPage, page * rowsPerPage)
+              .map((obj, index) => (
+                <div
+                  className="list"
+                  key={index}
+                  data-aos="fade-right"
+                  data-aos-duration="400"
                 >
-                  Start
-                </button>
-              </div>
-            ))}
+                  <p id="list-title">{obj.english_title}</p>
+                  {obj.survey_time_limit && (
+                    <div>
+                      <span id="duration">Duration</span>
+                      <span
+                        style={{
+                          backgroundColor: "#f3dedc",
+                          color: "#de0000",
+                          padding: "5px 10px",
+                          borderRadius: "5px",
+                          fontSize: "18px",
+                        }}
+                      >
+                        {obj.survey_time_limit}
+                      </span>
+                    </div>
+                  )}
+                  <button
+                    className="submit-btn"
+                    style={{ backgroundColor: obj.color }}
+                    onClick={() => handleButtonClick(obj.formId)}
+                  >
+                    Start
+                  </button>
+                </div>
+              ))}
+
+            <Pagination
+              count={Math.ceil(initialFields.length / rowsPerPage)}
+              page={page}
+              onChange={(event, value) => setPage(value)}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "50px",
+                marginBottom: "20px",
+              }}
+            />
           </>
         ) : (
           <div

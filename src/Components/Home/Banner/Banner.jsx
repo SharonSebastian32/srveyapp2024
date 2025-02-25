@@ -21,7 +21,9 @@ function Banner() {
               <img className="logo" src={logo} alt="Side" data-aos="zoom-in" />
             </div>
             <div>
-              <h2 style={{ fontSize: "3em" }}>Welcome to the survey selection page.</h2>
+              <h2 data-aos="fade-right" data-aos-delay="300">
+                Welcome to the survey selection page.
+              </h2>
               <p data-aos="fade-right">
                 Select the Way that you wish to attend.
               </p>
@@ -42,4 +44,3 @@ function Banner() {
 }
 
 export default Banner;
-

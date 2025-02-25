@@ -72,7 +72,9 @@ html {
 .banner-left h2 {
   font-size: 30px;
   font-weight: 500;
-  color: white;
+  color: rgb(255, 255, 255);
+  font-size: "3em";
+  line-height: "1.2em";
 }
 
 .banner p {

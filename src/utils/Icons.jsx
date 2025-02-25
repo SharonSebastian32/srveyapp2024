@@ -17,6 +17,7 @@ const iconMap = {
   "fas fa-dizzy": faDizzy,
   "fas fa-heart": faHeart,
   "fas fa-angry": faAngry,
+  "far fa-angry": faAngry,
 };
 
 const IconComponent = ({ iconName, color, size = "1.4em" }) => {
