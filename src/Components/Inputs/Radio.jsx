@@ -4,6 +4,7 @@ import AOS from "aos";
 import "../../../src/styles/Radio.css";
 const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
   console.log("field", field);
+
   AOS.init();
   return (
     <div
@@ -21,7 +22,7 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
           option.label.length === 1;
         const isEmoji = option.emoji && !option.image;
         const hasImage = !!option.image;
-        const isSelected = formData[field.fieldId] === option.value;  
+        const isSelected = formData[field.fieldId] === option.value;
 
         return (
           <div key={option.value} className="radio-item2">
@@ -58,7 +59,7 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                       width: "200px",
                       height: "220px",
                       objectFit: "cover",
-                      margin: "10px",
+                      margin: "20px",
                     }}
                   />
                 </>
@@ -76,13 +77,13 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                     style={{
                       alignItems: "center",
                       justifyContent: "center",
-                      padding: "5px 10px",
+                      padding: "5px 12px",
                       width: isEmoji ? "2em" : "auto",
                       height: isEmoji ? "2em" : "auto",
                       borderRadius: isEmoji ? "50%" : "50px",
                       backgroundColor: isSelected
-                        ? "rgb(12, 12, 12)"
-                        : "rgb(218, 218, 218)",
+                        ? "rgb(0, 0, 0)"
+                        : "rgb(229, 247, 204)",
                       color: isSelected ? "white" : "black",
                     }}
                     htmlFor={`${field.fieldId}-${option.value}`}
@@ -98,7 +99,7 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                           borderRadius: "50%",
                           backgroundColor: isSelected
                             ? "rgb(0, 0, 0)"
-                            : "rgb(218, 218, 218)",
+                            : "rgb(233, 254, 202)",
                           padding: "4px",
                         }}
                       >
@@ -106,6 +107,7 @@ const Radio = ({ field, formData, handleChange, selectedLanguage }) => {
                           iconName={option.emoji}
                           color={option.color}
                           size="1em"
+                          data-aos="zoom-in"
                         />
                       </div>
                     ) : (

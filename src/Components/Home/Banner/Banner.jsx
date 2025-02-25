@@ -18,16 +18,13 @@ function Banner() {
         <div className="banner_group">
           <div className="banner-left">
             <div>
-              <img
-                className="logo"
-                src={logo}
-                alt="Side"
-                data-aos="fade-right"
-              />
+              <img className="logo" src={logo} alt="Side" data-aos="zoom-in" />
             </div>
-            <div data-aos="fade-up">
-              <h2>Welcome to the survey selection page.</h2>
-              <p>Select the Way that you wish to attend.</p>
+            <div>
+              <h2 style={{ fontSize: "3em" }}>Welcome to the survey selection page.</h2>
+              <p data-aos="fade-right">
+                Select the Way that you wish to attend.
+              </p>
             </div>
           </div>
           <div className="banner-right">
@@ -45,3 +42,4 @@ function Banner() {
 }
 
 export default Banner;
+

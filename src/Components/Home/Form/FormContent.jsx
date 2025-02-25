@@ -88,11 +88,16 @@ const FormContent = ({
         className="form-container"
         onSubmit={handleSubmit}
         style={{ marginBottom: "50px" }}
+        data-aos="fade-right"
       >
         {questions.map((question, index) => (
-          <div key={question.id || index} className="question-container">
+          <div
+            key={question.id || index}
+            className="question-container"
+            data-aos="fade-right"
+          >
             <div
-               style={{
+              style={{
                 borderRadius: question.shape === "Circle" ? "50px" : "0px",
                 backgroundColor: question.back_ground_color,
                 color: question.font_color,
@@ -121,7 +126,11 @@ const FormContent = ({
     const isFirstSection = currentPage === 0;
 
     content = (
-      <form className="form-container" onSubmit={handleSubmit}>
+      <form
+        className="form-container"
+        onSubmit={handleSubmit}
+        data-aos="fade-right"
+      >
         {currentSection.questions.map((question) => (
           <div key={question.fieldId} className="question-container">
             <div

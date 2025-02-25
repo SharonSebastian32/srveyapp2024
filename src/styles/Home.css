@@ -17,10 +17,9 @@ html {
 }
 
 .banner {
-  min-height: 70%;
+  min-height: 40vh;
   width: 100%;
-  background-size: 200% 200%;
-  background: #000;
+  background: linear-gradient(45deg, #2b4353, #000000);
   animation: rotateBackground 3s ease infinite;
 }
 
@@ -59,7 +58,7 @@ html {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 100px;
+  padding: 50px 100px;
 }
 
 .sideImage {
@@ -181,7 +180,7 @@ html {
 }
 
 .list {
-  margin-top: 20px;
+  margin-top: 30px;
   margin-left: 160px;
   margin-right: 160px;
   align-items: center;
@@ -198,7 +197,7 @@ html {
 
 .submit-btn {
   cursor: pointer;
-  background: #000000;
+  background: #98b719;
   font-size: 1.1em;
   font-weight: 500;
   padding: 0.3em 2em;
@@ -208,6 +207,11 @@ html {
   font-weight: 500;
   border-radius: 20px;
   transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #8a9e1a;
+  transform: scale(1.02);
 }
 
 @media (max-width: 780px) {

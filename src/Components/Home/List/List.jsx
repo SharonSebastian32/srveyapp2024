@@ -148,4 +148,3 @@ function ListContainer({ initialFields, handleFormNavigation }) {
 }
 
 export default ListContainer;
-

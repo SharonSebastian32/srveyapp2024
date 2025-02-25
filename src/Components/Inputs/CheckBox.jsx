@@ -1,6 +1,6 @@
 import IconComponent from "../../utils/Icons";
 import AOS from "aos";
- const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
+const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
   const onCheckboxChange = (optionValue) => {
     const currentSelections = formData[field.fieldId] || [];
     const newSelections = currentSelections.includes(optionValue)
@@ -17,9 +17,9 @@ import AOS from "aos";
       className="checkbox-group-1"
       style={{
         display: "flex",
-        flexDirection: field.is_horizontal ? "row" : "column",
         flexWrap: "wrap",
-        gap: "25px",
+        flexDirection: field.is_horizontal ? "row" : "column",
+        gap: "19px",
       }}
     >
       {field.options.map((option) => (
@@ -31,10 +31,11 @@ import AOS from "aos";
             alignItems: "flex-start",
             textAlign: "left",
             borderRadius: "5px",
-             border: "1px solid #ccc",
+            border: "1px solid #ccc",
             padding: "10px",
             position: "relative",
             width: "180px",
+            cursor: "pointer",
           }}
         >
           {option.image ? (
@@ -68,6 +69,7 @@ import AOS from "aos";
                     width: "150px",
                     height: "160px",
                     objectFit: "cover",
+                    cursor: "pointer",
                   }}
                 />
               </label>
@@ -91,6 +93,7 @@ import AOS from "aos";
               />
               {option.emoji && (
                 <IconComponent
+                  data-aos="zoom-in"
                   iconName={option.emoji}
                   color={option.color}
                   style={{ paddingLeft: "5px" }}

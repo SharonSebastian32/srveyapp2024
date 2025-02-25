@@ -46,8 +46,8 @@ const DynamicForm = () => {
       value: answer.pk.toString(),
       label: answer.english_answer,
       image: answer.image,
+      tooltip: answer.tooltip,
       emoji: answer.emoji,
-      other_answer: answer.other_answer,
       color: answer.color,
       translations: answer.other_answer.reduce((acc, trans) => {
         acc[trans.language] = trans.answer;
@@ -89,12 +89,13 @@ const DynamicForm = () => {
       id: question.id,
       fieldId: `_id: ${question.id}`,
       back_ground_color: question.back_ground_color,
-      shape: ` ${question.shape}`,
+      shape: question.shape,
       font_color: question.font_color,
       is_horizontal: question.is_horizontal,
       type: mapQuestionType(question.question_type),
       required: question.is_mandatory,
       placeholder: question.place_holder,
+      other_answer: question.other_answer,
       options: processQuestionOptions(question),
       matrixData: processMatrixData(question),
       translations: processTranslations({
@@ -133,6 +134,7 @@ const DynamicForm = () => {
               translations: processTranslations(item),
               questions: sectionQuestions,
               font_color: item.font_color,
+              other_answer: item.other_answer,
               background_color: item.back_ground_color,
             });
             console.log(sectionQuestions);
@@ -154,7 +156,6 @@ const DynamicForm = () => {
             id: item.id,
             fieldId: `question_${item.id}`,
             staring: question.staring,
-
             type: mapQuestionType(question.question_type),
             answer_type: question.question_type,
             back_ground_color: question.back_ground_color,
