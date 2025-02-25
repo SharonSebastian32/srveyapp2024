@@ -1,5 +1,6 @@
 import IconComponent from "../../utils/Icons";
 import AOS from "aos";
+
 const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
   const onCheckboxChange = (optionValue) => {
     const currentSelections = formData[field.fieldId] || [];
@@ -34,12 +35,12 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
             border: "1px solid #ccc",
             padding: "10px",
             position: "relative",
-            width: "180px",
+            width: "200px",
             cursor: "pointer",
           }}
         >
           {option.image ? (
-            <>
+             <>
               <input
                 type="checkbox"
                 id={`${field.fieldId}-${option.value}`}
@@ -74,8 +75,8 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
                 />
               </label>
             </>
-          ) : (
-            <div
+          ) : option.emoji ? (
+             <div
               style={{
                 display: "flex",
                 flexDirection: "row",
@@ -91,14 +92,35 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
                 checked={formData[field.fieldId]?.includes(option.value)}
                 onChange={() => onCheckboxChange(option.value)}
               />
-              {option.emoji && (
-                <IconComponent
-                  data-aos="zoom-in"
-                  iconName={option.emoji}
-                  color={option.color}
-                  style={{ paddingLeft: "5px" }}
-                />
-              )}
+              <IconComponent
+                data-aos="zoom-in"
+                iconName={option.emoji}
+                color={option.color}
+                style={{ paddingLeft: "5px" }}
+              />
+            </div>
+          ) : (
+             <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <input
+                type="checkbox"
+                id={`${field.fieldId}-${option.value}`}
+                name={field.fieldId}
+                value={option.value}
+                checked={formData[field.fieldId]?.includes(option.value)}
+                onChange={() => onCheckboxChange(option.value)}
+              />
+              <label
+                htmlFor={`${field.fieldId}-${option.value}`}
+                style={{ paddingLeft: "5px" }}
+              >
+                {option.translations?.[selectedLanguage] || option.label}
+              </label>
             </div>
           )}
         </div>
