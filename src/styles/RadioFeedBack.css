@@ -7,7 +7,7 @@
 
 .matrix-thead th,
 .matrix-tbody td {
-  vertical-align: middle; /* Ensure vertical alignment */
+  vertical-align: middle;  
 }
 
 .matrix-header-empty {

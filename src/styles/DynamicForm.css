@@ -126,9 +126,9 @@ form .checkbox-group {
 #next-button {
   padding: 8px 45px;
   border: none;
-  background-color: #351eff;
+  background-color: #1e22ff;
   color: rgb(255, 255, 255);
-  font-size: 20px;
+  font-size: 16pt;
   font-weight: 400;
   cursor: pointer;
   align-items: center;
@@ -139,10 +139,8 @@ form .checkbox-group {
 #previous-btn {
   padding: 8px 12px;
   border: none;
-  background-color: rgb(231, 231, 231);
+  background-color: rgb(217, 218, 203);
   color: #000000;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-
   font-size: 20px;
   font-weight: 400;
   cursor: pointer;
@@ -279,7 +277,7 @@ th {
     height: 18px;
     width: 18px;
     cursor: pointer;
-   }
+  }
   .form-container {
     max-width: 1000px;
     margin-right: 50px;
@@ -355,7 +353,7 @@ input[type="radio"]:focus {
   }
 }
 textarea {
-  width: 93%;
+  width: 98%;
   padding: 12px;
   padding-left: 25px;
   margin-bottom: 20px;
@@ -468,9 +466,8 @@ textarea:focus {
   border-radius: 5px;
   background-color: #fff;
   font-size: 16px;
-  color: #333;
+  color: #000000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add this line for box shadow */
-
   background-position: right 10px center;
   cursor: pointer;
   transition: border-color 0.3s;
