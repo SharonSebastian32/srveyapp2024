@@ -14,118 +14,121 @@ const CheckBox = ({ field, formData, handleChange, selectedLanguage }) => {
   AOS.init();
 
   return (
-    <div
-      className="checkbox-group-1"
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        flexDirection: field.is_horizontal ? "row" : "column",
-        gap: "19px",
-      }}
-    >
-      {field.options.map((option) => (
-        <div
-          key={option.value}
-          id="checkbox-input-div"
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            textAlign: "left",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-            padding: "10px",
-            position: "relative",
-            width: "200px",
-            cursor: "pointer",
-          }}
-        >
-          {option.image ? (
-             <>
-              <input
-                type="checkbox"
-                id={`${field.fieldId}-${option.value}`}
-                name={field.fieldId}
-                value={option.value}
-                required
-                checked={formData[field.fieldId]?.includes(option.value)}
-                onChange={() => onCheckboxChange(option.value)}
-                style={{
-                  marginBottom: "5px",
-                  marginRight: "8px",
-                }}
-              />
-              <label
-                htmlFor={`${field.fieldId}-${option.value}`}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-                data-aos="zoom-in"
-              >
-                <img
-                  id="radio-image"
-                  src={option.image}
-                  alt=""
+    <>
+      <div
+        className="checkbox-group-1"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          flexDirection: field.is_horizontal ? "row" : "column",
+          gap: "19px",
+        }}
+      >
+        {field.options.map((option) => (
+          <div
+            key={option.value}
+            id="checkbox-input-div"
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              textAlign: "left",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              padding: "10px",
+              position: "relative",
+              width: "200px",
+              cursor: "pointer",
+            }}
+          >
+            {option.image ? (
+              <>
+                <input
+                  type="checkbox"
+                  id={`${field.fieldId}-${option.value}`}
+                  name={field.fieldId}
+                  value={option.value}
+                  required
+                  checked={formData[field.fieldId]?.includes(option.value)}
+                  onChange={() => onCheckboxChange(option.value)}
                   style={{
-                    width: "150px",
-                    height: "160px",
-                    objectFit: "cover",
-                    cursor: "pointer",
+                    marginBottom: "5px",
+                    marginRight: "8px",
                   }}
                 />
-              </label>
-            </>
-          ) : option.emoji ? (
-             <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <input
-                type="checkbox"
-                id={`${field.fieldId}-${option.value}`}
-                name={field.fieldId}
-                value={option.value}
-                required
-                checked={formData[field.fieldId]?.includes(option.value)}
-                onChange={() => onCheckboxChange(option.value)}
-              />
-              <IconComponent
-                data-aos="zoom-in"
-                iconName={option.emoji}
-                color={option.color}
-                style={{ paddingLeft: "5px" }}
-              />
-            </div>
-          ) : (
-             <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <input
-                type="checkbox"
-                id={`${field.fieldId}-${option.value}`}
-                name={field.fieldId}
-                value={option.value}
-                checked={formData[field.fieldId]?.includes(option.value)}
-                onChange={() => onCheckboxChange(option.value)}
-              />
-              <label
-                htmlFor={`${field.fieldId}-${option.value}`}
-                style={{ paddingLeft: "5px" }}
+                <label
+                  htmlFor={`${field.fieldId}-${option.value}`}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                  data-aos="zoom-in"
+                >
+                  <img
+                    id="radio-image"
+                    src={option.image}
+                    alt=""
+                    style={{
+                      width: "150px",
+                      height: "160px",
+                      objectFit: "cover",
+                      cursor: "pointer",
+                    }}
+                  />
+                </label>
+              </>
+            ) : option.emoji ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
               >
-                {option.translations?.[selectedLanguage] || option.label}
-              </label>
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
+                <input
+                  type="checkbox"
+                  id={`${field.fieldId}-${option.value}`}
+                  name={field.fieldId}
+                  value={option.value}
+                  required
+                  checked={formData[field.fieldId]?.includes(option.value)}
+                  onChange={() => onCheckboxChange(option.value)}
+                />
+                <IconComponent
+                  data-aos="zoom-in"
+                  iconName={option.emoji}
+                  color={option.color}
+                  style={{ paddingLeft: "5px" }}
+                />
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  id={`${field.fieldId}-${option.value}`}
+                  name={field.fieldId}
+                  value={option.value}
+                  checked={formData[field.fieldId]?.includes(option.value)}
+                  onChange={() => onCheckboxChange(option.value)}
+                />
+                <label
+                  htmlFor={`${field.fieldId}-${option.value}`}
+                  style={{ paddingLeft: "5px" }}
+                >
+                  {option.translations?.[selectedLanguage] || option.label}
+                </label>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <br />
+    </>
   );
 };
 

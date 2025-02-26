@@ -38,7 +38,11 @@ const FormContent = ({
     const isFirstQuestion = currentPage === 0;
 
     content = (
-      <form className="form-container" onSubmit={handleSubmit}>
+      <form
+        className="form-container"
+        onSubmit={handleSubmit}
+        data-aos="fade-right"
+      >
         {currentQuestion && (
           <div className="question-container">
             <div>
@@ -62,6 +66,17 @@ const FormContent = ({
               </div>
             </div>
             {renderField(currentQuestion)}
+            {/* <span
+              style={{
+                color: "red",
+                borderRadius: "50px",
+                display:"inline-block",
+                
+                backgroundColor: currentQuestion.back_ground_color,
+              }}
+            >
+              {currentQuestion.timer}
+            </span> */}
           </div>
         )}
         <div className="navigation-buttons" style={{ marginTop: "24px" }}>
@@ -80,6 +95,35 @@ const FormContent = ({
             </button>
           )}
         </div>
+        {currentQuestion.timer ? (
+          <div
+            style={{
+               display: "flex",
+              flexDirection: "row",
+              alignItems: "flex-end",
+              marginTop: "100px",
+              justifyContent: "flex-end",
+            }}
+          >
+            <span
+              style={{
+                color: "black",
+                borderRadius: "50%",
+                display: "inline-block",
+                width: "100px",
+                height: "100px",
+                backgroundColor: "rgba(255, 255, 255, 0.97)",
+                textAlign: "center",
+                lineHeight: "100px",
+                fontSize: "24px",
+                fontFamily: "Poppins",
+                border: `10px solid   ${currentQuestion.back_ground_color}`,
+              }}
+            >
+              {currentQuestion.timer}
+            </span>
+          </div>
+        ) : null}
       </form>
     );
   } else if (formMeta.paginationType === "OnePageWithAllTheQuestions") {
@@ -110,6 +154,7 @@ const FormContent = ({
             />
 
             <br />
+
             {renderField(question)}
           </div>
         ))}
@@ -124,7 +169,6 @@ const FormContent = ({
     const currentSection = sections[currentPage];
     const isLastSection = currentPage === sections.length - 1;
     const isFirstSection = currentPage === 0;
-
     content = (
       <form
         className="form-container"

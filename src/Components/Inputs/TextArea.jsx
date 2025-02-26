@@ -14,14 +14,9 @@ const TextArea = ({ field, formData, handleChange, selectedLanguage }) => {
         placeholder={placeholder || "Please text here...."}
         required={field.required}
       />
-      {showError && (
-        <p style={{ color: "red" }}>
-          Please fill this field
-        </p>
-      )}
+      {showError && <p style={{ color: "red" }}>Please fill this field</p>}
     </>
   );
 };
 
 export default TextArea;
-

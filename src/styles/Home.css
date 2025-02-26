@@ -13,13 +13,13 @@ html {
 
 .logo {
   width: 200px;
-  height: 60px;
+  height: 80px;
 }
 
 .banner {
   min-height: 40vh;
   width: 100%;
-  background: linear-gradient(45deg, #2b4353, #000000);
+  background-color: #000000;
   animation: rotateBackground 3s ease infinite;
 }
 
@@ -70,10 +70,9 @@ html {
 }
 
 .banner-left h2 {
-  font-size: 30px;
+  font-size: 50px;
   font-weight: 500;
   color: rgb(255, 255, 255);
-  font-size: "3em";
   line-height: "1.2em";
 }
 
@@ -84,6 +83,7 @@ html {
 @media (max-width: 1250px) {
   .sideImage {
     display: none;
+    line-height: "2em";
   }
 }
 @media (max-width: 1024px) {
@@ -199,21 +199,24 @@ html {
 
 .submit-btn {
   cursor: pointer;
-  background: #98b719;
+  background: #ffffff;
   font-size: 1.1em;
   font-weight: 500;
   padding: 0.3em 2em;
-  color: #ffffff;
+  color: #000000;
   margin: 2px;
   border: none;
   font-weight: 500;
+  border: 1px solid #000000;
   border-radius: 20px;
   transition: all 0.3s ease;
 }
 
 .submit-btn:hover {
-  background-color: #8a9e1a;
+  background-color: #f3d8a6;
   transform: scale(1.02);
+  color: #873b0c;
+  border: none;
 }
 
 @media (max-width: 780px) {
@@ -397,4 +400,9 @@ html {
   color: #000000;
   font-size: 18px;
   font-weight: 600;
+}
+
+.home-container {
+  height: 100%;
+  width: 100%;
 }

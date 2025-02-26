@@ -15,15 +15,13 @@ const Date = ({ field, formData, handleChange, selectedLanguage }) => {
           name={field.fieldId}
           value={formData[field.fieldId] || ""}
           onChange={(e) => handleChange(field.fieldId, e.target.value)}
-          placeholder={placeholder}
+          placeholder={field.placeholder}
+          required={field.is_mandatory}
         />
       </label>
-      {showError && (
-        <p style={{ color: "red" }}>Please select any date</p>
-      )}
+      {showError && <p style={{ color: "red" }}>Please select any date</p>}
     </div>
   );
 };
 
 export default Date;
-
