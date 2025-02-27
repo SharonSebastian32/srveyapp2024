@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import FormField from "../../../Components/Home/Form/FormField";
 import QuestionProgress from "../../../utils/Progressbar";
 import AOS from "aos";
+import { CountdownCircleTimer } from "react-countdown-circle-timer"; // Import the timer component
 
 const FormContent = ({
   formMeta,
@@ -55,31 +56,9 @@ const FormContent = ({
       const currentQuestion = questions[currentPage];
       if (currentQuestion && currentQuestion.timer) {
         const totalSeconds = parseTimeToSeconds(currentQuestion.timer);
-        initialTimeRef.current = totalSeconds; // Store initial time
+        initialTimeRef.current = totalSeconds;
         setRemainingTime(totalSeconds);
-        startTimeRef.current = Date.now(); // Record the start time
-
-        timerIntervalRef.current = setInterval(() => {
-          const elapsedSeconds = Math.floor(
-            (Date.now() - startTimeRef.current) / 1000
-          );
-          const newRemainingTime = Math.max(
-            0,
-            initialTimeRef.current - elapsedSeconds
-          );
-
-          setRemainingTime(newRemainingTime);
-
-          if (newRemainingTime <= 0) {
-            clearInterval(timerIntervalRef.current);
-            timerIntervalRef.current = null;
-
-            if (currentPage < questions.length - 1 && !timerEndedRef.current) {
-              timerEndedRef.current = true;
-              handleNext();
-            }
-          }
-        }, 1000);
+        startTimeRef.current = Date.now();
       }
     }
 
@@ -89,13 +68,7 @@ const FormContent = ({
         timerIntervalRef.current = null;
       }
     };
-  }, [
-    currentPage,
-    questions,
-    formMeta.paginationType,
-    handleNext,
-    parseTimeToSeconds,
-  ]);
+  }, [currentPage, questions, formMeta.paginationType, parseTimeToSeconds]);
 
   const renderField = useCallback(
     (question) => {
@@ -176,30 +149,35 @@ const FormContent = ({
               display: "flex",
               flexDirection: "row",
               alignItems: "flex-end",
-              marginTop: "300px",
+              marginTop: "250px",
               justifyContent: "flex-end",
             }}
           >
-            <span
-              style={{
-                position: "fixed",
-                color: "black",
-                borderRadius: "50%",
-                display: "inline-block",
-                width: "100px",
-                height: "100px",
-                backgroundColor: "rgba(255, 255, 255, 0.97)",
-                textAlign: "center",
-                lineHeight: "100px",
-                fontSize: "24px",
-                fontFamily: "Poppins",
-                border: `10px solid ${currentQuestion.back_ground_color}`,
+            <CountdownCircleTimer
+              isPlaying
+              duration={initialTimeRef.current}
+              colors={`${currentQuestion.back_ground_color}`}
+              colorsTime={[
+                initialTimeRef.current,
+                Math.floor(initialTimeRef.current * 0.66),
+                Math.floor(initialTimeRef.current * 0.33),
+                0,
+              ]}
+              size={100}
+              strokeWidth={10}
+              onComplete={() => {
+                if (isLastQuestion) {
+                  // If it's the last question, submit the form
+                  handleSubmit();
+                } else if (!timerEndedRef.current) {
+                  // Otherwise, move to the next question
+                  timerEndedRef.current = true;
+                  handleNext();
+                }
               }}
             >
-              {remainingTime !== null
-                ? formatTime(remainingTime)
-                : currentQuestion.timer}
-            </span>
+              {({ remainingTime }) => formatTime(remainingTime)}
+            </CountdownCircleTimer>
           </div>
         ) : null}
       </form>

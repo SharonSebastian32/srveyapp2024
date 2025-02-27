@@ -242,14 +242,14 @@ const DynamicForm = () => {
     });
   };
 
-   const handleNext = (e) => {
+  const handleNext = (e) => {
     if (e && typeof e.preventDefault === "function") {
       e.preventDefault();
     }
     setCurrentPage((prev) => prev + 1);
   };
 
-   const handlePrevious = (e) => {
+  const handlePrevious = (e) => {
     if (e && typeof e.preventDefault === "function") {
       e.preventDefault();
     }
@@ -257,7 +257,9 @@ const DynamicForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e && typeof e.preventDefault === "function") {
+      e.preventDefault();
+    }
 
     const transformedData = {
       survey_id: formId,

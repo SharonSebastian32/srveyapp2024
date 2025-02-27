@@ -48,7 +48,7 @@ function ListContainer({
               zIndex: 1000,
             }}
           >
-            <div className="loader"></div>
+            <div className="loader" />
           </div>
         ) : initialFields.length > 0 ? (
           <>
@@ -56,7 +56,7 @@ function ListContainer({
               <div
                 className="list"
                 key={index}
-                data-aos="fade-up"
+                data-aos="fade-right"
                 data-aos-duration="400"
               >
                 <p id="list-title">{obj.english_title}</p>
