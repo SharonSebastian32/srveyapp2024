@@ -3,9 +3,8 @@ const TextboxField = ({ field, formData, handleChange, selectedLanguage }) => {
     field.translationsPlaceholder?.[selectedLanguage] || field.placeholder;
 
   const hasError =
-    formData[field.fieldId] === undefined ||
-    formData[field.fieldId] === "";
-
+    formData[field.fieldId] === undefined || formData[field.fieldId] === "";
+  console.log("required", field.is_mandatory);
   return (
     <>
       <input
@@ -15,7 +14,7 @@ const TextboxField = ({ field, formData, handleChange, selectedLanguage }) => {
         value={formData[field.fieldId] || ""}
         onChange={(e) => handleChange(field.fieldId, e.target.value)}
         placeholder={placeholder}
-        required={field.required}
+        required={field.is_mandatory}
       />
       {hasError && <p style={{ color: "red" }}>Please fill this field</p>}
     </>
@@ -23,4 +22,3 @@ const TextboxField = ({ field, formData, handleChange, selectedLanguage }) => {
 };
 
 export default TextboxField;
-
